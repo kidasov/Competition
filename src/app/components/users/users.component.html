@@ -1,0 +1,35 @@
+<div class="event-grid">
+  <div class="header id">
+    Id
+  </div>
+  <div class="header name">
+    Name
+  </div>
+  <div class="header email">
+    Email
+  </div>
+  <div class="header created-at">
+    Created
+  </div>
+  <div class="header options">
+    Options
+  </div>
+  <ng-container *ngFor="let user of users">
+    <div class="id">
+      {{ user.id }}
+    </div>
+    <div class="name">
+      {{ user.name }}
+    </div>
+    <div class="mail">
+      {{ user.email }}
+    </div>
+    <div class="created-at">
+      {{ formatDate(user.createdAt) }}
+    </div>
+    <dropdown-menu>
+      <span>Edit</span>
+      <span (click)="removeUser(user)">Delete</span>
+    </dropdown-menu>
+  </ng-container>
+</div>

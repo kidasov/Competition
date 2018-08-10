@@ -1,0 +1,32 @@
+.container {
+  position: sticky;
+  background-color: crimson;
+  width: 350px;
+  display: flex;
+  flex-grow: 1;
+  height: 100vh;
+  top: 0;
+}
+
+.sidebar {
+  width: 100%;
+}
+
+.logo {
+  height: 200px;
+  display: flex;
+  align-items: center;
+}
+
+.option {
+  display: flex;
+  font-size: 24px;
+  flex: 1;
+  align-self: stretch;
+  padding: 30px 100px;
+  cursor: pointer;
+}
+
+.option:hover {
+  background-color: indianred;
+}

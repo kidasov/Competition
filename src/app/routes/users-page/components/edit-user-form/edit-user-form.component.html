@@ -1,0 +1,12 @@
+<div class="container">
+  <form [formGroup]="userForm" (ngSubmit)="editUser($event);">
+    <app-close class="close-icon" (click)="close($event)"></app-close>
+    <fieldset class="form-group">
+      <div class="header">Edit user</div>
+      <app-input class="input" formControlName="firstName" defaultValue="{{editedUser.firstName}}" placeholder="First name"></app-input>
+      <app-input class="input" formControlName="lastName" defaultValue="{{editedUser.lastName}}" placeholder="Last name"></app-input>
+      <app-input class="input" formControlName="email" defaultValue="{{editedUser.email}}" placeholder="Email"></app-input>
+      <input class="submit" type="submit" value="Edit user" />
+    </fieldset>
+  </form>
+</div>

@@ -1,0 +1,46 @@
+<div class="event-grid">
+  <div class="header name">
+    Name
+  </div>
+  <div class="header location">
+    Location
+  </div>
+  <div class="header created-at">
+    Created
+  </div>
+  <div class="header owner">
+    Owner
+  </div>
+  <div class="header description">
+    Description
+  </div>
+  <div class="header options">
+    Options
+  </div>
+  <ng-container *ngFor="let event of events">
+    <div class="column name">
+      {{ event.name }}
+    </div>
+    <div class="column location">
+      {{ event.location }}
+    </div>
+    <div class="column created-at">
+      {{ formatDate(event.createdAt) }}
+    </div>
+    <div class="column owner">
+      {{ event.ownerUserId }}
+    </div>
+    <div class="column description">
+      {{ event.description }}
+    </div>
+    <dropdown-menu>
+      <span>Edit</span>
+      <span (click)="removeEvent(event)">Delete</span>
+    </dropdown-menu>
+  </ng-container>
+  <nav>
+    <div>
+      <a routerLink="/events/new">Add new event</a>
+    </div>
+  </nav>
+</div>

@@ -1,0 +1,8 @@
+<div class="top-panel">
+  <app-header class="header">Users</app-header>
+  <app-button class="add-user-button" (onClick)="showPopup()" name="Add user"></app-button>
+</div>
+<users-table class="users-table" [users]="users" (onRemove)="removeUser($event)" (onEdit)="editUser($event)"></users-table>
+<add-user-form *ngIf="showAddUser" class="user-form" (onClose)="closePopup()" (onFetchUsers)="fetchUsers()"></add-user-form>
+<edit-user-form *ngIf="showEditUser" class="user-form" [editedUser]="editedUser" (onClose)="closeEditPopup()" (onFetchUsers)="fetchUsers()">
+</edit-user-form>

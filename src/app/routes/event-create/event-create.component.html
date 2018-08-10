@@ -1,0 +1,19 @@
+<div class="container">
+  <form [formGroup]="eventForm" (ngSubmit)="addEvent($event);">
+    <div class="form-group">
+      <label>
+        <input class="form-control" formControlName="name" placeholder="Name" />
+      </label>
+      <label>
+        <input class="form-control" formControlName="location" placeholder="Location" />
+      </label>
+      <label>
+        <input class="form-control" type="datetime" formControlName="date" placeholder="Date" />
+      </label>
+      <label>
+        <input class="form-control" formControlName="description" placeholder="Description" />
+      </label>
+      <input type="submit" value="Add event" />
+    </div>
+  </form>
+</div>

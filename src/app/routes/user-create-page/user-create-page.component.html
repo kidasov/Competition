@@ -1,0 +1,11 @@
+<div class="container">
+  <form [formGroup]="userForm" (ngSubmit)="addUser($event);">
+    <fieldset class="form-group">
+      <div class="header">Add user</div>
+      <app-input formControlName="firstName" placeholder="First name"></app-input>
+      <app-input formControlName="lastName" placeholder="Last name"></app-input>
+      <app-input formControlName="email" placeholder="Email"></app-input>
+      <input class="submit" type="submit" value="Add user" />
+    </fieldset>
+  </form>
+</div>

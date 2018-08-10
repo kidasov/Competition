@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  min-height: 100%;
+  font-family: Raleway;
+}
+
+body {
+  background-color: #263238;
+  color: #ffffff;
+}
+
+a {
+  color: #fdd835;
+  text-decoration: none !important;
+}

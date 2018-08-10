@@ -1,0 +1,34 @@
+<div class="event-grid">
+  <div class="header name">
+    Name
+  </div>
+  <div class="header email">
+    Email
+  </div>
+  <div class="header created-at">
+    Created
+  </div>
+  <div class="header options">
+    Options
+  </div>
+  <div class="users-container">
+    <ng-container *ngFor="let user of users; let i = index;">
+      <div class="user-container">
+        <div [class.odd]="(i + 1) % 2 === 1" [class.even]="(i + 1) % 2 === 0"></div>
+        <div class="column name">
+          {{ user.name }}
+        </div>
+        <div class="column mail">
+          {{ user.email }}
+        </div>
+        <div class="column created-at">
+          {{ formatDate(user.createdAt) }}
+        </div>
+        <dropdown-menu class="column">
+          <span (click)="editUser(user)">Edit</span>
+          <span (click)="removeUser(user)">Delete</span>
+        </dropdown-menu>
+      </div>
+    </ng-container>
+  </div>
+</div>

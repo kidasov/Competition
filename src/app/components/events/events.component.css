@@ -1,0 +1,17 @@
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  min-width: 500px;
+}
+
+.header {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 14px;
+  padding: 20px 0;
+}
+
+.column {
+  padding: 10px 0;
+}

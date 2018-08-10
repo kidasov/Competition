@@ -1,0 +1,42 @@
+:host {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.user-form {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.users-table {
+  margin-top: 20px;
+}
+
+.top-panel {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  position: sticky;
+  top: 0;
+  flex-flow: row wrap;
+  z-index: 1;
+  background: #263238;
+  height: 100px;
+}
+
+.add-user-button {
+  grid-area: 1 / 2 / 2 / 3;
+  align-self: center;
+  justify-self: end;
+  margin-right: 20px;
+}
+
+.header {
+  grid-area: 1 / 1 / 2 / 3;
+}

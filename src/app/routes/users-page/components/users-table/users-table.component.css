@@ -1,0 +1,63 @@
+:host {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+}
+
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1000px;
+  min-width: 750px;
+  justify-items: center;
+  width: 100%;
+}
+
+.header {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: Raleway;
+  font-size: 14px;
+  padding: 20px 0;
+}
+
+.column {
+  display: flex;
+  height: 100px;
+  align-items: center;
+}
+
+.odd {
+  position: absolute;
+  grid-column-start: 1;
+  grid-column-end: 5;
+  height: 100%;
+  width: 100%;
+  background: #2d3741;
+  z-index: -1;
+}
+
+.even {
+  position: absolute;
+  grid-column-start: 1;
+  grid-column-end: 5;
+}
+
+.user-container {
+  display: grid;
+  position: relative;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-start: 1;
+  grid-column-end: 5;
+  width: 100%;
+  justify-items: center;
+}
+
+.users-container {
+  display: grid;
+  grid-column-start: 1;
+  grid-column-end: 5;
+  width: 100%;
+}
