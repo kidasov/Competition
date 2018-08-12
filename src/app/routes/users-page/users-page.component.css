@@ -30,7 +30,7 @@
   height: 100px;
 }
 
-.add-user-button {
+.add-button {
   grid-area: 1 / 2 / 2 / 3;
   align-self: center;
   justify-self: end;

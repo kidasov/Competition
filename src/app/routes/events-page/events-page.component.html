@@ -1,4 +1,6 @@
-<app-header>
-  Events
-</app-header>
-<events></events>
+<div class="top-panel">
+  <app-header class="header">Events</app-header>
+  <app-button class="add-button" (onClick)="showAddPopup()" name="Add event"></app-button>
+</div>
+
+<events-table class="events" [events]="events"></events-table>

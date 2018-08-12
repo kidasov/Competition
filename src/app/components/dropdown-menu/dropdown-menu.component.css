@@ -1,8 +1,7 @@
 .dropdown {
   position: absolute;
   display: none;
-  top: 0;
-  left: 0;
+  transform: translateX(50%) translateY(50%);
   justify-content: center;
   align-items: center;
   flex-flow: column wrap;
@@ -16,11 +15,15 @@
   display: flex;
 }
 
+.container:not(:focus) > .dropdown {
+  display: none;
+}
+
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  padding: 10px;
   position: relative;
   outline: none;
 }

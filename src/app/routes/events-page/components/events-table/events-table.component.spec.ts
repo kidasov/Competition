@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserCreatePageComponent } from './user-create-page.component';
+import { EventsTableComponent } from './events-table.component';
 
-describe('UserCreatePageComponent', () => {
-  let component: UserCreatePageComponent;
-  let fixture: ComponentFixture<UserCreatePageComponent>;
+describe('EventsTableComponent', () => {
+  let component: EventsTableComponent;
+  let fixture: ComponentFixture<EventsTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserCreatePageComponent ]
+      declarations: [ EventsTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserCreatePageComponent);
+    fixture = TestBed.createComponent(EventsTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

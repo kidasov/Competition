@@ -11,10 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { EventsPage } from './routes/events-page/events-page.component';
 import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { UsersComponent } from './components/users/users.component';
 import { UsersPage } from './routes/users-page/users-page.component';
 import { HeaderComponent } from './components/header/header.component';
-import { UserCreatePage } from './routes/user-create-page/user-create-page.component';
 import { InputComponent } from './components/inputs/input/input.component';
 import { FormComponent } from './components/form/form.component';
 import { AddUserFormComponent } from './routes/users-page/components/add-user-form/add-user-form.component';
@@ -22,6 +20,7 @@ import { UsersTableComponent } from './routes/users-page/components/users-table/
 import { ButtonComponent } from './components/button/button.component';
 import { CloseComponent } from './components/icons/close/close.component';
 import { EditUserFormComponent } from './routes/users-page/components/edit-user-form/edit-user-form.component';
+import { EventsTableComponent } from './routes/events-page/components/events-table/events-table.component';
 
 @NgModule({
   declarations: [
@@ -31,10 +30,8 @@ import { EditUserFormComponent } from './routes/users-page/components/edit-user-
     EventsPage,
     DropdownMenuComponent,
     SidebarComponent,
-    UsersComponent,
     UsersPage,
     HeaderComponent,
-    UserCreatePage,
     InputComponent,
     FormComponent,
     AddUserFormComponent,
@@ -42,6 +39,7 @@ import { EditUserFormComponent } from './routes/users-page/components/edit-user-
     ButtonComponent,
     CloseComponent,
     EditUserFormComponent,
+    EventsTableComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),

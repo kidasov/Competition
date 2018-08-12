@@ -24,7 +24,6 @@ export class UsersTableComponent implements OnInit {
   }
 
   public editUser(user: User) {
-    console.log('Editing user');
     this.onEdit.emit(user);
   }
 
