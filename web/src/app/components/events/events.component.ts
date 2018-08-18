@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from '../../services/event';
 import { Event } from '../../models/event';
-import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
 
 @Component({

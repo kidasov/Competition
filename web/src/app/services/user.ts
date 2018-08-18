@@ -1,34 +1,33 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { UserData, User } from '../models/user';
-import { getBaseUrl } from '../env';
 import { map } from 'rxjs/operators';
+import { ApiService } from './api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(private api: ApiService) {}
 
   public getUsers() {
-    return this.http
-      .get(getBaseUrl('users'))
+    return this.api
+      .get('/users')
       .pipe(map((response: User[]) => response.map(user => new User(user))));
   }
 
   public getUser() {
-    return this.http.get(getBaseUrl('user'));
+    return this.api.get('/user');
   }
 
   public addUser(userData: UserData) {
-    return this.http.post(getBaseUrl('users'), userData);
+    return this.api.post('/users', userData);
   }
 
   public removeUser(user: User) {
-    return this.http.delete(getBaseUrl(`users/${user.id}`));
+    return this.api.delete(`/users/${user.id}`);
   }
 
   public updateUser(userId: number, userData: UserData) {
-    return this.http.patch(getBaseUrl(`users/${userId}`), userData);
+    return this.api.patch(`/users/${userId}`, userData);
   }
 }

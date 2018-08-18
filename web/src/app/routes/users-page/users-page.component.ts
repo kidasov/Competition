@@ -1,7 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { UserService } from 'app/services/user';
 import { User, UserData } from 'app/models/user';
-import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
 
 @Component({
