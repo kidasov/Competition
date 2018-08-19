@@ -16,6 +16,8 @@ var _koaBodyparser = require('koa-bodyparser');
 
 var _koaBodyparser2 = _interopRequireDefault(_koaBodyparser);
 
+var _auth = require('./services/auth');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 require('babel-register');
@@ -26,6 +28,7 @@ const app = new _koa2.default();
 
 app.use((0, _koaBodyparser2.default)());
 app.use((0, _cors2.default)());
+app.use((0, _auth.validateSession)());
 app.use(_routes2.default.routes());
 app.use(_routes2.default.allowedMethods());
 
