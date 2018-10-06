@@ -12,4 +12,4 @@ export const Event = event(sequelize, DataTypes);
 export const User = user(sequelize, DataTypes);
 export const Session = session(sequelize, DataTypes);
 
-sequelize.sync();
+sequelize.sync({ force: false });

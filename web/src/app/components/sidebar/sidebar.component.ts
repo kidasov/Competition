@@ -1,19 +1,41 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnDestroy,
+} from '@angular/core';
+import { AuthProvider } from '../../services/auth/provider';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   @Output()
   onLoginClick = new EventEmitter();
+  authorized: boolean;
+  subscription: Subscription;
 
-  constructor() {}
+  constructor(private authProvider: AuthProvider) {}
 
-  handleClick() {
+  handleLogin() {
     this.onLoginClick.emit();
   }
 
-  ngOnInit() {}
+  handleLogout() {
+    this.authProvider.invalidateSessionKey();
+  }
+
+  ngOnInit() {
+    this.subscription = this.authProvider.authorized.subscribe(authorized => {
+      this.authorized = authorized;
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }

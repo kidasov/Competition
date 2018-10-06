@@ -9,6 +9,7 @@ export default (sequelize, DataTypes) => {
       lastName: DataTypes.STRING,
       email: DataTypes.STRING,
       rating: DataTypes.REAL,
+      password: DataTypes.STRING,
       createdAt: {
         type: DataTypes.DATE,
         defaultValue: sequelize.fn('now'),

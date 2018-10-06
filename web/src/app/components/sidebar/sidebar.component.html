@@ -15,7 +15,11 @@
       </li>
     </ul>
   </nav>
-  <div class="option sign-in" (click)="handleClick($event)">
+  <div class="option sign-in" *ngIf="authorized" (click)="handleLogout($event)">
+    Logout
+  </div>
+  <div class="option sign-in" *ngIf="!authorized" (click)="handleLogin($event)">
     Login
   </div>
+
 </div>

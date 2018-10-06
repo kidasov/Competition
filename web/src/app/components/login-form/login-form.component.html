@@ -3,7 +3,7 @@
   <div class="sign-in">
     <div class="header">Log in</div>
     <app-close class="close-icon" (click)="handleClose($event)"></app-close>
-    <form class="form" [formGroup]="signInForm">
+    <form class="form" [formGroup]="signInForm" (ngSubmit)="signIn($event);">
       <fieldset class="form-group">
         <app-input class="input" formControlName="email" placeholder="Email"></app-input>
         <app-input class="input" formControlName="password" placeholder="Password"></app-input>
@@ -15,11 +15,13 @@
   <div class="register">
     <app-close class="close-icon" (click)="handleClose($event)"></app-close>
     <div class="header">Sign up</div>
-    <form class="form" [formGroup]="registerForm">
+    <form class="form" [formGroup]="registerForm" (ngSubmit)="signUp($event)">
       <app-close class="close-icon" (click)="handleClose($event)"></app-close>
       <fieldset class="form-group">
         <app-input class="input" formControlName="firstName" placeholder="First name"></app-input>
-        <app-input formControlName="secondName" placeholder="Second name"></app-input>
+        <app-input formControlName="lastName" placeholder="Second name"></app-input>
+        <app-input formControlName="email" placeholder="Email"></app-input>
+        <app-input formControlName="password" type="password" placeholder="Password"></app-input>
         <app-submit class="input" value="Register"></app-submit>
       </fieldset>
       <div class="register-switch"><label for='form-switch'><span class="switch-text">Already have account?</span></label></div>
