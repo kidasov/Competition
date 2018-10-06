@@ -30,3 +30,9 @@
 .option:hover {
   background-color: indianred;
 }
+
+.sign-in {
+  position: absolute;
+  bottom: 0;
+  width: 350px;
+}

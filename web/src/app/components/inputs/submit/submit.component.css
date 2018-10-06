@@ -2,26 +2,25 @@
   display: flex;
 }
 
-label {
-  flex: 1;
-}
-
 input {
-  box-sizing: border-box;
-  display: block;
   flex: 1;
-  align-self: stretch;
   width: 100%;
   border-width: 1px;
   border-style: solid;
   padding: 16px;
   outline: 0;
+  font-family: inherit;
   font-size: 0.95em;
-  background: #fff;
-  border-color: #bbb;
-  color: #555;
+  background: #28d;
+  border-color: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+input:hover {
+  background: #17c;
 }
 
 input:focus {
-  border-color: #888;
+  border-color: #05a;
 }

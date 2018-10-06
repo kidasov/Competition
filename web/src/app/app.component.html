@@ -1,6 +1,7 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div id="root">
-  <sidebar></sidebar>
+  <sidebar (onLoginClick)="showLoginPopup()"></sidebar>
+  <login-form *ngIf="showLogin" (onClose)="closeLoginPopup($event)"></login-form>
   <div class="content">
     <router-outlet></router-outlet>
   </div>

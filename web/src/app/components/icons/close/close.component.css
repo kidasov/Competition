@@ -1,10 +1,8 @@
 .close {
-  position: absolute;
   width: 24px;
   height: 24px;
   padding: 10px;
   opacity: 0.3;
-  transform: translateX(-100%);
 }
 
 .close:hover {

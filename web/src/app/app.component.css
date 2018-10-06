@@ -1,9 +1,23 @@
 #root {
   display: flex;
+  position: relative;
 }
 
 .content {
   display: flex;
   flex: 1;
   justify-content: center;
+}
+
+login-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
 }

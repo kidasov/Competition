@@ -28,6 +28,8 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   placeholder = 'Placeholder';
   @Input()
   formControlName: string;
+  @Input()
+  type = 'text';
 
   writeValue(obj: any): void {
     this.value = obj;

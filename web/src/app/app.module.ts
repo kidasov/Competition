@@ -14,13 +14,14 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { UsersPage } from './routes/users-page/users-page.component';
 import { HeaderComponent } from './components/header/header.component';
 import { InputComponent } from './components/inputs/input/input.component';
-import { FormComponent } from './components/form/form.component';
 import { AddUserFormComponent } from './routes/users-page/components/add-user-form/add-user-form.component';
 import { UsersTableComponent } from './routes/users-page/components/users-table/users-table.component';
 import { ButtonComponent } from './components/button/button.component';
 import { CloseComponent } from './components/icons/close/close.component';
 import { EditUserFormComponent } from './routes/users-page/components/edit-user-form/edit-user-form.component';
 import { EventsTableComponent } from './routes/events-page/components/events-table/events-table.component';
+import { LoginFormComponent } from './components/login-form/login-form.component';
+import { SubmitComponent } from './components/inputs/submit/submit.component';
 
 @NgModule({
   declarations: [
@@ -33,13 +34,14 @@ import { EventsTableComponent } from './routes/events-page/components/events-tab
     UsersPage,
     HeaderComponent,
     InputComponent,
-    FormComponent,
     AddUserFormComponent,
     UsersTableComponent,
     ButtonComponent,
     CloseComponent,
     EditUserFormComponent,
     EventsTableComponent,
+    LoginFormComponent,
+    SubmitComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),
