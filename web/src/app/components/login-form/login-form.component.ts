@@ -20,8 +20,9 @@ export class LoginFormComponent implements OnInit {
     secondName: new FormControl(),
   });
 
-  handleClose() {
+  handleClose(event: Event) {
     this.onClose.emit();
+    event.preventDefault();
   }
 
   ngOnInit() {}
