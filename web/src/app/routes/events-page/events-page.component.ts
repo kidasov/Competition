@@ -27,7 +27,7 @@ export class EventsPage implements OnInit {
   }
 
   formatDate(date: string) {
-    return moment(date).format('MMM d, YYYY, HH:mm ');
+    return moment(date).format('MMM d, YYYY, HH:mm');
   }
 
   ngOnInit() {

@@ -1,37 +1,52 @@
-import Router from "koa-router";
-import { Event } from "../../db/db";
+import Router from 'koa-router';
+import { Event } from '../../db/db';
 
 const router = new Router();
 
-router.get("/", async ctx => {
+router.get('/', async ctx => {
   // ctx.router available
   ctx.status = 200;
   ctx.body = await Event.findAll();
 });
 
-router.post("/", async ctx => {
+router.post('/', async ctx => {
   const { name, location, description } = ctx.request.body;
 
   const event = await Event.create({
     name,
     location,
-    description
+    description,
   });
 
   ctx.status = 201;
   ctx.body = {};
 });
 
-router.delete("/:id", async ctx => {
+router.delete('/:id', async ctx => {
   const { id } = ctx.params;
-  console.log("ctx params", id);
+  console.log('ctx params', id);
   const event = await Event.findOne({
-    where: { id }
+    where: { id },
   });
 
   await Event.destroy({ where: { id: event.id } });
   ctx.status = 200;
   ctx.body = {};
+});
+
+router.get('/:id', async ctx => {
+  const { id } = ctx.params;
+  const event = await Event.findOne({
+    where: { id },
+  });
+
+  if (event) {
+    ctx.body = event;
+    ctx.status = 200;
+  } else {
+    ctx.body = {};
+    ctx.status = 404;
+  }
 });
 
 export default router;

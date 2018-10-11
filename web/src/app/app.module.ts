@@ -22,6 +22,7 @@ import { EditUserFormComponent } from './routes/users-page/components/edit-user-
 import { EventsTableComponent } from './routes/events-page/components/events-table/events-table.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { SubmitComponent } from './components/inputs/submit/submit.component';
+import { EventPageComponent } from './routes/event-page/event-page.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { SubmitComponent } from './components/inputs/submit/submit.component';
     EventsTableComponent,
     LoginFormComponent,
     SubmitComponent,
+    EventPageComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),

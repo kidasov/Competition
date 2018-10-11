@@ -5,13 +5,13 @@ import { events } from '../mocks/events';
 import { ApiService } from './api';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventService {
   constructor(private api: ApiService) {}
 
   public addEvent(event: EventData) {
-    console.log("adding event", event);
+    console.log('adding event', event);
     return this.api.post('/events', event);
   }
 
@@ -20,7 +20,10 @@ export class EventService {
   }
 
   public getEvents() {
-    // TODO: add user service
     return this.api.get('/events');
+  }
+
+  public getEvent(id) {
+    return this.api.get(`/events/${id}`);
   }
 }

@@ -1,9 +1,10 @@
 <div class="event-grid">
   <ng-container *ngFor="let event of events">
     <div class="card">
+      <a [routerLink]="['/events', event.id]">View event</a>
       <div class="content">
         <div class="name">
-          Самара первая ракетка без ограничений
+          {{ event.name }}
         </div>
         <div class="info">
           <div class="city">
