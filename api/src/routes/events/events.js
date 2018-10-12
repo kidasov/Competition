@@ -1,7 +1,13 @@
 import Router from 'koa-router';
-import { Event } from '../../db/db';
+import { Event, Attendee, User } from '../../db/models';
+import attendees from './attendees';
 
 const router = new Router();
+router.use(
+  '/:eventId/attendees',
+  attendees.routes(),
+  attendees.allowedMethods(),
+);
 
 router.get('/', async ctx => {
   // ctx.router available
@@ -10,21 +16,22 @@ router.get('/', async ctx => {
 });
 
 router.post('/', async ctx => {
+  const { userId } = ctx.requireSession();
   const { name, location, description } = ctx.request.body;
 
   const event = await Event.create({
     name,
     location,
     description,
+    ownerUserId: userId,
   });
 
   ctx.status = 201;
-  ctx.body = {};
+  ctx.body = event;
 });
 
 router.delete('/:id', async ctx => {
   const { id } = ctx.params;
-  console.log('ctx params', id);
   const event = await Event.findOne({
     where: { id },
   });
@@ -40,13 +47,23 @@ router.get('/:id', async ctx => {
     where: { id },
   });
 
-  if (event) {
-    ctx.body = event;
-    ctx.status = 200;
-  } else {
-    ctx.body = {};
-    ctx.status = 404;
+  if (!event) {
+    return ctx.throw(404);
   }
+
+  event.attendees = await Attendee.findAll({
+    where: { eventId: id },
+    order: [['joinedAt', 'DESC']],
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName'],
+      },
+    ],
+  });
+
+  ctx.body = event;
+  ctx.status = 200;
 });
 
 export default router;

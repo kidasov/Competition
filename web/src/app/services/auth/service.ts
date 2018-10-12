@@ -4,6 +4,7 @@ import { UserData } from '../../models/user';
 import { ApiService } from '../api';
 import { tap } from 'rxjs/operators';
 import { AuthProvider } from './provider';
+import { Id } from 'app/types/types';
 
 interface SignUpParams {
   firstName: string;
@@ -19,7 +20,7 @@ interface SignInParams {
 
 interface SignInResponse {
   sessionKey: string;
-  userId: string;
+  userId: Id;
 }
 
 @Injectable({
@@ -31,8 +32,8 @@ export class AuthService {
   signUp(params: SignUpParams): Observable<SignInResponse> {
     return this.api.post('/auth/signup', params).pipe(
       tap((response: SignInResponse) => {
-        const { sessionKey } = response;
-        this.authProvider.updateSessionKey(sessionKey);
+        const { sessionKey, userId } = response;
+        this.authProvider.updateSessionKey(sessionKey, userId);
       }),
     );
   }
@@ -40,8 +41,8 @@ export class AuthService {
   signIn(params: SignInParams) {
     return this.api.post('/auth/signin', params).pipe(
       tap((response: SignInResponse) => {
-        const { sessionKey } = response;
-        this.authProvider.updateSessionKey(sessionKey);
+        const { sessionKey, userId } = response;
+        this.authProvider.updateSessionKey(sessionKey, userId);
       }),
     );
   }

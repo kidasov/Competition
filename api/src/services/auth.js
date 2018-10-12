@@ -1,7 +1,13 @@
-import { Session } from '../db/db';
+import { Session } from '../db/models';
 
 function validateSession() {
   return async (ctx, next) => {
+    ctx.requireSession = () => {
+      if (!ctx.session) {
+        return ctx.throw(401, 'session required');
+      }
+      return ctx.session;
+    };
     const id = ctx.headers.authorization;
     if (id == null) {
       return await next();

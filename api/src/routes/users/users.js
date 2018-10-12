@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import { User } from '../../db/db';
+import { User } from '../../db/models';
 
 const router = new Router();
 
@@ -46,7 +46,6 @@ router.patch('/:id', async ctx => {
   const { id } = ctx.params;
 
   const { firstName, lastName, email } = ctx.request.body;
-  console.log(ctx.request.body);
 
   const user = await User.findOne({
     where: { id },

@@ -1,3 +1,5 @@
+import { Id } from 'app/types/types';
+
 export class UserData {
   firstName: string;
   lastName: string;
@@ -5,7 +7,7 @@ export class UserData {
 }
 
 export class User extends UserData {
-  id: number;
+  id: Id;
   createdAt: Date;
 
   constructor(user: User) {

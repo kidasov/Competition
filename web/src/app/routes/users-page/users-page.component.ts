@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { UserService } from 'app/services/user';
 import { User, UserData } from 'app/models/user';
 import * as moment from 'moment';
+import { Id } from 'app/types/types';
 
 @Component({
   selector: 'users-page',
@@ -45,7 +46,7 @@ export class UsersPage implements OnInit {
     this.editedUser = user;
   }
 
-  public updateUser(userId: number, userData: UserData) {
+  public updateUser(userId: Id, userData: UserData) {
     this.userService.updateUser(userId, userData).subscribe(user => {
       this.users = this.users.map(u => {
         return u.id === userId

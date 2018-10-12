@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 import scrypt from 'scrypt';
 import { createSession } from '../../services/auth';
-import { User } from '../../db/db';
+import { User } from '../../db/models';
 
 const router = new Router();
 

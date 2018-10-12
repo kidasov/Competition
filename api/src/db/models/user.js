@@ -1,24 +1,16 @@
 import { sequelize } from '../db';
+import { DataTypes } from 'sequelize';
 
-('use strict');
-export default (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    'User',
-    {
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      email: DataTypes.STRING,
-      rating: DataTypes.REAL,
-      password: DataTypes.STRING,
-      createdAt: {
-        type: DataTypes.DATE,
-        defaultValue: sequelize.fn('now'),
-      },
-    },
-    {},
-  );
-  User.associate = function(models) {
-    User.hasMany(models.event);
-  };
-  return User;
-};
+const User = sequelize.define('user', {
+  firstName: DataTypes.STRING,
+  lastName: DataTypes.STRING,
+  email: DataTypes.STRING,
+  rating: DataTypes.REAL,
+  password: DataTypes.STRING,
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: sequelize.fn('now'),
+  },
+});
+
+export default User;

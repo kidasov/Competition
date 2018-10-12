@@ -1,4 +1,45 @@
-<div>
+<div *ngIf="event">
   <h1>{{ event.name }}</h1>
   <a routerLink="/events">Back</a>
+  <app-button class="register-button" *ngIf="authorized" (onClick)="register()" name="Register"></app-button>
+  <h2>Pretenders</h2>
+  <div class="attendees">
+    <ng-container *ngFor="let attendee of pretenders">
+      <div>
+        {{ attendee.user.firstName }}
+        {{ attendee.user.lastName }}
+      </div>
+      <div>
+        <app-button class="register-button" *ngIf="eventOwner" (onClick)="accept(attendee.userId)" name="Accept"></app-button>
+        <app-button class="register-button" *ngIf="eventOwner" (onClick)="removeUser(attendee.userId)" name="Decline"></app-button>
+        <app-button class="register-button" *ngIf="isMyself(attendee)" (onClick)="removeUser(attendee.userId)" name="Leave"></app-button>
+      </div>
+    </ng-container>
+  </div>
+  <h2>Participants</h2>
+  <div>
+    <ng-container *ngFor="let attendee of participants">
+      <div>
+        {{ attendee.user.firstName }}
+        {{ attendee.user.lastName }}
+      </div>
+      <div>
+        <app-button class="register-button" *ngIf="eventOwner" (onClick)="removeUser(attendee.userId)" name="Kick"></app-button>
+        <app-button class="register-button" *ngIf="isMyself(attendee)" (onClick)="removeUser(attendee.userId)" name="Leave"></app-button>
+      </div>
+    </ng-container>
+  </div>
+  <h2>Invited</h2>
+  <div>
+    <ng-container *ngFor="let attendee of invited">
+      <div>
+        {{ attendee.user.firstName }}
+        {{ attendee.user.lastName }}
+      </div>
+      <div>
+        <app-button class="register-button" *ngIf="eventOwner" (onClick)="removeUser(attendee.userId)" name="Remove"></app-button>
+        <app-button class="register-button" *ngIf="isMyself(attendee)" (onClick)="removeUser(attendee.userId)" name="Leave"></app-button>
+      </div>
+    </ng-container>
+  </div>
 </div>

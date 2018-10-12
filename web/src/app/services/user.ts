@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { UserData, User } from '../models/user';
 import { map } from 'rxjs/operators';
 import { ApiService } from './api';
+import { Id } from 'app/types/types';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,7 @@ export class UserService {
     return this.api.delete(`/users/${user.id}`);
   }
 
-  public updateUser(userId: number, userData: UserData) {
+  public updateUser(userId: Id, userData: UserData) {
     return this.api.patch(`/users/${userId}`, userData);
   }
 }

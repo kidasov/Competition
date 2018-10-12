@@ -36,6 +36,12 @@ export class ApiService {
       .pipe(this.errorHandler);
   }
 
+  put(path: string, body: any): Observable<any> {
+    return this.http
+      .put(this.formatUrl(path), body, this.options)
+      .pipe(this.errorHandler);
+  }
+
   delete(path: string): Observable<any> {
     return this.http
       .delete(this.formatUrl(path), this.options)

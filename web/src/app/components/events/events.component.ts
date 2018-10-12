@@ -22,7 +22,6 @@ export class EventsComponent implements OnInit {
   removeEvent(event: Event) {
     this.eventService.removeEvent(event).subscribe(() => {
       this.events = this.events.filter(e => e.id !== event.id);
-      console.log('events', this.events, event.id);
     });
   }
 
