@@ -5,6 +5,8 @@ import { Event, Attendee, DetailedEvent } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
 import { Observable, Subscription } from 'rxjs';
 import { Id } from 'app/types/types';
+import { FormGroup, FormControl } from '@angular/forms';
+import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-event-page',
@@ -15,6 +17,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
   event: DetailedEvent;
   authorized: boolean;
   subscription: Subscription;
+  showEdit = false;
 
   constructor(
     private eventService: EventService,
@@ -22,6 +25,10 @@ export class EventPageComponent implements OnInit, OnDestroy {
     private authProvider: AuthProvider,
     private router: Router,
   ) {}
+
+  renameForm = new FormGroup({
+    name: new FormControl(),
+  });
 
   get participants(): Attendee[] {
     return this.event.attendees.filter(
@@ -93,5 +100,24 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   goBack() {
     this.router.navigateByUrl('/events');
+  }
+
+  renameEvent() {
+    this.eventService
+      .patchEvent(this.event.id, {
+        name: this.renameForm.get('name').value,
+      })
+      .subscribe(() => {
+        this.fetchEvent();
+        this.showEdit = false;
+      });
+  }
+
+  showEditPopup() {
+    this.showEdit = true;
+  }
+
+  closeEditPopup() {
+    this.showEdit = false;
   }
 }

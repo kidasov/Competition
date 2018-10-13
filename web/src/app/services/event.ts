@@ -14,6 +14,11 @@ interface AcceptParams {
   role?: Role;
 }
 
+interface PatchEventParams {
+  date?: Date;
+  name?: String;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -53,5 +58,9 @@ export class EventService {
 
   public removeUser(eventId: Id, userId: Id): Observable<void> {
     return this.api.delete(`/events/${eventId}/attendees/${userId}`);
+  }
+
+  public patchEvent(eventId: Id, params: PatchEventParams) {
+    return this.api.patch(`/events/${eventId}`, params);
   }
 }

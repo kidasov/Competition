@@ -1,9 +1,18 @@
 <div class="event" *ngIf="event">
+  <app-popup *ngIf="showEdit" title="Rename event" (onClose)="closeEditPopup($event)">
+    <form class="form" [formGroup]="renameForm" (ngSubmit)="renameEvent($event);">
+      <fieldset class="form-group">
+        <app-input class="input" formControlName="name" placeholder="Name"></app-input>
+        <app-submit class="input" value="Rename"></app-submit>
+      </fieldset>
+    </form>
+  </app-popup>
   <div class="top-panel">
     <app-header class="header">{{ event.name }}</app-header>
     <div class="buttons">
       <app-button class="button" *ngIf="canRegister" (onClick)="register()" name="Register"></app-button>
       <app-button class="button" (onClick)="goBack()" name="Back"></app-button>
+      <app-button class="button" *ngIf="eventOwner" (onClick)="showEditPopup($event)" name="Edit"></app-button>
     </div>
   </div>
   <app-attendees-table *ngIf="pretenders.length > 0" [eventOwner]="eventOwner" (onAdd)="accept($event)" (onRemove)="removeUser($event)"

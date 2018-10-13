@@ -66,4 +66,27 @@ router.get('/:id', async ctx => {
   ctx.status = 200;
 });
 
+router.patch('/:id', async ctx => {
+  const { userId } = ctx.requireSession();
+  const { id } = ctx.params;
+  const { name } = ctx.request.body;
+
+  const event = await Event.findOne({ where: { id } });
+
+  if (!event) {
+    return ctx.throw(404);
+  }
+
+  if (userId !== event.ownerUserId) {
+    return ctx.throw(403);
+  }
+
+  await Event.update({ name }, { where: { id } });
+
+  const updatedEvent = await Event.findOne({ where: { id } });
+
+  ctx.body = updatedEvent;
+  ctx.status = 200;
+});
+
 export default router;

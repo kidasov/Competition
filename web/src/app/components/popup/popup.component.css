@@ -1,0 +1,48 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.container {
+  width: 400px;
+}
+
+.title {
+  position: relative;
+}
+
+app-close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.header {
+  background: #28d;
+  padding: 20px;
+  font-size: 1.4em;
+  font-weight: normal;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+:host /deep/ app-input {
+  padding: 10px 20px;
+}
+
+:host /deep/ app-submit {
+  padding: 10px 20px;
+}
+
+:host /deep/ form {
+  background: #ebebeb;
+}

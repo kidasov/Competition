@@ -25,6 +25,7 @@ import { SubmitComponent } from './components/inputs/submit/submit.component';
 import { EventPageComponent } from './routes/event-page/event-page.component';
 import { AttendeesTableComponent } from './routes/event-page/components/attendees-table/attendees-table.component';
 import { IconButtonComponent } from './components/icon-button/icon-button.component';
+import { PopupComponent } from './components/popup/popup.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { IconButtonComponent } from './components/icon-button/icon-button.compon
     EventPageComponent,
     AttendeesTableComponent,
     IconButtonComponent,
+    PopupComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),
