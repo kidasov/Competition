@@ -13,12 +13,6 @@ export class EventsComponent implements OnInit {
 
   constructor(private eventService: EventService) {}
 
-  addEvent(event: Event) {
-    this.eventService.addEvent(event).subscribe(event => {
-      console.log('added event', event);
-    });
-  }
-
   removeEvent(event: Event) {
     this.eventService.removeEvent(event).subscribe(() => {
       this.events = this.events.filter(e => e.id !== event.id);

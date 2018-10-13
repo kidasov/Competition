@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './routes/routes';
 import { EventsComponent } from './components/events/events.component';
-import { EventCreateComponent } from './routes/event-create/event-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { EventsPage } from './routes/events-page/events-page.component';
@@ -26,12 +25,12 @@ import { EventPageComponent } from './routes/event-page/event-page.component';
 import { AttendeesTableComponent } from './routes/event-page/components/attendees-table/attendees-table.component';
 import { IconButtonComponent } from './components/icon-button/icon-button.component';
 import { PopupComponent } from './components/popup/popup.component';
+import { SwitchComponent } from './components/switch/switch.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EventsComponent,
-    EventCreateComponent,
     EventsPage,
     DropdownMenuComponent,
     SidebarComponent,
@@ -50,6 +49,7 @@ import { PopupComponent } from './components/popup/popup.component';
     AttendeesTableComponent,
     IconButtonComponent,
     PopupComponent,
+    SwitchComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),

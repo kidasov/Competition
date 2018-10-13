@@ -6,7 +6,6 @@ import { AuthProvider } from 'app/services/auth/provider';
 import { Observable, Subscription } from 'rxjs';
 import { Id } from 'app/types/types';
 import { FormGroup, FormControl } from '@angular/forms';
-import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-event-page',
@@ -26,8 +25,9 @@ export class EventPageComponent implements OnInit, OnDestroy {
     private router: Router,
   ) {}
 
-  renameForm = new FormGroup({
+  editForm = new FormGroup({
     name: new FormControl(),
+    publish: new FormControl(),
   });
 
   get participants(): Attendee[] {
@@ -50,6 +50,10 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   get eventOwner(): Boolean {
     return this.authProvider.userId === this.event.ownerUserId;
+  }
+
+  get published() {
+    return this.event.state === 'published';
   }
 
   get canRegister() {
@@ -102,10 +106,11 @@ export class EventPageComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/events');
   }
 
-  renameEvent() {
+  saveEvent() {
     this.eventService
       .patchEvent(this.event.id, {
-        name: this.renameForm.get('name').value,
+        name: this.editForm.get('name').value,
+        state: this.editForm.get('publish').value ? 'published' : 'draft',
       })
       .subscribe(() => {
         this.fetchEvent();

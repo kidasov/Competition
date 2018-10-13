@@ -36,6 +36,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   }
   registerOnChange(fn: any): void {
     this.propagateChange = fn;
+    fn(this.defaultValue);
   }
   registerOnTouched(fn: any): void {}
   setDisabledState?(isDisabled: boolean): void {}

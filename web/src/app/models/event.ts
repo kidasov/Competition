@@ -8,6 +8,7 @@ export class EventData {
   ownerUserId: Id;
   location: string;
   description: string;
+  state: 'published' | 'draft';
 }
 
 export class Event extends EventData {

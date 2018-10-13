@@ -1,6 +1,9 @@
 import { sequelize } from '../db';
 import { DataTypes } from 'sequelize';
 
+export const DRAFT = 'draft';
+export const PUBLISHED = 'published';
+
 const Event = sequelize.define('event', {
   name: DataTypes.STRING,
   createdAt: {
@@ -13,6 +16,7 @@ const Event = sequelize.define('event', {
   location: DataTypes.STRING,
   description: DataTypes.STRING,
   attendees: DataTypes.VIRTUAL,
+  state: DataTypes.ENUM(DRAFT, PUBLISHED),
 });
 
 export default Event;

@@ -1,6 +1,11 @@
 import Router from 'koa-router';
 import { Event, Attendee, User } from '../../db/models';
 import attendees from './attendees';
+import { DRAFT, PUBLISHED } from '../../db/models/event';
+import { sequelize } from '../../db/db';
+import Sequelize from 'sequelize';
+
+const Op = Sequelize.Op;
 
 const router = new Router();
 router.use(
@@ -10,20 +15,22 @@ router.use(
 );
 
 router.get('/', async ctx => {
-  // ctx.router available
+  const { userId } = ctx.session || {};
+
   ctx.status = 200;
-  ctx.body = await Event.findAll();
+  ctx.body = await Event.findAll({
+    where: { [Op.or]: [{ state: PUBLISHED }, { ownerUserId: userId }] },
+  });
 });
 
 router.post('/', async ctx => {
   const { userId } = ctx.requireSession();
-  const { name, location, description } = ctx.request.body;
+  const { name } = ctx.request.body;
 
   const event = await Event.create({
     name,
-    location,
-    description,
     ownerUserId: userId,
+    state: DRAFT,
   });
 
   ctx.status = 201;
@@ -69,7 +76,7 @@ router.get('/:id', async ctx => {
 router.patch('/:id', async ctx => {
   const { userId } = ctx.requireSession();
   const { id } = ctx.params;
-  const { name } = ctx.request.body;
+  const { name, state } = ctx.request.body;
 
   const event = await Event.findOne({ where: { id } });
 
@@ -81,7 +88,7 @@ router.patch('/:id', async ctx => {
     return ctx.throw(403);
   }
 
-  await Event.update({ name }, { where: { id } });
+  await Event.update({ name, state }, { where: { id } });
 
   const updatedEvent = await Event.findOne({ where: { id } });
 

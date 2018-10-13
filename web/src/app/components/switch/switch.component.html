@@ -1,0 +1,10 @@
+<label for="basic-switch">{{label}}</label>
+<div #switch class="mdc-switch">
+  <div class="mdc-switch__track"></div>
+  <div class="mdc-switch__thumb-underlay">
+    <div class="mdc-switch__thumb">
+      <input type="checkbox" (change)="onChange($event)" [checked]="defaultValue" id="basic-switch" class="mdc-switch__native-control"
+        role="switch">
+    </div>
+  </div>
+</div>

@@ -46,3 +46,7 @@ app-close {
 :host /deep/ form {
   background: #ebebeb;
 }
+
+:host /deep/ fieldset {
+  border: 0;
+}

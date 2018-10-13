@@ -1,9 +1,10 @@
 <div class="event" *ngIf="event">
-  <app-popup *ngIf="showEdit" title="Rename event" (onClose)="closeEditPopup($event)">
-    <form class="form" [formGroup]="renameForm" (ngSubmit)="renameEvent($event);">
+  <app-popup *ngIf="showEdit" title="Edit event" (onClose)="closeEditPopup($event)">
+    <form class="form" [formGroup]="editForm" (ngSubmit)="saveEvent($event);">
       <fieldset class="form-group">
-        <app-input class="input" formControlName="name" placeholder="Name"></app-input>
-        <app-submit class="input" value="Rename"></app-submit>
+        <app-input class="input" formControlName="name" placeholder="Name" defaultValue="{{event.name}}"></app-input>
+        <app-switch formControlName="publish" label="Publish" [defaultValue]="published"></app-switch>
+        <app-submit class="input" value="Save"></app-submit>
       </fieldset>
     </form>
   </app-popup>

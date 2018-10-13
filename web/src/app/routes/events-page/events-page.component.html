@@ -3,4 +3,13 @@
   <app-button class="add-button" (onClick)="showAddPopup()" name="Add event"></app-button>
 </div>
 
+<app-popup *ngIf="showAdd" title="Create event" (onClose)="closeAddPopup($event)">
+  <form class="form" [formGroup]="createForm" (ngSubmit)="addEvent($event);">
+    <fieldset class="form-group">
+      <app-input class="input" formControlName="name" placeholder="Name"></app-input>
+      <app-submit class="input" value="Create"></app-submit>
+    </fieldset>
+  </form>
+</app-popup>
+
 <events-table class="events" [events]="events"></events-table>

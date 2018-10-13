@@ -17,6 +17,7 @@ interface AcceptParams {
 interface PatchEventParams {
   date?: Date;
   name?: String;
+  state?: 'published' | 'draft';
 }
 
 @Injectable({
@@ -25,11 +26,11 @@ interface PatchEventParams {
 export class EventService {
   constructor(private api: ApiService) {}
 
-  public addEvent(event: EventData) {
-    return this.api.post('/events', event);
+  public createEvent(name: String): Observable<Event> {
+    return this.api.post('/events', { name });
   }
 
-  public removeEvent(event: Event) {
+  public removeEvent(event: Event): Observable<void> {
     return this.api.delete(`/events/${event.id}`);
   }
 
@@ -60,7 +61,7 @@ export class EventService {
     return this.api.delete(`/events/${eventId}/attendees/${userId}`);
   }
 
-  public patchEvent(eventId: Id, params: PatchEventParams) {
+  public patchEvent(eventId: Id, params: PatchEventParams): Observable<Event> {
     return this.api.patch(`/events/${eventId}`, params);
   }
 }

@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  padding: 20px 20px;
+}
+
+label {
+  color: black;
+  flex: 1;
+  margin-top: -4px;
+}
