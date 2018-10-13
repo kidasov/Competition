@@ -1,0 +1,29 @@
+<div>
+  <div class="attendees-grid">
+    <div class="title">{{title}}</div>
+    <div class="header name">
+      Name
+    </div>
+    <div class="header email">
+      City
+    </div>
+    <div class="header options">
+      Options
+    </div>
+    <ng-container *ngFor="let attendee of attendees">
+      <div class="column name">
+        {{ attendee.user.firstName + " " + attendee.user.lastName }}
+      </div>
+      <div class="column city">
+        Samara
+      </div>
+      <div class="column options">
+        <app-icon-button class="button" *ngIf="showAdd(attendee)" (onClick)="handleAdd(attendee)" image="/assets/baseline-add_circle_outline-24px.svg"></app-icon-button>
+        <app-icon-button class="button" *ngIf="showRemove(attendee)" (onClick)="handleRemove(attendee)" image="/assets/baseline-remove_circle_outline-24px.svg"></app-icon-button>
+        <app-icon-button class="button" *ngIf="showLeave(attendee)" (onClick)="handleRemove(attendee)" image="/assets/baseline-directions_run-24px.svg"
+          name="Leave">
+        </app-icon-button>
+      </div>
+    </ng-container>
+  </div>
+</div>

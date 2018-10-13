@@ -1,0 +1,45 @@
+:host {
+  width: 100%;
+}
+
+.attendees-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+}
+
+.header {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: Raleway;
+  font-size: 14px;
+  padding: 20px 0;
+}
+
+.column {
+  display: flex;
+  height: 60px;
+  align-items: center;
+}
+
+.title {
+  font-family: Raleway;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.header.name {
+  grid-column: 1 / 2;
+}
+
+.column.options {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  margin-left: 10px;
+  margin-right: 10px;
+}

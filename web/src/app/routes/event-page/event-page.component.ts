@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EventService } from 'app/services/event';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Event, Attendee, DetailedEvent } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
 import { Observable, Subscription } from 'rxjs';
@@ -20,6 +20,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
     private eventService: EventService,
     private route: ActivatedRoute,
     private authProvider: AuthProvider,
+    private router: Router,
   ) {}
 
   get participants(): Attendee[] {
@@ -42,6 +43,15 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   get eventOwner(): Boolean {
     return this.authProvider.userId === this.event.ownerUserId;
+  }
+
+  get canRegister() {
+    return (
+      this.authorized &&
+      !this.event.attendees.find(
+        pretender => pretender.userId === this.authProvider.userId,
+      )
+    );
   }
 
   ngOnInit() {
@@ -81,7 +91,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
       .subscribe(this.fetchEvent);
   }
 
-  isMyself(attendee) {
-    return this.authProvider.userId === attendee.userId;
+  goBack() {
+    this.router.navigateByUrl('/events');
   }
 }

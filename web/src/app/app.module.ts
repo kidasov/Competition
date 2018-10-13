@@ -23,6 +23,8 @@ import { EventsTableComponent } from './routes/events-page/components/events-tab
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { SubmitComponent } from './components/inputs/submit/submit.component';
 import { EventPageComponent } from './routes/event-page/event-page.component';
+import { AttendeesTableComponent } from './routes/event-page/components/attendees-table/attendees-table.component';
+import { IconButtonComponent } from './components/icon-button/icon-button.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { EventPageComponent } from './routes/event-page/event-page.component';
     LoginFormComponent,
     SubmitComponent,
     EventPageComponent,
+    AttendeesTableComponent,
+    IconButtonComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),
