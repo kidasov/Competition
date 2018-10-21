@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { AuthProvider } from '../../services/auth/provider';
 import { Observable, Subscription } from 'rxjs';
+import { UserService } from 'app/services/user';
 
 @Component({
   selector: 'sidebar',
@@ -18,6 +19,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   onLoginClick = new EventEmitter();
   authorized: boolean;
   subscription: Subscription;
+  userId: number;
 
   constructor(private authProvider: AuthProvider) {}
 
@@ -25,13 +27,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.onLoginClick.emit();
   }
 
-  handleLogout() {
-    this.authProvider.invalidateSessionKey();
-  }
-
   ngOnInit() {
-    this.subscription = this.authProvider.authorized.subscribe(authorized => {
-      this.authorized = authorized;
+    this.subscription = this.authProvider.userInfo.subscribe(userInfo => {
+      this.authorized = userInfo.authorized;
+      this.userId = userInfo.userId;
     });
   }
 

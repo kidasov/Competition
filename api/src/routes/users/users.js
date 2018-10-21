@@ -9,13 +9,21 @@ router.get('/', async ctx => {
 });
 
 router.get('/:id', async ctx => {
+  const { userId } = ctx.requireSession();
   const { id } = ctx.params;
-  const user = User.findOne({
+
+  const attributes =
+    userId === id
+      ? ['id', 'firstName', 'lastName', 'email']
+      : ['id', 'firstName', 'lastName'];
+
+  const user = await User.findOne({
     where: { id },
+    attributes,
   });
 
   ctx.status = 200;
-  ctx.body = { user };
+  ctx.body = user;
 });
 
 router.post('/', async ctx => {

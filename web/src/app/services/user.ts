@@ -16,8 +16,8 @@ export class UserService {
       .pipe(map((response: User[]) => response.map(user => new User(user))));
   }
 
-  public getUser() {
-    return this.api.get('/user');
+  public getUser(userId: Id) {
+    return this.api.get(`/users/${userId}`);
   }
 
   public addUser(userData: UserData) {

@@ -26,6 +26,7 @@ import { AttendeesTableComponent } from './routes/event-page/components/attendee
 import { IconButtonComponent } from './components/icon-button/icon-button.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { SwitchComponent } from './components/switch/switch.component';
+import { UserPageComponent } from './routes/user-page/user-page.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { SwitchComponent } from './components/switch/switch.component';
     IconButtonComponent,
     PopupComponent,
     SwitchComponent,
+    UserPageComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),

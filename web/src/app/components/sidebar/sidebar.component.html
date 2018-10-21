@@ -15,8 +15,8 @@
       </li>
     </ul>
   </nav>
-  <div class="option sign-in" *ngIf="authorized" (click)="handleLogout($event)">
-    Logout
+  <div class="option sign-in" *ngIf="authorized" [routerLink]="['/users' , userId]">
+    Profile
   </div>
   <div class="option sign-in" *ngIf="!authorized" (click)="handleLogin($event)">
     Login
