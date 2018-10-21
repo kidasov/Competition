@@ -1,0 +1,6 @@
+<div *ngIf="user" class="top-panel">
+  <app-header class="header">{{ user.name }}</app-header>
+  <div class="buttons">
+    <app-button class="button" *ngIf="currentUser" (onClick)="handleLogout($event)" name="Logout"></app-button>
+  </div>
+</div>

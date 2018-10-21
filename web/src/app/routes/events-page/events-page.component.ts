@@ -47,9 +47,7 @@ export class EventsPage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription = this.authProvider.authorized.subscribe(
-      this.fetchEvents,
-    );
+    this.subscription = this.authProvider.userInfo.subscribe(this.fetchEvents);
   }
 
   ngOnDestroy() {
