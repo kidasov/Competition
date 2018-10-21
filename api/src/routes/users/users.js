@@ -9,13 +9,13 @@ router.get('/', async ctx => {
 });
 
 router.get('/:id', async ctx => {
-  const { userId } = ctx.requireSession();
+  const { userId } = ctx.session || {};
   const { id } = ctx.params;
 
   const attributes =
-    userId === id
-      ? ['id', 'firstName', 'lastName', 'email']
-      : ['id', 'firstName', 'lastName'];
+    userId === +id
+      ? ['id', 'firstName', 'lastName', 'email', 'ttwId']
+      : ['id', 'firstName', 'lastName', 'ttwId'];
 
   const user = await User.findOne({
     where: { id },
@@ -51,19 +51,29 @@ router.delete('/:id', async ctx => {
 });
 
 router.patch('/:id', async ctx => {
+  const { userId } = ctx.requireSession();
   const { id } = ctx.params;
 
-  const { firstName, lastName, email } = ctx.request.body;
+  const { firstName, lastName, email, ttwId } = ctx.request.body;
 
   const user = await User.findOne({
     where: { id },
   });
+
+  if (!user) {
+    return ctx.throw(404);
+  }
+
+  if (userId !== user.id) {
+    return ctx.throw(403);
+  }
 
   await User.update(
     {
       firstName,
       lastName,
       email,
+      ttwId,
     },
     { where: { id: user.id } },
   );

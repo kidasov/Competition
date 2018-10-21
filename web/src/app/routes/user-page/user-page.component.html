@@ -1,6 +1,30 @@
-<div *ngIf="user" class="top-panel">
-  <app-header class="header">{{ user.name }}</app-header>
-  <div class="buttons">
-    <app-button class="button" *ngIf="currentUser" (onClick)="handleLogout($event)" name="Logout"></app-button>
+<div *ngIf="user">
+  <div class="top-panel">
+    <app-header class="header">{{ user.name }}</app-header>
+    <div class="buttons">
+      <app-button class="button" *ngIf="currentUser" (onClick)="showEditPopup($event)" name="Edit"></app-button>
+      <app-button class="button" *ngIf="currentUser" (onClick)="handleLogout($event)" name="Logout"></app-button>
+    </div>
+  </div>
+
+  <app-popup *ngIf="showEdit" title="Edit user" (onClose)="closeEditPopup($event)">
+    <form class="form" [formGroup]="editForm" (ngSubmit)="saveUser($event);">
+      <fieldset class="form-group">
+        <app-input class="input" formControlName="firstName" placeholder="First name" defaultValue="{{user.firstName}}"></app-input>
+        <app-input class="input" formControlName="lastName" placeholder="Last name" defaultValue="{{user.lastName}}"></app-input>
+        <app-input class="input" formControlName="email" placeholder="Email" defaultValue="{{user.email}}"></app-input>
+        <app-input class="input" formControlName="ttwId" placeholder="Ttw id" defaultValue="{{user.ttwId}}"></app-input>
+        <app-submit class="input" value="Save"></app-submit>
+      </fieldset>
+    </form>
+  </app-popup>
+
+  <div>
+    <span>TtwId </span>
+    <span class="value">{{ user.ttwId }}</span>
+  </div>
+  <div *ngIf="user.email">
+    <span>Email </span>
+    <span class="value">{{ user.email }}</span>
   </div>
 </div>

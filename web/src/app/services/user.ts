@@ -4,6 +4,13 @@ import { map } from 'rxjs/operators';
 import { ApiService } from './api';
 import { Id } from 'app/types/types';
 
+interface PatchUserParams {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  ttwId?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -28,7 +35,7 @@ export class UserService {
     return this.api.delete(`/users/${user.id}`);
   }
 
-  public updateUser(userId: Id, userData: UserData) {
-    return this.api.patch(`/users/${userId}`, userData);
+  public patchUser(userId: Id, params: PatchUserParams) {
+    return this.api.patch(`/users/${userId}`, params);
   }
 }

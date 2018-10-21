@@ -4,6 +4,7 @@ export class UserData {
   firstName: string;
   lastName: string;
   email: string;
+  ttwId: string;
 }
 
 export class User extends UserData {

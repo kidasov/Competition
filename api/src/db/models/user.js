@@ -7,6 +7,7 @@ const User = sequelize.define('user', {
   email: DataTypes.STRING,
   rating: DataTypes.REAL,
   password: DataTypes.STRING,
+  ttwId: DataTypes.STRING,
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: sequelize.fn('now'),
