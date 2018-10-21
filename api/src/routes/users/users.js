@@ -1,5 +1,6 @@
 import Router from 'koa-router';
 import { User } from '../../db/models';
+import { getTtwCurrentRating } from '../../ttw-parser/player-points';
 
 const router = new Router();
 
@@ -68,12 +69,23 @@ router.patch('/:id', async ctx => {
     return ctx.throw(403);
   }
 
+  const rating = (() => {
+    if (ttwId != null) {
+      try {
+        return getTtwCurrentRating(ttwId);
+      } catch (e) {
+        console.log('failed to fetch ttw rating:', e);
+      }
+    }
+  })();
+
   await User.update(
     {
       firstName,
       lastName,
       email,
       ttwId,
+      rating,
     },
     { where: { id: user.id } },
   );
