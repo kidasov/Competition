@@ -27,6 +27,7 @@ import { IconButtonComponent } from './components/icon-button/icon-button.compon
 import { PopupComponent } from './components/popup/popup.component';
 import { SwitchComponent } from './components/switch/switch.component';
 import { UserPageComponent } from './routes/user-page/user-page.component';
+import { AuthVkComponent } from './auth-vk/auth-vk.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { UserPageComponent } from './routes/user-page/user-page.component';
     PopupComponent,
     SwitchComponent,
     UserPageComponent,
+    AuthVkComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),
