@@ -1,8 +1,7 @@
-require('babel-register');
 import router from './routes/routes';
-import Koa from 'koa';
-import cors from '@koa/cors';
-import bodyParser from 'koa-bodyparser';
+import * as Koa from 'koa';
+import * as cors from '@koa/cors';
+import * as bodyParser from 'koa-bodyparser';
 import { validateSession } from './services/auth';
 
 const PORT = 3003;

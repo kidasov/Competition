@@ -1,5 +1,5 @@
-import Router from 'koa-router';
-import scrypt from 'scrypt';
+import * as Router from 'koa-router';
+import * as scrypt from 'scrypt';
 import { createSession } from '../../services/auth';
 import { User } from '../../db/models';
 

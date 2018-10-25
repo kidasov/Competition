@@ -1,9 +1,9 @@
 const gulp = require('gulp')
-const plumber = require('gulp-plumber')
-const babel = require('gulp-babel')
+const ts = require('gulp-typescript')
 const { spawn } = require('child_process')
 
-const sources = 'src/**/*.js'
+const tsProject = ts.createProject('tsconfig.json')
+const sources = 'src/**/*.{js,ts}'
 const output = 'lib'
 
 let node = null
@@ -27,9 +27,12 @@ gulp.task('server', ['scripts'], () => {
   }
 })
 
-gulp.task('scripts', () => gulp.src(sources)
-  .pipe(plumber())
-  .pipe(babel())
+gulp.task('watch', ['scripts'], function() {
+  gulp.watch('lib/*.ts', ['scripts']);
+})
+
+gulp.task('scripts', () => tsProject.src()
+  .pipe(tsProject())
   .pipe(gulp.dest(output)))
 
 gulp.task('default', ['server'], () => {

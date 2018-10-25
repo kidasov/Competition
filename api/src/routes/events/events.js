@@ -1,4 +1,4 @@
-import Router from 'koa-router';
+import * as Router from 'koa-router';
 import { Event, Attendee, User } from '../../db/models';
 import attendees from './attendees';
 import { DRAFT, PUBLISHED } from '../../db/models/event';

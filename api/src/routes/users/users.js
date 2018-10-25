@@ -1,4 +1,4 @@
-import Router from 'koa-router';
+import * as Router from 'koa-router';
 import { User } from '../../db/models';
 
 const router = new Router();

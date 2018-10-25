@@ -1,4 +1,4 @@
-import Router from 'koa-router';
+import * as Router from 'koa-router';
 import events from './events/events';
 import users from './users/users';
 import auth from './auth/auth';
