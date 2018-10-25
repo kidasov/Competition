@@ -1,10 +1,8 @@
 import {
   Component,
+  forwardRef,
   Input,
   OnInit,
-  ViewChild,
-  ElementRef,
-  forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -31,6 +29,8 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   @Input()
   type = 'text';
 
+  private propagateChange: (string) => void;
+
   writeValue(obj: any): void {
     this.value = obj;
   }
@@ -40,8 +40,6 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   }
   registerOnTouched(fn: any): void {}
   setDisabledState?(isDisabled: boolean): void {}
-
-  private propagateChange: (string) => void;
 
   public onChange(event: Event) {
     this.propagateChange((event.target as HTMLInputElement).value);

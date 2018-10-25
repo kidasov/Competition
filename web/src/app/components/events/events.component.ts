@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from '../../services/event';
-import { Event } from '../../models/event';
 import * as moment from 'moment';
+import { Event } from '../../models/event';
+import { EventService } from '../../services/event';
 
 @Component({
-  selector: 'events',
+  selector: 'app-events',
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.css'],
 })

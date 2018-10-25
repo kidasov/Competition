@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
-import { UserData } from '../../models/user';
-import { ApiService } from '../api';
-import { tap } from 'rxjs/operators';
-import { AuthProvider } from './provider';
 import { Id } from 'app/types/types';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { ApiService } from '../api';
+import { AuthProvider } from './provider';
 
 interface SignUpParams {
   firstName: string;

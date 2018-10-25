@@ -2,12 +2,12 @@
   <div class="top-panel">
     <app-header class="header">{{ user.name }}</app-header>
     <div class="buttons">
-      <app-button class="button" *ngIf="currentUser" (onClick)="showEditPopup($event)" name="Edit"></app-button>
-      <app-button class="button" *ngIf="currentUser" (onClick)="handleLogout($event)" name="Logout"></app-button>
+      <app-button class="button" *ngIf="currentUser" (click)="showEditPopup($event)" name="Edit"></app-button>
+      <app-button class="button" *ngIf="currentUser" (click)="handleLogout($event)" name="Logout"></app-button>
     </div>
   </div>
 
-  <app-popup *ngIf="showEdit" title="Edit user" (onClose)="closeEditPopup($event)">
+  <app-popup *ngIf="showEdit" title="Edit user" (close)="closeEditPopup($event)">
     <form class="form" [formGroup]="editForm" (ngSubmit)="saveUser($event);">
       <fieldset class="form-group">
         <app-input class="input" formControlName="firstName" placeholder="First name" defaultValue="{{user.firstName}}"></app-input>

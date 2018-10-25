@@ -1,15 +1,15 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth/service';
 
 @Component({
-  selector: 'login-form',
+  selector: 'app-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.css'],
 })
 export class LoginFormComponent implements OnInit {
   @Output()
-  onClose = new EventEmitter();
+  close = new EventEmitter();
 
   constructor(private authService: AuthService) {}
 
@@ -26,7 +26,7 @@ export class LoginFormComponent implements OnInit {
   });
 
   handleClose(event: Event) {
-    this.onClose.emit();
+    this.close.emit();
     event.preventDefault();
   }
 
@@ -37,7 +37,7 @@ export class LoginFormComponent implements OnInit {
         email: this.signInForm.get('email').value,
         password: this.signInForm.get('password').value,
       })
-      .subscribe(() => this.onClose.emit());
+      .subscribe(() => this.close.emit());
   }
 
   signUp(event: Event) {
@@ -49,7 +49,7 @@ export class LoginFormComponent implements OnInit {
         email: this.registerForm.get('email').value,
         password: this.registerForm.get('password').value,
       })
-      .subscribe(() => this.onClose.emit());
+      .subscribe(() => this.close.emit());
   }
 
   ngOnInit() {}

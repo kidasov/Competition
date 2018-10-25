@@ -1,6 +1,6 @@
 <div class="container">
   <form [formGroup]="userForm" (ngSubmit)="editUser($event);">
-    <app-close class="close-icon" (click)="close($event)"></app-close>
+    <app-close class="close-icon" (click)="doClose($event)"></app-close>
     <fieldset class="form-group">
       <div class="header">Edit user</div>
       <app-input class="input" formControlName="firstName" defaultValue="{{editedUser.firstName}}" placeholder="First name"></app-input>

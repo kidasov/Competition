@@ -1,6 +1,6 @@
 <div class="container">
   <form [formGroup]="userForm" (ngSubmit)="addUser($event);">
-    <app-close class="close-icon" (click)="close($event)"></app-close>
+    <app-close class="close-icon" (click)="doClose($event)"></app-close>
     <fieldset class="form-group">
       <div class="header">Add user</div>
       <app-input class="input" formControlName="firstName" placeholder="First name"></app-input>

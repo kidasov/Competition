@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { EventService } from 'app/services/event';
-import { Event as CompetitionEvent } from 'app/models/event';
-import * as moment from 'moment';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Event as CompetitionEvent } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
+import { EventService } from 'app/services/event';
+import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './events-page.component.html',
   styleUrls: ['./events-page.component.css'],
 })
-export class EventsPage implements OnInit, OnDestroy {
+export class EventsPageComponent implements OnInit, OnDestroy {
   events: CompetitionEvent[] = [];
   showAdd: Boolean = false;
   subscription: Subscription;
@@ -27,8 +27,8 @@ export class EventsPage implements OnInit, OnDestroy {
     private authProvider: AuthProvider,
   ) {}
 
-  addEvent(event: Event) {
-    event.preventDefault();
+  addEvent(e: Event) {
+    e.preventDefault();
     const name = this.createForm.get('name').value;
     this.eventService.createEvent(name).subscribe(event => {
       this.showAdd = false;
@@ -58,7 +58,7 @@ export class EventsPage implements OnInit, OnDestroy {
     this.eventService.getEvents().subscribe(events => {
       this.events = events;
     });
-  };
+  }
 
   showAddPopup() {
     this.showAdd = true;

@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UserService } from 'app/services/user';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'app/models/user';
 import { AuthProvider } from 'app/services/auth/provider';
-import { Subscription } from 'rxjs';
+import { UserService } from 'app/services/user';
 import { Id } from 'app/types/types';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-page',

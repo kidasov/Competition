@@ -1,4 +1,3 @@
-import { RouterLink } from '@angular/router';
 import { Id } from 'app/types/types';
 
 export class EventData {
