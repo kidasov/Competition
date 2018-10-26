@@ -1,8 +1,8 @@
 import { sequelize } from '../db';
-import Event from './event';
-import User from './user';
-import Session from './session';
 import Attendee from './attendee';
+import Event from './event';
+import Session from './session';
+import User from './user';
 
 export { Event, User, Session, Attendee };
 

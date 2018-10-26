@@ -1,3 +1,4 @@
+import * as t from 'io-ts';
 import * as Router from 'koa-router';
 import { User } from '../../db/models';
 
@@ -9,11 +10,11 @@ router.get('/', async ctx => {
 });
 
 router.get('/:id', async ctx => {
-  const { userId } = ctx.session || {};
-  const { id } = ctx.params;
+  const sessionUserId = ctx.session && ctx.session.userId;
+  const id = +ctx.param('id');
 
   const attributes =
-    userId === +id
+    sessionUserId === id
       ? ['id', 'firstName', 'lastName', 'email', 'ttwId']
       : ['id', 'firstName', 'lastName', 'ttwId'];
 
@@ -26,8 +27,14 @@ router.get('/:id', async ctx => {
   ctx.body = user;
 });
 
+const CreateUserRequest = t.type({
+  firstName: t.string,
+  lastName: t.string,
+  email: t.string,
+});
+
 router.post('/', async ctx => {
-  const { firstName, lastName, email } = ctx.request.body;
+  const { firstName, lastName, email } = ctx.decode(CreateUserRequest);
 
   const user = await User.create({
     firstName,
@@ -40,21 +47,30 @@ router.post('/', async ctx => {
 });
 
 router.delete('/:id', async ctx => {
-  const { id } = ctx.params;
+  const id = +ctx.param('id');
   const user = await User.findOne({
     where: { id },
   });
 
-  await User.destroy({ where: { id: user.id } });
+  if (user) {
+    await User.destroy({ where: { id: user.id } });
+  }
+
   ctx.status = 200;
   ctx.body = {};
 });
 
-router.patch('/:id', async ctx => {
-  const { userId } = ctx.requireSession();
-  const { id } = ctx.params;
+const PatchUserRequest = t.partial({
+  firstName: t.string,
+  lastName: t.string,
+  email: t.string,
+  ttwId: t.string,
+});
 
-  const { firstName, lastName, email, ttwId } = ctx.request.body;
+router.patch('/:id', async ctx => {
+  const { userId: sessionUserId } = ctx.requireSession();
+  const id = +ctx.param('id');
+  const { firstName, lastName, email, ttwId } = ctx.decode(PatchUserRequest);
 
   const user = await User.findOne({
     where: { id },
@@ -64,7 +80,7 @@ router.patch('/:id', async ctx => {
     return ctx.throw(404);
   }
 
-  if (userId !== user.id) {
+  if (sessionUserId !== user.id) {
     return ctx.throw(403);
   }
 

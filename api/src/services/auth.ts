@@ -1,6 +1,9 @@
+import { Middleware } from 'koa';
 import { Session } from '../db/models';
+import { SessionId } from '../db/models/session';
+import { UserId } from '../db/models/user';
 
-function validateSession() {
+function validateSession(): Middleware {
   return async (ctx, next) => {
     ctx.requireSession = () => {
       if (!ctx.session) {
@@ -23,7 +26,7 @@ function validateSession() {
   };
 }
 
-async function createSession(userId) {
+async function createSession(userId: UserId): Promise<SessionId> {
   const id = generateSessionId(30);
   await Session.create({
     id,
@@ -32,7 +35,7 @@ async function createSession(userId) {
   return id;
 }
 
-function generateSessionId(length) {
+function generateSessionId(length: number): SessionId {
   const letters =
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   const a = [];

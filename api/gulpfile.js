@@ -3,7 +3,7 @@ const ts = require('gulp-typescript')
 const { spawn } = require('child_process')
 
 const tsProject = ts.createProject('tsconfig.json')
-const sources = 'src/**/*.{js,ts}'
+const sources = 'src/**/*.ts'
 const output = 'lib'
 
 let node = null
@@ -25,10 +25,6 @@ gulp.task('server', ['scripts'], () => {
   } else {
     startNode()
   }
-})
-
-gulp.task('watch', ['scripts'], function() {
-  gulp.watch('lib/*.ts', ['scripts']);
 })
 
 gulp.task('scripts', () => tsProject.src()

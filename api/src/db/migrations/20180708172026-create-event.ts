@@ -1,46 +1,43 @@
-'use strict';
+import * as Sequelize from 'sequelize';
+
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: (queryInterface: Sequelize.QueryInterface) => {
     return queryInterface.createTable('Events', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdAt: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW
+        defaultValue: Sequelize.NOW,
       },
       startsAt: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       endsAt: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       ownerUserId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       location: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       description: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.STRING,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface: Sequelize.QueryInterface) => {
     return queryInterface.dropTable('Events');
-  }
+  },
 };
