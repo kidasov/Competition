@@ -21,9 +21,12 @@
     "pg-hstore": "^2.3.2",
     "scrypt": "^6.0.3",
     "sequelize": "^4.38.0",
-    "sequelize-cli": "^4.0.0"
+    "sequelize-cli": "^4.0.0",
+    "winston": "^3.1.0",
+    "winston-elasticsearch": "git+ssh://git@github.com:rkivalin/winston-elasticsearch.git#master"
   },
   "devDependencies": {
+    "@types/elasticsearch": "^5.0.28",
     "@types/koa": "^2.0.46",
     "@types/koa-bodyparser": "^5.0.1",
     "@types/koa-router": "^7.0.32",

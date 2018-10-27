@@ -2,6 +2,7 @@ import * as t from 'io-ts';
 import * as Router from 'koa-router';
 import * as scrypt from 'scrypt';
 import { User } from '../../db/models';
+import logger from '../../logger';
 import { createSession } from '../../services/auth';
 
 const router = new Router();
@@ -37,6 +38,11 @@ router.post('/signup', async ctx => {
     password: hashedPassword,
   });
 
+  logger.info(
+    `New sign up with password: ${firstName} ${lastName} <${email}>`,
+    { userId: user.id },
+  );
+
   const sessionKey = await createSession(user.id);
 
   ctx.status = 201;
@@ -64,6 +70,12 @@ router.post('/signin', async ctx => {
     ctx.body = { error: 'Invalid email or password' };
     return;
   }
+
+  const { firstName, lastName } = user;
+  logger.info(
+    `New sign in with password: ${firstName} ${lastName} <${email}>`,
+    { userId: user.id },
+  );
 
   const sessionKey = await createSession(user.id);
 

@@ -2,6 +2,7 @@ import * as cors from '@koa/cors';
 import { failure } from 'io-ts/lib/PathReporter';
 import * as Koa from 'koa';
 import * as bodyParser from 'koa-bodyparser';
+import logger from './logger';
 import router from './routes/routes';
 import { getRequestSession } from './services/auth';
 
@@ -51,11 +52,33 @@ app.context.sessionUserId = async function() {
   return (await this.session()).map(s => s.userId).toNullable();
 };
 
+app.use(async (ctx, next) => {
+  const requestTime = new Date().getTime();
+  try {
+    await next();
+    const durationMillis = new Date().getTime() - requestTime;
+    const { method, path, status, message } = ctx;
+    logger.info(
+      `${method} ${path}: ${status} ${message} in ${durationMillis} ms`,
+      { method, path, status, message, durationMillis },
+    );
+  } catch (e) {
+    const durationMillis = new Date().getTime() - requestTime;
+    const { method, path } = ctx;
+    const status = e.status || 500;
+    const message = e.message;
+    logger.error(
+      `${method} ${path}: ${status} ${message} in ${durationMillis} ms`,
+      { method, path, status, message, durationMillis },
+    );
+    throw e;
+  }
+});
 app.use(bodyParser());
 app.use(cors());
 app.use(router.routes());
 app.use(router.allowedMethods());
 
 app.listen(PORT, () => {
-  console.log(`The app is listening on port ${PORT}`);
+  logger.info(`The app is listening on port ${PORT}`);
 });

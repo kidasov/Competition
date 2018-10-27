@@ -17,3 +17,12 @@ services:
       - 8080:8080
     depends_on:
       - postgres
+  elasticsearch:
+    image: 'elasticsearch:6.4.1'
+    ports:
+      - 9200:9200
+      - 9300:9300
+  kibana:
+    image: 'kibana:6.4.1'
+    ports:
+      - 5601:5601
