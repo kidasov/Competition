@@ -1,15 +1,15 @@
 import {
-  ElementRef,
-  ViewChild,
-  Component,
-  OnInit,
-  OnDestroy,
   AfterViewInit,
-  Input,
+  Component,
+  ElementRef,
   forwardRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
-import { MDCSwitch } from '@material/switch';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MDCSwitch } from '@material/switch';
 
 @Component({
   selector: 'app-switch',
@@ -33,7 +33,7 @@ export class SwitchComponent
   ref: ElementRef;
   switchControl: MDCSwitch;
   @Input()
-  checked: boolean = false;
+  checked = false;
   @Input()
   label: string;
   value: string;
@@ -41,6 +41,8 @@ export class SwitchComponent
   formControlName: string;
   @Input()
   defaultValue: boolean;
+
+  private propagateChange: (string) => void;
 
   writeValue(obj: any): void {
     this.value = obj;
@@ -51,8 +53,6 @@ export class SwitchComponent
   }
   registerOnTouched(fn: any): void {}
   setDisabledState?(isDisabled: boolean): void {}
-
-  private propagateChange: (string) => void;
 
   public onChange(event: Event) {
     this.propagateChange((event.target as HTMLInputElement).checked);

@@ -24,10 +24,10 @@
         <div class="column created-at">
           {{ formatDate(user.createdAt) }}
         </div>
-        <dropdown-menu class="column">
+        <app-dropdown-menu class="column">
           <span (click)="editUser(user)">Edit</span>
           <span (click)="removeUser(user)">Delete</span>
-        </dropdown-menu>
+        </app-dropdown-menu>
       </div>
     </ng-container>
   </div>

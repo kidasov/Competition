@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { EventService } from 'app/services/event';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Event, Attendee, DetailedEvent } from 'app/models/event';
+import { Attendee, DetailedEvent } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
-import { Observable, Subscription } from 'rxjs';
+import { EventService } from 'app/services/event';
 import { Id } from 'app/types/types';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-event-page',
@@ -81,7 +81,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
     this.eventService.getEvent(eventId).subscribe(event => {
       this.event = event;
     });
-  };
+  }
 
   register() {
     const eventId = this.route.snapshot.params.eventId;

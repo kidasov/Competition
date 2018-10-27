@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { UserData, User } from '../models/user';
-import { map } from 'rxjs/operators';
-import { ApiService } from './api';
 import { Id } from 'app/types/types';
+import { map } from 'rxjs/operators';
+import { User, UserData } from '../models/user';
+import { ApiService } from './api';
 
 interface PatchUserParams {
   firstName?: string;

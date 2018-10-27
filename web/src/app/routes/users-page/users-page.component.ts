@@ -1,20 +1,19 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { User, UserData} from 'app/models/user';
 import { UserService } from 'app/services/user';
-import { User, UserData } from 'app/models/user';
-import * as moment from 'moment';
 import { Id } from 'app/types/types';
 
 @Component({
-  selector: 'users-page',
+  selector: 'app-users-page',
   templateUrl: './users-page.component.html',
   styleUrls: ['./users-page.component.css'],
 })
-export class UsersPage implements OnInit {
+export class UsersPageComponent implements OnInit {
   users: User[] = [];
   user: User = null;
   editedUser: User = null;
-  showAddUser: boolean = false;
-  showEditUser: boolean = false;
+  showAddUser = false;
+  showEditUser = false;
 
   constructor(private userService: UserService) {}
 
@@ -47,12 +46,12 @@ export class UsersPage implements OnInit {
   }
 
   public updateUser(userId: Id, userData: UserData) {
-    this.userService.updateUser(userId, userData).subscribe(user => {
+    this.userService.patchUser(userId, userData).subscribe(user => {
       this.users = this.users.map(u => {
         return u.id === userId
           ? {
               ...u,
-              ...userData,
+              ...user,
             }
           : u;
       });

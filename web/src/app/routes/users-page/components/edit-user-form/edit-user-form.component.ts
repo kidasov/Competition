@@ -1,10 +1,9 @@
-import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { UserService } from 'app/services/user';
-import { User } from 'app/models/user';
 
 @Component({
-  selector: 'edit-user-form',
+  selector: 'app-edit-user-form',
   templateUrl: './edit-user-form.component.html',
   styleUrls: ['./edit-user-form.component.css'],
 })
@@ -14,9 +13,9 @@ export class EditUserFormComponent implements OnInit {
   @Input()
   editedUser;
   @Output()
-  onClose = new EventEmitter();
+  close = new EventEmitter();
   @Output()
-  onFetchUsers = new EventEmitter();
+  fetchUsers = new EventEmitter();
 
   userForm = new FormGroup({
     firstName: new FormControl(),
@@ -29,20 +28,20 @@ export class EditUserFormComponent implements OnInit {
   editUser(event: Event) {
     const { id, firstName, lastName, email } = this.editedUser;
     this.userService
-      .updateUser(id, {
+      .patchUser(id, {
         firstName: this.userForm.get('firstName').value || firstName,
         lastName: this.userForm.get('lastName').value || lastName,
         email: this.userForm.get('email').value || email,
       })
-      .subscribe((event: any) => {
-        this.onClose.emit();
-        this.onFetchUsers.emit();
+      .subscribe(() => {
+        this.close.emit();
+        this.fetchUsers.emit();
       });
   }
 
-  close(event: Event) {
+  doClose(event: Event) {
     event.preventDefault();
-    this.onClose.emit();
+    this.close.emit();
   }
 
   ngOnInit() {}

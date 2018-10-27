@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'app';
 
-  showLogin: boolean = false;
+  showLogin = false;
 
   public showLoginPopup() {
     this.showLogin = true;

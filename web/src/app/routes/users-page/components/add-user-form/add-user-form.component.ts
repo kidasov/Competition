@@ -1,18 +1,17 @@
-import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { UserService } from 'app/services/user';
-import { User } from 'app/models/user';
 
 @Component({
-  selector: 'add-user-form',
+  selector: 'app-add-user-form',
   templateUrl: './add-user-form.component.html',
   styleUrls: ['./add-user-form.component.css'],
 })
 export class AddUserFormComponent implements OnInit {
   @Output()
-  onClose = new EventEmitter();
+  close = new EventEmitter();
   @Output()
-  onFetchUsers = new EventEmitter();
+  fetchUsers = new EventEmitter();
 
   userForm = new FormGroup({
     firstName: new FormControl(),
@@ -28,16 +27,17 @@ export class AddUserFormComponent implements OnInit {
         firstName: this.userForm.get('firstName').value,
         lastName: this.userForm.get('lastName').value,
         email: this.userForm.get('email').value,
+        ttwId: '',
       })
-      .subscribe((event: any) => {
-        this.onClose.emit();
-        this.onFetchUsers.emit();
+      .subscribe(() => {
+        this.close.emit();
+        this.fetchUsers.emit();
       });
   }
 
-  close(event: Event) {
+  doClose(event: Event) {
     event.preventDefault();
-    this.onClose.emit();
+    this.close.emit();
   }
 
   ngOnInit() {}

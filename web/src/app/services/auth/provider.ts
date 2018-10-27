@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { Id } from 'app/types/types';
+import { BehaviorSubject } from 'rxjs';
 
 const LS_SESSION_KEY = 'session_key';
 const LS_USER_ID = 'user_id';
