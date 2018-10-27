@@ -3,7 +3,8 @@
     "target": "es2016",
     "module": "commonjs",
     "rootDir": "./src",
-    "strict": true
+    "strict": true,
+    "typeRoots": ["./src/typings"]
   },
   "include": ["./src"]
 }
