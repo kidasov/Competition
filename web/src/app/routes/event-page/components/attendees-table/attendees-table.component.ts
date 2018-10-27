@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Attendee } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
 
@@ -15,20 +15,20 @@ export class AttendeesTableComponent implements OnInit {
   @Input()
   eventOwner: Boolean = false;
   @Output()
-  onAdd = new EventEmitter();
+  add = new EventEmitter();
   @Output()
-  onRemove = new EventEmitter();
+  remove = new EventEmitter();
 
   constructor(private authProvider: AuthProvider) {}
 
   ngOnInit() {}
 
   handleAdd(attendee: Attendee) {
-    this.onAdd.emit(attendee.userId);
+    this.add.emit(attendee.userId);
   }
 
   handleRemove(attendee: Attendee) {
-    this.onRemove.emit(attendee.userId);
+    this.remove.emit(attendee.userId);
   }
 
   showAdd(attendee: Attendee) {

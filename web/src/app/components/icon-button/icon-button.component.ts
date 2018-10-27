@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-icon-button',
@@ -9,7 +9,7 @@ export class IconButtonComponent implements OnInit {
   @Input()
   image: String;
   @Output()
-  onClick = new EventEmitter();
+  click = new EventEmitter();
 
   constructor() {}
 
@@ -17,6 +17,6 @@ export class IconButtonComponent implements OnInit {
 
   handleClick(event: Event) {
     event.preventDefault();
-    this.onClick.emit();
+    this.click.emit();
   }
 }

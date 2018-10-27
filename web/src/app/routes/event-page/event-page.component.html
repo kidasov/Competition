@@ -1,5 +1,5 @@
 <div class="event" *ngIf="event">
-  <app-popup *ngIf="showEdit" title="Edit event" (onClose)="closeEditPopup($event)">
+  <app-popup *ngIf="showEdit" title="Edit event" (close)="closeEditPopup($event)">
     <form class="form" [formGroup]="editForm" (ngSubmit)="saveEvent($event);">
       <fieldset class="form-group">
         <app-input class="input" formControlName="name" placeholder="Name" defaultValue="{{event.name}}"></app-input>
@@ -11,18 +11,18 @@
   <div class="top-panel">
     <app-header class="header">{{ event.name }}</app-header>
     <div class="buttons">
-      <app-button class="button" *ngIf="canRegister" (onClick)="register()" name="Register"></app-button>
-      <app-button class="button" (onClick)="goBack()" name="Back"></app-button>
-      <app-button class="button" *ngIf="eventOwner" (onClick)="showEditPopup($event)" name="Edit"></app-button>
+      <app-button class="button" *ngIf="canRegister" (click)="register()" name="Register"></app-button>
+      <app-button class="button" (click)="goBack()" name="Back"></app-button>
+      <app-button class="button" *ngIf="eventOwner" (click)="showEditPopup($event)" name="Edit"></app-button>
     </div>
   </div>
-  <app-attendees-table *ngIf="pretenders.length > 0" [eventOwner]="eventOwner" (onAdd)="accept($event)" (onRemove)="removeUser($event)"
+  <app-attendees-table *ngIf="pretenders.length > 0" [eventOwner]="eventOwner" (add)="accept($event)" (remove)="removeUser($event)"
     title="Pretenders" [attendees]="pretenders">
   </app-attendees-table>
-  <app-attendees-table *ngIf="participants.length > 0" [eventOwner]="eventOwner" (onRemove)="removeUser($event)" title="Participants"
+  <app-attendees-table *ngIf="participants.length > 0" [eventOwner]="eventOwner" (remove)="removeUser($event)" title="Participants"
     [attendees]="participants">
   </app-attendees-table>
-  <app-attendees-table *ngIf="invited.length > 0" [eventOwner]="eventOwner" (onRemove)="removeUser($event)" title="Invited"
+  <app-attendees-table *ngIf="invited.length > 0" [eventOwner]="eventOwner" (remove)="removeUser($event)" title="Invited"
     [attendees]="invited">
   </app-attendees-table>
 </div>

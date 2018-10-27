@@ -1,7 +1,7 @@
-import Router from 'koa-router';
+import * as Router from 'koa-router';
+import auth from './auth/auth';
 import events from './events/events';
 import users from './users/users';
-import auth from './auth/auth';
 
 const router = new Router();
 router.use('/events', events.routes(), events.allowedMethods());

@@ -1,13 +1,15 @@
-import { EventsPage } from './events-page/events-page.component';
 import { Routes } from '@angular/router';
-import { UsersPage } from './users-page/users-page.component';
+import { AuthVkComponent } from 'app/auth-vk/auth-vk.component';
 import { EventPageComponent } from './event-page/event-page.component';
+import { EventsPageComponent } from './events-page/events-page.component';
 import { UserPageComponent } from './user-page/user-page.component';
+import { UsersPageComponent } from './users-page/users-page.component';
 
 export const routes: Routes = [
-  { path: 'events', component: EventsPage },
+  { path: 'events', component: EventsPageComponent },
   { path: 'events/:eventId', component: EventPageComponent },
-  { path: 'users', component: UsersPage },
+  { path: 'users', component: UsersPageComponent },
   { path: 'users/:userId', component: UserPageComponent },
-  { path: '', component: EventsPage },
+  { path: 'auth/vk', component: AuthVkComponent },
+  { path: '', component: EventsPageComponent },
 ];

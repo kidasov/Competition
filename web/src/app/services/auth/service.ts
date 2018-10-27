@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
-import { UserData } from '../../models/user';
-import { ApiService } from '../api';
-import { tap } from 'rxjs/operators';
-import { AuthProvider } from './provider';
 import { Id } from 'app/types/types';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { ApiService } from '../api';
+import { AuthProvider } from './provider';
 
 interface SignUpParams {
   firstName: string;
@@ -21,6 +20,11 @@ interface SignInParams {
 interface SignInResponse {
   sessionKey: string;
   userId: Id;
+}
+
+interface VkSignInParams {
+  code: string;
+  redirect_uri: string;
 }
 
 @Injectable({
@@ -40,6 +44,15 @@ export class AuthService {
 
   signIn(params: SignInParams) {
     return this.api.post('/auth/signin', params).pipe(
+      tap((response: SignInResponse) => {
+        const { sessionKey, userId } = response;
+        this.authProvider.updateSessionKey(sessionKey, userId);
+      }),
+    );
+  }
+
+  vkSignIn(params: VkSignInParams): Observable<SignInResponse> {
+    return this.api.post('/auth/vk', params).pipe(
       tap((response: SignInResponse) => {
         const { sessionKey, userId } = response;
         this.authProvider.updateSessionKey(sessionKey, userId);

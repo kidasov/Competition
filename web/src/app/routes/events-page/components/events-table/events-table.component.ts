@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Event } from 'app/models/event';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'events-table',
+  selector: 'app-events-table',
   templateUrl: './events-table.component.html',
   styleUrls: ['./events-table.component.css'],
 })

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Event, EventData, DetailedEvent } from '../models/event';
-import { events } from '../mocks/events';
-import { ApiService } from './api';
 import { Id } from 'app/types/types';
+import { Observable } from 'rxjs';
+import { DetailedEvent, Event } from '../models/event';
+import { ApiService } from './api';
 
 type Role = 'owner' | 'participant' | 'watcher' | 'judge';
 

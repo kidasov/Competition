@@ -9,7 +9,7 @@
   justify-content: center;
 }
 
-login-form {
+app-login-form {
   display: flex;
   justify-content: center;
   align-items: center;

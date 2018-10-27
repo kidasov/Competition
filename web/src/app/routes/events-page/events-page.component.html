@@ -1,9 +1,9 @@
 <div class="top-panel">
   <app-header class="header">Events</app-header>
-  <app-button class="add-button" (onClick)="showAddPopup()" name="Add event"></app-button>
+  <app-button class="add-button" (click)="showAddPopup()" name="Add event"></app-button>
 </div>
 
-<app-popup *ngIf="showAdd" title="Create event" (onClose)="closeAddPopup($event)">
+<app-popup *ngIf="showAdd" title="Create event" (close)="closeAddPopup($event)">
   <form class="form" [formGroup]="createForm" (ngSubmit)="addEvent($event);">
     <fieldset class="form-group">
       <app-input class="input" formControlName="name" placeholder="Name"></app-input>
@@ -12,4 +12,4 @@
   </form>
 </app-popup>
 
-<events-table class="events" [events]="events"></events-table>
+<app-events-table class="events" [events]="events"></app-events-table>

@@ -5,6 +5,7 @@ export class UserData {
   lastName: string;
   email: string;
   ttwId: string;
+  rating: number;
 }
 
 export class User extends UserData {
