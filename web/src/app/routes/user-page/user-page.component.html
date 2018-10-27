@@ -19,9 +19,13 @@
     </form>
   </app-popup>
 
-  <div>
+  <div *ngIf="user.ttwId">
     <span>TtwId </span>
     <span class="value">{{ user.ttwId }}</span>
+  </div>
+  <div *ngIf="user.ttwId">
+    <span>Rating: </span>
+    <span class="value">{{ user.rating }}</span>
   </div>
   <div *ngIf="user.email">
     <span>Email </span>

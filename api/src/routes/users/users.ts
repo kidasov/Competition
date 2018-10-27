@@ -2,6 +2,8 @@ import * as t from 'io-ts';
 import * as Router from 'koa-router';
 import { User } from '../../db/models';
 import { asUserId } from '../../db/models/user';
+import logger from '../../logger';
+import { getTtwCurrentRating } from '../../ttw-parser/player-points';
 
 const router = new Router();
 
@@ -16,8 +18,8 @@ router.get('/:id', async ctx => {
 
   const attributes =
     sessionUserId === id
-      ? ['id', 'firstName', 'lastName', 'email', 'ttwId']
-      : ['id', 'firstName', 'lastName', 'ttwId'];
+      ? ['id', 'firstName', 'lastName', 'email', 'ttwId', 'rating']
+      : ['id', 'firstName', 'lastName', 'ttwId', 'rating'];
 
   const user = await User.findOne({
     where: { id },
@@ -85,12 +87,30 @@ router.patch('/:id', async ctx => {
     return ctx.throw(403);
   }
 
+  async function safeFetchRating() {
+    if (ttwId != null) {
+      try {
+        return await getTtwCurrentRating(ttwId);
+      } catch (e) {
+        logger.error('failed to fetch ttw rating:', {
+          error: e.toString(),
+          message: e.message,
+          ttwId,
+        });
+      }
+    }
+    return null;
+  }
+
+  const rating = await safeFetchRating();
+
   await User.update(
     {
       firstName,
       lastName,
       email,
       ttwId,
+      rating,
     },
     { where: { id: user.id } },
   );
