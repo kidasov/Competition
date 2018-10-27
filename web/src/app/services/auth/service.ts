@@ -22,6 +22,11 @@ interface SignInResponse {
   userId: Id;
 }
 
+interface VkSignInParams {
+  code: string;
+  redirect_uri: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -39,6 +44,15 @@ export class AuthService {
 
   signIn(params: SignInParams) {
     return this.api.post('/auth/signin', params).pipe(
+      tap((response: SignInResponse) => {
+        const { sessionKey, userId } = response;
+        this.authProvider.updateSessionKey(sessionKey, userId);
+      }),
+    );
+  }
+
+  vkSignIn(params: VkSignInParams): Observable<SignInResponse> {
+    return this.api.post('/auth/vk', params).pipe(
       tap((response: SignInResponse) => {
         const { sessionKey, userId } = response;
         this.authProvider.updateSessionKey(sessionKey, userId);

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node_modules/.bin/babel src/ -d lib/",
-    "start": "gulp",
+    "start": "onchange -i -k 'src/**/*.ts' -- ts-node src",
     "lint": "tslint -p tsconfig.json -c tslint.json"
   },
   "author": "Bulat Kidasov <kidasov@gmail.com>",
@@ -38,6 +38,8 @@
     "gulp": "^3.9.1",
     "gulp-plumber": "^1.2.0",
     "gulp-typescript": "^5.0.0-alpha.3",
+    "onchange": "^5.0.2",
+    "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typescript": "^3.1.3"
   }

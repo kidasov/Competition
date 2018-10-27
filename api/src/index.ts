@@ -1,10 +1,25 @@
 import * as cors from '@koa/cors';
+import { Option } from 'fp-ts/lib/Option';
+import * as t from 'io-ts';
 import { failure } from 'io-ts/lib/PathReporter';
 import * as Koa from 'koa';
 import * as bodyParser from 'koa-bodyparser';
+import { SessionInstance } from './db/models/session';
+import { UserId } from './db/models/user';
 import logger from './logger';
 import router from './routes/routes';
 import { getRequestSession } from './services/auth';
+
+declare module 'koa' {
+  interface BaseContext {
+    session(): Promise<Option<SessionInstance>>;
+    requireSession(): Promise<SessionInstance>;
+    sessionUserId(): Promise<UserId | null>;
+    decode<T>(type: t.Type<T>): T;
+    paramString(name: string): string;
+    paramNumber(name: string): number;
+  }
+}
 
 const PORT = 3003;
 const app = new Koa();

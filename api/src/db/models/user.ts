@@ -18,6 +18,7 @@ interface User {
   password: string | null;
   ttwId: string | null;
   createdAt: string;
+  vkId: string | null;
 }
 
 type UserAttributes = Partial<User>;
@@ -31,6 +32,7 @@ const UserModel = sequelize.define<UserInstance, UserAttributes>('user', {
   rating: Sequelize.REAL,
   password: Sequelize.STRING,
   ttwId: Sequelize.STRING,
+  vkId: Sequelize.STRING,
   createdAt: {
     type: Sequelize.DATE,
     defaultValue: sequelize.fn('now'),

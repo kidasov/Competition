@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { AuthVkComponent } from './auth-vk/auth-vk.component';
 import { ButtonComponent } from './components/button/button.component';
 import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
 import { EventsComponent } from './components/events/events.component';
@@ -52,6 +53,7 @@ import { UsersPageComponent } from './routes/users-page/users-page.component';
     PopupComponent,
     SwitchComponent,
     UserPageComponent,
+    AuthVkComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),

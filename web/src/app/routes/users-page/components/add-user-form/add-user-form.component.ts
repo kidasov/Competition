@@ -27,7 +27,8 @@ export class AddUserFormComponent implements OnInit {
         firstName: this.userForm.get('firstName').value,
         lastName: this.userForm.get('lastName').value,
         email: this.userForm.get('email').value,
-        ttwId: '',
+        ttwId: null,
+        rating: null,
       })
       .subscribe(() => {
         this.close.emit();
