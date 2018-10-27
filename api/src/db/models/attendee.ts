@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { sequelize } from '../db';
-import { EventId, EventModel } from './event';
+import { EventId, EventInstance, EventModel } from './event';
 import { UserId, UserModel } from './user';
 
 enum AttendeeStatus {
@@ -22,11 +22,15 @@ interface Attendee {
   status: AttendeeStatus;
   role: AttendeeRole;
   joinedAt: string;
+  event?: Event;
 }
 
 type AttendeeAttributes = Partial<Attendee>;
 
-type AttendeeInstance = Sequelize.Instance<AttendeeAttributes> & Attendee;
+type AttendeeInstance = Sequelize.Instance<AttendeeAttributes> &
+  Attendee & {
+    event?: EventInstance;
+  };
 
 const AttendeeModel = sequelize.define<AttendeeInstance, AttendeeAttributes>(
   'attendee',
@@ -52,6 +56,7 @@ const AttendeeModel = sequelize.define<AttendeeInstance, AttendeeAttributes>(
 EventModel.belongsToMany(UserModel, { through: AttendeeModel });
 UserModel.belongsToMany(EventModel, { through: AttendeeModel });
 AttendeeModel.belongsTo(UserModel);
+AttendeeModel.belongsTo(EventModel);
 
 export default AttendeeModel;
 export {

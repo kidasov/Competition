@@ -1,6 +1,6 @@
 <div class="top-panel">
   <app-header class="header">Events</app-header>
-  <app-button class="add-button" (click)="showAddPopup()" name="Add event"></app-button>
+  <app-button class="add-button" (click)="showAddPopup()" value="Add event"></app-button>
 </div>
 
 <app-popup *ngIf="showAdd" title="Create event" (close)="closeAddPopup($event)">

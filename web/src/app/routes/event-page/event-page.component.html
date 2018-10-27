@@ -11,9 +11,9 @@
   <div class="top-panel">
     <app-header class="header">{{ event.name }}</app-header>
     <div class="buttons">
-      <app-button class="button" *ngIf="canRegister" (click)="register()" name="Register"></app-button>
-      <app-button class="button" (click)="goBack()" name="Back"></app-button>
-      <app-button class="button" *ngIf="eventOwner" (click)="showEditPopup($event)" name="Edit"></app-button>
+      <app-button class="button" *ngIf="canRegister" (click)="register()" value="Register"></app-button>
+      <app-button class="button" (click)="goBack()" value="Back"></app-button>
+      <app-button class="button" *ngIf="eventOwner" (click)="showEditPopup($event)" value="Edit"></app-button>
     </div>
   </div>
   <app-attendees-table *ngIf="pretenders.length > 0" [eventOwner]="eventOwner" (add)="accept($event)" (remove)="removeUser($event)"

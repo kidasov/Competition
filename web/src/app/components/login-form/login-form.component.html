@@ -8,9 +8,9 @@
         <app-input class="input" formControlName="email" placeholder="Email"></app-input>
         <app-input class="input" formControlName="password" placeholder="Password"></app-input>
         <app-submit class="input" value="Log In"></app-submit>
+        <app-button form="primary" class="input" icon="vk.svg" value="Log in with VK" (click)="handleVkLogin()"></app-button>
       </fieldset>
       <div class="register-switch"><label for='form-switch'><span class="switch-text">Register</span></label></div>
-      <a href="https://oauth.vk.com/authorize?client_id=6729877&display=page&redirect_uri=http://localhost:4200/auth/vk&scope=email&response_type=code&v=5.87" class="login-vk">Login with VK</a>
     </form>
   </div>
   <div class="register">
@@ -26,7 +26,6 @@
         <app-submit class="input" value="Register"></app-submit>
       </fieldset>
       <div class="register-switch"><label for='form-switch'><span class="switch-text">Already have account?</span></label></div>
-      <a href="https://oauth.vk.com/authorize?client_id=6729877&display=page&redirect_uri=http://localhost:4200/auth/vk&scope=email&response_type=code&v=5.87" class="login-vk">Login with VK</a>
     </form>
   </div>
 

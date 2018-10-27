@@ -18,6 +18,10 @@ app-submit {
   padding: 10px 20px;
 }
 
+app-button {
+  padding: 10px 20px;
+}
+
 .form-group {
   padding: 12px;
 }

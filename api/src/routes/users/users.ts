@@ -1,6 +1,8 @@
 import * as t from 'io-ts';
 import * as Router from 'koa-router';
-import { User } from '../../db/models';
+import { Op } from 'sequelize';
+import { Attendee, Event, User } from '../../db/models';
+import { PublishState } from '../../db/models/event';
 import { asUserId } from '../../db/models/user';
 import logger from '../../logger';
 import { getTtwCurrentRating } from '../../ttw-parser/player-points';
@@ -13,7 +15,7 @@ router.get('/', async ctx => {
 });
 
 router.get('/:id', async ctx => {
-  const sessionUserId = (await ctx.session()).map(s => s.userId).toNullable();
+  const sessionUserId = await ctx.sessionUserId();
   const id = asUserId(ctx.paramNumber('id'));
 
   const attributes =
@@ -28,6 +30,35 @@ router.get('/:id', async ctx => {
 
   ctx.status = 200;
   ctx.body = user;
+});
+
+router.get('/:userId/events', async ctx => {
+  const sessionUserId = await ctx.sessionUserId();
+  const userId = asUserId(ctx.paramNumber('userId'));
+
+  const events = await Attendee.findAll({
+    where: { userId },
+    include: [
+      {
+        model: Event,
+        where: {
+          [Op.or]: [
+            { state: PublishState.Published },
+            { ownerUserId: sessionUserId },
+          ],
+        },
+      },
+    ],
+  }).map(attendee => {
+    const { event, ...rest } = attendee.toJSON();
+    return {
+      ...event,
+      attendee: rest,
+    };
+  });
+
+  ctx.status = 200;
+  ctx.body = events;
 });
 
 const CreateUserRequest = t.type({

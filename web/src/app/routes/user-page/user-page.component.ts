@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Event } from 'app/models/event';
 import { User } from 'app/models/user';
 import { AuthProvider } from 'app/services/auth/provider';
 import { UserService } from 'app/services/user';
@@ -17,6 +18,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   currentUserId: Id;
   showEdit = false;
+  events: Event[];
 
   editForm = new FormGroup({
     firstName: new FormControl(),
@@ -38,10 +40,18 @@ export class UserPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  fetchEvents() {
+    const userId = this.route.snapshot.params.userId;
+    this.userService
+      .getEvents(userId)
+      .subscribe(events => (this.events = events));
+  }
+
   ngOnInit() {
     this.subscription = this.authProvider.userInfo.subscribe(userInfo => {
       this.currentUserId = userInfo.userId;
       this.fetchUser();
+      this.fetchEvents();
     });
   }
 
@@ -68,6 +78,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       })
       .subscribe(() => {
         this.fetchUser();
+        this.fetchEvents();
         this.showEdit = false;
       });
   }

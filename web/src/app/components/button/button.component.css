@@ -1,10 +1,14 @@
-a {
+:host {
+  display: flex;
+}
+
+a.fancy {
   border: 2px solid #d24d57;
   width: 120px;
 }
 
-a:link,
-a:visited {
+a.fancy:link,
+a.fancy:visited {
   position: relative;
   display: block;
   padding: 14px 15px;
@@ -24,8 +28,8 @@ a:visited {
   transition: all 1s ease;
 }
 
-a:link:after,
-a:visited:after {
+a.fancy:link:after,
+a.fancy:visited:after {
   content: '';
   position: absolute;
   height: 0%;
@@ -39,13 +43,13 @@ a:visited:after {
   transition: all 0.75s ease 0s;
 }
 
-a:link:hover,
-a:visited:hover {
+a.fancy:link:hover,
+a.fancy:visited:hover {
   color: #fff;
   text-shadow: none;
 }
 
-a:after {
+a.fancy:after {
   background: #d24d57;
   opacity: 0.5;
   -moz-transform: translateY(-50%) translateX(-50%) rotate(25deg);
@@ -53,7 +57,38 @@ a:after {
   -webkit-transform: translateY(-50%) translateX(-50%) rotate(25deg);
   transform: translateY(-50%) translateX(-50%) rotate(25deg);
 }
-a:hover:after {
+a.fancy:hover:after {
   height: 500%;
   opacity: 1;
+}
+
+a.primary {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-height: 56px;
+  justify-content: center;
+  text-align: center;
+  border-width: 1px;
+  border-style: solid;
+  outline: 0;
+  font-size: 14px;
+  background: #28d;
+  border-color: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+a.primary:hover {
+  background: #17c;
+}
+
+a.primary:focus {
+  border-color: #05a;
+}
+
+.image {
+  width: 24px;
+  height: 24px;
+  margin: 8px;
 }

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AuthService } from '../../services/auth/service';
+import { AUTH_URL } from 'app/consts/auth';
+import { AuthService } from 'app/services/auth/service';
 
 @Component({
   selector: 'app-login-form',
@@ -28,6 +29,10 @@ export class LoginFormComponent implements OnInit {
   handleClose(event: Event) {
     this.close.emit();
     event.preventDefault();
+  }
+
+  handleVkLogin() {
+    window.location.href = AUTH_URL;
   }
 
   signIn(event: Event) {

@@ -13,7 +13,9 @@ app.context.decode = function(type) {
   const ctx = this as Koa.Context;
   return type
     .decode(ctx.request.body)
-    .getOrElseL(errors => ctx.throw(400, failure(errors).join('\n')));
+    .getOrElseL(errors =>
+      ctx.throw(400, JSON.stringify({ messages: failure(errors) })),
+    );
 };
 
 app.context.paramString = function(name) {

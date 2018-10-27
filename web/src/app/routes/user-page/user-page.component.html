@@ -2,8 +2,8 @@
   <div class="top-panel">
     <app-header class="header">{{ user.name }}</app-header>
     <div class="buttons">
-      <app-button class="button" *ngIf="currentUser" (click)="showEditPopup($event)" name="Edit"></app-button>
-      <app-button class="button" *ngIf="currentUser" (click)="handleLogout($event)" name="Logout"></app-button>
+      <app-button class="button" *ngIf="currentUser" (click)="showEditPopup($event)" value="Edit"></app-button>
+      <app-button class="button" *ngIf="currentUser" (click)="handleLogout($event)" value="Logout"></app-button>
     </div>
   </div>
 
@@ -31,4 +31,6 @@
     <span>Email </span>
     <span class="value">{{ user.email }}</span>
   </div>
+
+  <app-events-table class="events" [events]="events"></app-events-table>
 </div>
