@@ -2,7 +2,13 @@ import * as Sequelize from 'sequelize';
 import { sequelize } from '../db';
 import { UserId } from './user';
 
-type SessionId = string;
+interface SessionId extends String {
+  _sessionIdBrand: string;
+}
+
+function asSessionId(rawId: string): SessionId {
+  return rawId as any;
+}
 
 interface Session {
   id: SessionId;
@@ -30,4 +36,10 @@ const SessionModel = sequelize.define<SessionInstance, SessionAttributes>(
 );
 
 export default SessionModel;
-export { SessionId, SessionAttributes, SessionInstance, SessionModel };
+export {
+  SessionId,
+  asSessionId,
+  SessionAttributes,
+  SessionInstance,
+  SessionModel,
+};

@@ -1,29 +1,23 @@
-import { Middleware } from 'koa';
+import { none, Option, some } from 'fp-ts/lib/Option';
+import { Context } from 'koa';
 import { Session } from '../db/models';
-import { SessionId } from '../db/models/session';
+import { asSessionId, SessionId, SessionInstance } from '../db/models/session';
 import { UserId } from '../db/models/user';
 
-function validateSession(): Middleware {
-  return async (ctx, next) => {
-    ctx.requireSession = () => {
-      if (!ctx.session) {
-        return ctx.throw(401, 'session required');
-      }
-      return ctx.session;
-    };
-    const id = ctx.headers.authorization;
-    if (id == null) {
-      return await next();
-    }
-    const session = await Session.findOne({
-      where: { id },
-    });
-    if (session == null) {
-      return ctx.throw(401, 'session expired');
-    }
-    ctx.session = session;
-    await next();
-  };
+async function getRequestSession(
+  ctx: Context,
+): Promise<Option<SessionInstance>> {
+  const id = ctx.headers.authorization;
+  if (id == null) {
+    return none;
+  }
+  const session = await Session.findOne({
+    where: { id },
+  });
+  if (session == null) {
+    return ctx.throw(401, 'session expired');
+  }
+  return some(session);
 }
 
 async function createSession(userId: UserId): Promise<SessionId> {
@@ -42,7 +36,7 @@ function generateSessionId(length: number): SessionId {
   for (let i = 0; i < length; i++) {
     a.push(letters.charAt(Math.random() * letters.length));
   }
-  return a.join('');
+  return asSessionId(a.join(''));
 }
 
-export { validateSession, createSession };
+export { getRequestSession, createSession };

@@ -2,7 +2,7 @@ import * as t from 'io-ts';
 import * as Router from 'koa-router';
 import * as Sequelize from 'sequelize';
 import { Attendee, Event, User } from '../../db/models';
-import { PublishState } from '../../db/models/event';
+import { asEventId, PublishState } from '../../db/models/event';
 import attendees from './attendees';
 
 const Op = Sequelize.Op;
@@ -15,12 +15,15 @@ router.use(
 );
 
 router.get('/', async ctx => {
-  const userId = ctx.session && ctx.session.userId;
+  const sessionUserId = await ctx.sessionUserId();
 
   ctx.status = 200;
   ctx.body = await Event.findAll({
     where: {
-      [Op.or]: [{ state: PublishState.Published }, { ownerUserId: userId }],
+      [Op.or]: [
+        { state: PublishState.Published },
+        { ownerUserId: sessionUserId },
+      ],
     },
   });
 });
@@ -30,8 +33,7 @@ const CreateEventRequest = t.type({
 });
 
 router.post('/', async ctx => {
-  const { userId: sessionUserId } = ctx.requireSession();
-
+  const { userId: sessionUserId } = await ctx.requireSession();
   const { name } = ctx.decode(CreateEventRequest);
 
   const event = await Event.create({
@@ -45,7 +47,8 @@ router.post('/', async ctx => {
 });
 
 router.delete('/:id', async ctx => {
-  const id = +ctx.param('id');
+  const id = asEventId(ctx.paramNumber('id'));
+
   const event = await Event.findOne({
     where: { id },
   });
@@ -59,7 +62,8 @@ router.delete('/:id', async ctx => {
 });
 
 router.get('/:id', async ctx => {
-  const id = +ctx.param('id');
+  const id = asEventId(ctx.paramNumber('id'));
+
   const event = await Event.findOne({
     where: { id },
   });
@@ -92,8 +96,8 @@ const PatchEventRequest = t.type({
 });
 
 router.patch('/:id', async ctx => {
-  const { userId: sessionUserId } = ctx.requireSession();
-  const id = +ctx.param('id');
+  const { userId: sessionUserId } = await ctx.requireSession();
+  const id = asEventId(ctx.paramNumber('id'));
   const { name, state } = ctx.decode(PatchEventRequest);
 
   const event = await Event.findOne({ where: { id } });

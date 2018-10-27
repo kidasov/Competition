@@ -3,7 +3,13 @@ import { sequelize } from '../db';
 import { Attendee } from './attendee';
 import { UserId } from './user';
 
-type EventId = number;
+interface EventId extends Number {
+  _eventIdBrand: string;
+}
+
+function asEventId(rawId: number): EventId {
+  return rawId as any;
+}
 
 enum PublishState {
   Draft = 'draft',
@@ -45,6 +51,7 @@ const EventModel = sequelize.define<EventInstance, EventAttributes>('event', {
 export default EventModel;
 export {
   EventId,
+  asEventId,
   PublishState,
   EventModel,
   EventAttributes,

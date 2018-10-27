@@ -1,7 +1,13 @@
 import * as Sequelize from 'sequelize';
 import { sequelize } from '../db';
 
-type UserId = number;
+interface UserId extends Number {
+  _userIdBrand: string;
+}
+
+function asUserId(rawId: number): UserId {
+  return rawId as any;
+}
 
 interface User {
   id: UserId;
@@ -32,4 +38,4 @@ const UserModel = sequelize.define<UserInstance, UserAttributes>('user', {
 });
 
 export default UserModel;
-export { UserId, UserAttributes, UserInstance, UserModel };
+export { UserId, asUserId, UserAttributes, UserInstance, UserModel };

@@ -2,6 +2,8 @@ import * as t from 'io-ts';
 import * as Router from 'koa-router';
 import { Attendee, Event } from '../../db/models';
 import { AttendeeRole, AttendeeStatus } from '../../db/models/attendee';
+import { asEventId } from '../../db/models/event';
+import { asUserId } from '../../db/models/user';
 
 const router = new Router();
 
@@ -15,8 +17,8 @@ const RegisterRequest = t.type({
 });
 
 router.post('/register', async ctx => {
-  const { userId } = ctx.requireSession();
-  const eventId = +ctx.param('eventId');
+  const { userId } = await ctx.requireSession();
+  const eventId = asEventId(ctx.paramNumber('eventId'));
   const { role } = ctx.decode(RegisterRequest);
 
   const event = await Event.findOne({
@@ -48,9 +50,9 @@ const AcceptRequest = t.partial({
 });
 
 router.put('/:userId/accept', async ctx => {
-  const { userId: sessionUserId } = ctx.requireSession();
-  const eventId = +ctx.param('eventId');
-  const userId = +ctx.param('userId');
+  const { userId: sessionUserId } = await ctx.requireSession();
+  const eventId = asEventId(ctx.paramNumber('eventId'));
+  const userId = asUserId(ctx.paramNumber('userId'));
   const { role } = ctx.decode(AcceptRequest);
 
   const event = await Event.findOne({
@@ -74,9 +76,9 @@ router.put('/:userId/accept', async ctx => {
 });
 
 router.delete('/:userId', async ctx => {
-  const { userId: sessionUserId } = ctx.requireSession();
-  const eventId = +ctx.param('eventId');
-  const userId = +ctx.param('userId');
+  const { userId: sessionUserId } = await ctx.requireSession();
+  const eventId = asEventId(ctx.paramNumber('eventId'));
+  const userId = asUserId(ctx.paramNumber('userId'));
 
   const event = await Event.findOne({
     where: { id: eventId },
@@ -86,7 +88,7 @@ router.delete('/:userId', async ctx => {
     return ctx.throw(404);
   }
 
-  if (event.ownerUserId !== sessionUserId && +userId !== sessionUserId) {
+  if (event.ownerUserId !== sessionUserId && userId !== sessionUserId) {
     return ctx.throw(403);
   }
 
