@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import * as Router from 'koa-router';
+import Router from 'koa-router';
 import { Attendee, Event } from '../../db/models';
 import { AttendeeRole, AttendeeStatus } from '../../db/models/attendee';
 import { asEventId } from '../../db/models/event';

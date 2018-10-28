@@ -1,4 +1,4 @@
-import * as Sequelize from 'sequelize';
+import Sequelize from 'sequelize';
 import { sequelize } from '../db';
 import { EventId, EventInstance, EventModel } from './event';
 import { UserId, UserModel } from './user';

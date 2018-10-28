@@ -149,7 +149,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
           break;
         case UploadEventType.Complete:
           this.uploading = false;
-          this.coverMediaId = uploadEvent.uploadId;
+          this.coverMediaId = uploadEvent.medias[0].id;
           break;
       }
     });

@@ -1,124 +1,79 @@
-// @ts-ignore
-import * as asyncBusboy from 'async-busboy';
-import * as Router from 'koa-router';
-import { LargeObjectManager } from 'pg-large-object';
-import { Readable } from 'stream';
-import { pool } from '../../db/db';
+import asyncBusboy from 'async-busboy';
+import Router from 'koa-router';
 import { Upload } from '../../db/models';
-import { asUploadId, UploadId } from '../../db/models/upload';
-import { UserId } from '../../db/models/user';
+import { asUploadId, UploadInstance } from '../../db/models/upload';
+import { serveMedia, storeMedia } from '../../services/media';
 
 const router = new Router();
 
-const createObject = async (
-  input: Readable,
-  fileName: string,
-  mimeType: string,
-  ownerUserId: UserId,
-): Promise<UploadId> => {
-  const pg = await pool.connect();
-  let uploadId: UploadId;
-  let size = 0;
-  try {
-    await pg.query('begin');
-    const objectManager = new LargeObjectManager({
-      pg,
-    });
-    const [
-      objectId,
-      output,
-    ] = await objectManager.createAndWritableStreamAsync();
-
-    uploadId = asUploadId(objectId);
-    input.pipe(output);
-    input.on('data', data => (size += data.length));
-
-    await new Promise((resolve, reject) => {
-      output.on('finish', resolve).on('error', reject);
-    });
-    await pg.query('commit');
-  } catch (e) {
-    await pg.query('rollback');
-    throw e;
-  } finally {
-    pg.release();
-  }
-  await Upload.create({
-    id: uploadId,
-    fileName,
-    mimeType,
-    ownerUserId,
-    size,
-  });
-  return uploadId;
-};
-
 router.post('/', async ctx => {
   const { userId: sessionUserId } = await ctx.requireSession();
-  let promise = null;
+  const promises = [] as Array<Promise<UploadInstance>>;
   await asyncBusboy(ctx.req, {
-    onFile(
-      fieldname: string,
-      file: Readable,
-      fileName: string,
-      encoding: string,
-      mimeType: string,
-    ) {
-      promise = createObject(file, fileName, mimeType, sessionUserId);
+    onFile(fieldName, file, fileName, encoding, mimeType) {
+      promises.push(storeMedia(sessionUserId, file, { fileName, mimeType }));
     },
   });
 
-  if (!promise) {
-    return ctx.throw(400);
-  }
-
-  const uploadId = await promise;
+  const medias = await Promise.all(promises);
 
   ctx.status = 200;
-  ctx.body = {
-    uploadId,
-  };
+  ctx.body = medias;
 });
 
-router.get('/:uploadId', async ctx => {
-  const uploadId = ctx.paramNumber('uploadId');
+router.get('/:mediaId', async ctx => {
+  const mediaId = asUploadId(ctx.paramNumber('mediaId'));
 
-  const upload = await Upload.findOne({
-    where: { id: uploadId },
+  const media = await Upload.findOne({
+    where: { id: mediaId },
   });
 
-  if (!upload) {
+  if (media == null) {
     return ctx.throw(404);
   }
 
-  const pg = await pool.connect();
-  try {
-    await pg.query('begin');
-    const objectManager = new LargeObjectManager({
-      pg,
-    });
+  if (media.size === 0) {
+    ctx.status = 204;
+    return;
+  }
 
-    const [size, stream] = await objectManager.openAndReadableStreamAsync(
-      uploadId,
-    );
+  const fileSize = media.size;
+  const mimeType = media.mimeType;
 
-    ctx.set('Content-Type', upload.mimeType);
-    ctx.set('Content-Length', `${size}`);
-    ctx.status = 200;
-    ctx.respond = false;
+  function parseRange(): [boolean, number, number] {
+    const range = ctx.get('range');
+    if (range == null || range.length === 0) {
+      return [false, 0, fileSize - 1];
+    }
+    const matches = range.match(/^\s*bytes\s*=\s*(\d+)\-(\d*)\s*$/);
+    if (matches == null) {
+      return ctx.throw(416);
+    }
+    const rangeStart = +matches[1];
+    if (matches[2].length === 0) {
+      return [true, rangeStart, fileSize - 1];
+    }
+    const rangeEnd = +matches[2];
+    return [true, rangeStart, rangeEnd];
+  }
 
-    await new Promise((resolve, reject) => {
-      stream
-        .pipe(ctx.res)
-        .on('end', resolve)
-        .on('error', reject);
-    });
-    await pg.query('commit');
-  } catch (e) {
-    await pg.query('rollback');
-    throw e;
-  } finally {
-    pg.release();
+  const [withRange, start, end] = parseRange();
+  const length = end - start + 1;
+  if (withRange && (start >= fileSize || end >= fileSize || length < 0)) {
+    return ctx.throw(416);
+  }
+
+  ctx.set('Accept-Ranges', 'bytes');
+  ctx.set('Content-Type', mimeType);
+  ctx.set('Content-Length', `${length}`);
+  if (withRange) {
+    ctx.set('Content-Range', `bytes ${start}-${end}/${fileSize}`);
+  }
+  ctx.status = withRange ? 206 : 200;
+  ctx.respond = false;
+
+  if (ctx.res.connection && !ctx.res.connection.destroyed) {
+    await serveMedia(mediaId, ctx.res, { start, end, fileSize });
   }
 });
 

@@ -1,4 +1,4 @@
-import * as Sequelize from 'sequelize';
+import Sequelize from 'sequelize';
 import { sequelize } from '../db';
 import { Attendee } from './attendee';
 import { UploadId } from './upload';

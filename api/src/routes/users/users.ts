@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import * as Router from 'koa-router';
+import Router from 'koa-router';
 import { Op } from 'sequelize';
 import { Attendee, Event, User } from '../../db/models';
 import { PublishState } from '../../db/models/event';

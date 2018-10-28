@@ -1,7 +1,7 @@
-import * as cors from '@koa/cors';
+import cors from '@koa/cors';
 import { failure } from 'io-ts/lib/PathReporter';
-import * as Koa from 'koa';
-import * as bodyParser from 'koa-bodyparser';
+import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
 import logger from './logger';
 import router from './routes/routes';
 import { getRequestSession } from './services/auth';

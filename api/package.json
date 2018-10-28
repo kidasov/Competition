@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node_modules/.bin/babel src/ -d lib/",
-    "start": "onchange -i -k 'src/**/*.ts' -- ts-node src",
-    "lint": "tslint -p tsconfig.json -c tslint.json"
+    "start": "yarn install && onchange -i -k 'src/**/*.ts' -- ts-node src",
+    "lint": "tsc --noEmit --noUnusedLocals && tslint -p tsconfig.json -c tslint.json"
   },
   "author": "Bulat Kidasov <kidasov@gmail.com>",
   "license": "ISC",
@@ -26,7 +26,7 @@
     "sequelize": "^4.38.0",
     "sequelize-cli": "^4.0.0",
     "winston": "^3.1.0",
-    "winston-elasticsearch": "git+ssh://git@github.com:rkivalin/winston-elasticsearch.git#master"
+    "winston-elasticsearch": "^0.7.5"
   },
   "devDependencies": {
     "@types/elasticsearch": "^5.0.28",

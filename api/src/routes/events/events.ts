@@ -1,6 +1,6 @@
 import * as t from 'io-ts';
-import * as Router from 'koa-router';
-import * as Sequelize from 'sequelize';
+import Router from 'koa-router';
+import Sequelize from 'sequelize';
 import { Attendee, Event, User } from '../../db/models';
 import { asEventId, PublishState } from '../../db/models/event';
 import { asUploadId } from '../../db/models/upload';
