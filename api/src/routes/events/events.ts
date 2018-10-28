@@ -26,6 +26,11 @@ router.get('/', async ctx => {
         { ownerUserId: sessionUserId },
       ],
     },
+    include: [
+      {
+        model: User,
+      },
+    ],
   });
 });
 

@@ -1,44 +1,6 @@
 <div class="event-grid">
   <ng-container *ngFor="let event of events">
-    <div class="card">
-      <a [routerLink]="['/events', event.id]">View event</a>
-      <div class="content">
-        <div class="name">
-          {{ event.name }}
-        </div>
-        <div class="info">
-          <div class="city">
-            <div class="info-header">
-              Город
-            </div>
-            <div class="info-text">
-              {{ event.location }}
-            </div>
-          </div>
-          <div class="date">
-            <div class="info-header">
-              Дата
-            </div>
-            <div class="info-text">
-              {{ formatDate(event.createdAt) }}
-            </div>
-          </div>
-          <div class="participants">
-            <div class="info-header">
-              Участников
-            </div>
-            <div class="info-text">
-              10
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="description-wrapper">
-        <div class="description">
-          {{ event.description }}
-        </div>
-      </div>
-    </div>
+    <app-event-card class="card" [event]="event"></app-event-card>
     <!-- <app-dropdown-menu>
       <span>Edit</span>
       <span (click)="removeEvent(event)">Delete</span>

@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AuthVkComponent } from './auth-vk/auth-vk.component';
 import { ButtonComponent } from './components/button/button.component';
 import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
+import { EventCardComponent } from './components/event-card/event-card.component';
 import { EventsComponent } from './components/events/events.component';
 import { HeaderComponent } from './components/header/header.component';
 import { IconButtonComponent } from './components/icon-button/icon-button.component';
@@ -56,6 +57,7 @@ import { UsersPageComponent } from './routes/users-page/users-page.component';
     UserPageComponent,
     AuthVkComponent,
     ProgressBarComponent,
+    EventCardComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),

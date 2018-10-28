@@ -1,4 +1,5 @@
 import { Id } from 'app/types/types';
+import { User } from './user';
 
 export class EventData {
   name: string;
@@ -22,6 +23,10 @@ export interface Attendee {
   status: 'join_request' | 'invited' | 'approved';
   role: 'owner' | 'participant' | 'watcher' | 'judge';
   joinedAt: Date;
+}
+
+export interface EventWithUsers extends Event {
+  users: User[];
 }
 
 export class DetailedEvent extends Event {
