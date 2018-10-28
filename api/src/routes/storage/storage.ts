@@ -1,5 +1,6 @@
 import asyncBusboy from 'async-busboy';
 import Router from 'koa-router';
+import moment from 'moment';
 import { Upload } from '../../db/models';
 import { asUploadId, UploadInstance } from '../../db/models/upload';
 import { serveMedia, storeMedia } from '../../services/media';
@@ -30,6 +31,17 @@ router.get('/:mediaId', async ctx => {
 
   if (media == null) {
     return ctx.throw(404);
+  }
+
+  const lastModified = moment(media.createdAt).utc().format('ddd, D MMM YYYY H:mm:ss [GMT]');
+  ctx.set('Last-Modified', lastModified);
+  ctx.set('Cache-Control', 'public, max-age=31536000');
+  ctx.set('Accept-Ranges', 'bytes');
+
+  const ifModifiedSince = ctx.get('if-modified-since');
+  if (ifModifiedSince != null && ifModifiedSince === lastModified) {
+    ctx.status = 304;
+    return;
   }
 
   if (media.size === 0) {
@@ -63,7 +75,6 @@ router.get('/:mediaId', async ctx => {
     return ctx.throw(416);
   }
 
-  ctx.set('Accept-Ranges', 'bytes');
   ctx.set('Content-Type', mimeType);
   ctx.set('Content-Length', `${length}`);
   if (withRange) {
