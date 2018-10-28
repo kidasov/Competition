@@ -1,4 +1,4 @@
 <div class="container">
-  <div class="progress" [style]="'flex: ' + progress"></div>
-  <div class="rest" [style]="'flex: ' + (1 - progress)"></div>
+  <div class="filled" [ngStyle]="filledStyle"></div>
+  <div class="empty" [ngStyle]="emptyStyle"></div>
 </div>

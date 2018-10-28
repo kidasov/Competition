@@ -1,16 +1,19 @@
 .container {
+  flex: 1;
   display: flex;
   flex-flow: row nowrap;
+}
+
+.filled {
   height: 4px;
-  align-items: stretch;
-}
-
-.progress {
-  height: 100%;
   background-color: #d24d57;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
 }
 
-.rest {
-  height: 100%;
+.empty {
+  height: 4px;
   background-color: #eeeeee;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
 }

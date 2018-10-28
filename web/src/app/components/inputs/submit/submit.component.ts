@@ -16,7 +16,14 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 export class SubmitComponent implements OnInit {
   @Input()
   value: string;
+  @Input()
+  enabled = true;
+
   constructor() {}
 
   ngOnInit() {}
+
+  get classes() {
+    return this.enabled ? '' : 'disabled';
+  }
 }
