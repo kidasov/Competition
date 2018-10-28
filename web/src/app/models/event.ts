@@ -7,6 +7,7 @@ export class EventData {
   ownerUserId: Id;
   location: string;
   description: string;
+  coverMediaId: Id;
   state: 'published' | 'draft';
 }
 

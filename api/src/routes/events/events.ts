@@ -3,6 +3,7 @@ import * as Router from 'koa-router';
 import * as Sequelize from 'sequelize';
 import { Attendee, Event, User } from '../../db/models';
 import { asEventId, PublishState } from '../../db/models/event';
+import { asUploadId } from '../../db/models/upload';
 import attendees from './attendees';
 
 const Op = Sequelize.Op;
@@ -87,18 +88,19 @@ router.get('/:id', async ctx => {
   ctx.status = 200;
 });
 
-const PatchEventRequest = t.type({
+const PatchEventRequest = t.partial({
   name: t.string,
   state: t.union([
     t.literal(PublishState.Draft),
     t.literal(PublishState.Published),
   ]),
+  coverMediaId: t.number,
 });
 
 router.patch('/:id', async ctx => {
   const { userId: sessionUserId } = await ctx.requireSession();
   const id = asEventId(ctx.paramNumber('id'));
-  const { name, state } = ctx.decode(PatchEventRequest);
+  const { name, state, coverMediaId } = ctx.decode(PatchEventRequest);
 
   const event = await Event.findOne({ where: { id } });
 
@@ -110,7 +112,14 @@ router.patch('/:id', async ctx => {
     return ctx.throw(403);
   }
 
-  await Event.update({ name, state }, { where: { id } });
+  await Event.update(
+    {
+      name,
+      state,
+      coverMediaId: coverMediaId != null ? asUploadId(coverMediaId) : null,
+    },
+    { where: { id } },
+  );
 
   const updatedEvent = await Event.findOne({ where: { id } });
 

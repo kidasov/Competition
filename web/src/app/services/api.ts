@@ -1,4 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpEvent,
+  HttpHeaders,
+  HttpRequest,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -46,6 +51,15 @@ export class ApiService {
     return this.http
       .delete(this.formatUrl(path), this.options)
       .pipe(this.errorHandler);
+  }
+
+  upload<T>(path: string, formData: FormData): Observable<HttpEvent<T>> {
+    const req = new HttpRequest('POST', this.formatUrl(path), formData, {
+      ...this.options,
+      reportProgress: true,
+    });
+
+    return this.http.request(req);
   }
 
   private formatUrl(path: string): string {

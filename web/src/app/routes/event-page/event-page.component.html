@@ -3,6 +3,8 @@
     <form class="form" [formGroup]="editForm" (ngSubmit)="saveEvent($event);">
       <fieldset class="form-group">
         <app-input class="input" formControlName="name" placeholder="Name" defaultValue="{{event.name}}"></app-input>
+        <input type="file" value="Select image" (change)="upload($event)" />
+        <app-progress-bar *ngIf="uploading" [progress]="uploadProgress"></app-progress-bar>
         <app-switch formControlName="publish" label="Publish" [defaultValue]="published"></app-switch>
         <app-submit class="input" value="Save"></app-submit>
       </fieldset>
@@ -16,6 +18,7 @@
       <app-button class="button" *ngIf="eventOwner" (click)="showEditPopup($event)" value="Edit"></app-button>
     </div>
   </div>
+  <img *ngIf="event.coverMediaId" [src]="'http://localhost:3003/storage/' + event.coverMediaId" />
   <app-attendees-table *ngIf="pretenders.length > 0" [eventOwner]="eventOwner" (add)="accept($event)" (remove)="removeUser($event)"
     title="Pretenders" [attendees]="pretenders">
   </app-attendees-table>

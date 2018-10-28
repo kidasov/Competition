@@ -17,6 +17,7 @@ interface PatchEventParams {
   date?: Date;
   name?: String;
   state?: 'published' | 'draft';
+  coverMediaId?: Id;
 }
 
 @Injectable({

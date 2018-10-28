@@ -1,6 +1,7 @@
 import * as Sequelize from 'sequelize';
 import { sequelize } from '../db';
 import { Attendee } from './attendee';
+import { UploadId } from './upload';
 import { UserId } from './user';
 
 interface EventId extends Number {
@@ -27,6 +28,7 @@ interface Event {
   description: string;
   attendees: Attendee[];
   state: PublishState;
+  coverMediaId: UploadId | null;
 }
 
 type EventAttributes = Partial<Event>;
@@ -46,6 +48,7 @@ const EventModel = sequelize.define<EventInstance, EventAttributes>('event', {
   description: Sequelize.STRING,
   attendees: Sequelize.VIRTUAL,
   state: Sequelize.ENUM(PublishState.Draft, PublishState.Published),
+  coverMediaId: Sequelize.INTEGER,
 });
 
 export default EventModel;

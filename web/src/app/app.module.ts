@@ -16,6 +16,7 @@ import { InputComponent } from './components/inputs/input/input.component';
 import { SubmitComponent } from './components/inputs/submit/submit.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { PopupComponent } from './components/popup/popup.component';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SwitchComponent } from './components/switch/switch.component';
 import { AttendeesTableComponent } from './routes/event-page/components/attendees-table/attendees-table.component';
@@ -54,6 +55,7 @@ import { UsersPageComponent } from './routes/users-page/users-page.component';
     SwitchComponent,
     UserPageComponent,
     AuthVkComponent,
+    ProgressBarComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),
