@@ -1,8 +1,8 @@
 import * as t from 'io-ts';
-import * as Router from 'koa-router';
+import Router from 'koa-router';
 import fetch from 'node-fetch';
-import * as querystring from 'querystring';
-import * as scrypt from 'scrypt';
+import querystring from 'querystring';
+import scrypt from 'scrypt';
 import { User } from '../../db/models';
 import logger from '../../logger';
 import { createSession } from '../../services/auth';

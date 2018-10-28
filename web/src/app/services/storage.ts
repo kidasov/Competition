@@ -1,8 +1,15 @@
 import { HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Id } from 'app/types/types';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiService } from './api';
+
+export class Media {
+  id: Id;
+  fileName: number;
+  fileSize: number;
+}
 
 export enum UploadEventType {
   Progress,
@@ -16,14 +23,12 @@ export interface UploadProgress {
 
 export interface UploadComplete {
   type: UploadEventType.Complete;
-  uploadId: number;
+  medias: Media[];
 }
 
 export type UploadEvent = UploadProgress | UploadComplete;
 
-interface UploadResponse {
-  uploadId: number;
-}
+type UploadResponse = Media[];
 
 function uploadProgress(progress: number): UploadProgress {
   return {
@@ -32,10 +37,10 @@ function uploadProgress(progress: number): UploadProgress {
   };
 }
 
-function uploadComplete(uploadId: number): UploadComplete {
+function uploadComplete(medias: Media[]): UploadComplete {
   return {
     type: UploadEventType.Complete,
-    uploadId,
+    medias,
   };
 }
 
@@ -56,7 +61,7 @@ export class StorageService {
           case HttpEventType.UploadProgress:
             return uploadProgress(httpEvent.loaded / httpEvent.total);
           case HttpEventType.Response:
-            return uploadComplete(httpEvent.body.uploadId);
+            return uploadComplete(httpEvent.body);
           default:
             return uploadProgress(1);
         }

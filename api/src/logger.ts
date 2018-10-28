@@ -1,5 +1,5 @@
 import { createLogger } from 'winston';
-import * as Elasticsearch from 'winston-elasticsearch';
+import Elasticsearch from 'winston-elasticsearch';
 
 const logger = createLogger({
   transports: [new Elasticsearch({})],

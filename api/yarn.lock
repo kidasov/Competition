@@ -2584,9 +2584,9 @@ wide-align@^1.1.0:
   dependencies:
     string-width "^1.0.2 || 2"
 
-"winston-elasticsearch@git+ssh://git@github.com:rkivalin/winston-elasticsearch.git#master":
+winston-elasticsearch@^0.7.5:
   version "0.7.5"
-  resolved "git+ssh://git@github.com:rkivalin/winston-elasticsearch.git#6aaca0bdede1287cacadd4a12262b7af13f8c809"
+  resolved "https://registry.yarnpkg.com/winston-elasticsearch/-/winston-elasticsearch-0.7.5.tgz#186a0239c1fe16dc2014f796722e6ac92da62810"
   dependencies:
     debug "^4.0.1"
     elasticsearch "^15.1.1"

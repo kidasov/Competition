@@ -4,6 +4,7 @@
     "module": "commonjs",
     "rootDir": "./src",
     "strict": true,
+    "esModuleInterop": true,
     "typeRoots": ["./src/typings"]
   },
   "include": ["./src"]

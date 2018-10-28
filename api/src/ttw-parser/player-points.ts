@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import * as querystring from 'querystring';
+import querystring from 'querystring';
 
 export interface TtwRatingPoint {
   playerId: string;
