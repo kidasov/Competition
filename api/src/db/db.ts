@@ -29,3 +29,30 @@ export async function runInTransaction<T>(
     pg.release();
   }
 }
+
+export async function beginTransaction() {
+  const client = await pool.connect();
+  try {
+    await client.query('begin');
+    return {
+      client,
+      async commit() {
+        try {
+          await client.query('commit');
+        } finally {
+          client.release();
+        }
+      },
+      async rollback() {
+        try {
+          await client.query('rollback');
+        } finally {
+          client.release();
+        }
+      },
+    };
+  } catch (e) {
+    client.release();
+    throw e;
+  }
+}

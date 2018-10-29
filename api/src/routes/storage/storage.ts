@@ -33,7 +33,9 @@ router.get('/:mediaId', async ctx => {
     return ctx.throw(404);
   }
 
-  const lastModified = moment(media.createdAt).utc().format('ddd, D MMM YYYY H:mm:ss [GMT]');
+  const lastModified = moment(media.createdAt)
+    .utc()
+    .format('ddd, D MMM YYYY H:mm:ss [GMT]');
   ctx.set('Last-Modified', lastModified);
   ctx.set('Cache-Control', 'public, max-age=31536000');
   ctx.set('Accept-Ranges', 'bytes');
@@ -81,11 +83,7 @@ router.get('/:mediaId', async ctx => {
     ctx.set('Content-Range', `bytes ${start}-${end}/${fileSize}`);
   }
   ctx.status = withRange ? 206 : 200;
-  ctx.respond = false;
-
-  if (ctx.res.connection && !ctx.res.connection.destroyed) {
-    await serveMedia(mediaId, ctx.res, { start, end, fileSize });
-  }
+  ctx.body = await serveMedia(mediaId, { start, end, fileSize });
 });
 
 export default router;
