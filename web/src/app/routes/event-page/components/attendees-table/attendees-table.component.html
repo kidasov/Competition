@@ -1,21 +1,27 @@
 <div>
   <div class="attendees-grid">
     <div class="title">{{ title }}</div>
+    <div class="header number">
+
+    </div>
     <div class="header name">
       Name
     </div>
     <div class="header email">
-      City
+      Rating
     </div>
     <div class="header options">
       Options
     </div>
-    <ng-container *ngFor="let attendee of attendees">
+    <ng-container *ngFor="let attendee of attendees; let i = index;">
+      <div class="column number">
+        {{ i + 1 }}
+      </div>
       <div class="column name">
         {{ attendee.user.firstName + " " + attendee.user.lastName }}
       </div>
       <div class="column city">
-        Samara
+        {{ attendee.user.rating }}
       </div>
       <div class="column options">
         <app-icon-button class="button" *ngIf="showAdd(attendee)" (click)="handleAdd(attendee)" image="/assets/baseline-add_circle_outline-24px.svg"></app-icon-button>

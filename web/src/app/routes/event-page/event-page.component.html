@@ -10,7 +10,8 @@
             <input type="file" accept="image/*" (change)="upload($event)" />
             <app-button form="primary" value="Изменить"></app-button>
           </label>
-          <app-button *ngIf="!uploading && coverMediaId" class="edit-cover-remove" form="primary" value="Удалить" (click)="removeCover()"></app-button>
+          <app-button *ngIf="!uploading && coverMediaId" class="edit-cover-remove" form="primary" value="Удалить"
+            (click)="removeCover()"></app-button>
         </div>
         <app-switch formControlName="publish" label="Publish" [defaultValue]="published"></app-switch>
         <app-submit class="input" value="Save" [enabled]="!uploading"></app-submit>
@@ -25,14 +26,31 @@
       <app-button class="button" *ngIf="eventOwner" (click)="showEditPopup($event)" value="Edit"></app-button>
     </div>
   </div>
-  <img *ngIf="event.coverMediaId" [src]="'http://localhost:3003/storage/' + event.coverMediaId" />
-  <app-attendees-table *ngIf="pretenders.length > 0" [eventOwner]="eventOwner" (add)="accept($event)" (remove)="removeUser($event)"
-    title="Pretenders" [attendees]="pretenders">
-  </app-attendees-table>
-  <app-attendees-table *ngIf="participants.length > 0" [eventOwner]="eventOwner" (remove)="removeUser($event)" title="Participants"
-    [attendees]="participants">
-  </app-attendees-table>
-  <app-attendees-table *ngIf="invited.length > 0" [eventOwner]="eventOwner" (remove)="removeUser($event)" title="Invited"
-    [attendees]="invited">
-  </app-attendees-table>
+  <div class="event-content">
+    <div class="left">
+      <div class="description text">
+        Очень большоое пребольшое описание у ивента. Просим всех в гости
+      </div>
+      <div class="date-container text">
+        <div class="date-header">
+          Дата
+        </div>
+        <div class="date">
+          {{ date }}
+        </div>
+      </div>
+      <app-attendees-table *ngIf="pretenders.length > 0" [eventOwner]="eventOwner" (add)="accept($event)" (remove)="removeUser($event)"
+        title="Pretenders" [attendees]="pretenders">
+      </app-attendees-table>
+      <app-attendees-table *ngIf="participants.length > 0" [eventOwner]="eventOwner" (remove)="removeUser($event)"
+        title="Participants" [attendees]="participants">
+      </app-attendees-table>
+      <app-attendees-table *ngIf="invited.length > 0" [eventOwner]="eventOwner" (remove)="removeUser($event)" title="Invited"
+        [attendees]="invited">
+      </app-attendees-table>
+    </div>
+    <div class="right">
+      <img *ngIf="event.coverMediaId" [src]="'http://localhost:3003/storage/' + event.coverMediaId" />
+    </div>
+  </div>
 </div>

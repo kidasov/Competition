@@ -70,3 +70,58 @@
   position: absolute;
   z-index: -1;
 }
+
+.event-content {
+  display: flex;
+  flex-direction: row;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.right > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.date-header {
+  grid-area: 2 / 1 / 2 / 2;
+}
+
+.date {
+  grid-area: 2 / 2 / 2 / 3;
+}
+
+.date-container {
+  display: flex;
+  align-self: stretch;
+}
+
+.date {
+  margin-left: 20px;
+}
+
+.left {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.right {
+  flex: 1;
+  margin-left: 10px;
+}
+
+.text {
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.description {
+  margin-bottom: 50px;
+}
+
+.date-container {
+  margin-bottom: 50px;
+}

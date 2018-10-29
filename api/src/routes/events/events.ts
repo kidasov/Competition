@@ -84,7 +84,7 @@ router.get('/:id', async ctx => {
     include: [
       {
         model: User,
-        attributes: ['id', 'firstName', 'lastName'],
+        attributes: ['id', 'firstName', 'lastName', 'rating'],
       },
     ],
   });

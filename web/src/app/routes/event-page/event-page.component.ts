@@ -7,6 +7,7 @@ import { AuthProvider } from 'app/services/auth/provider';
 import { EventService } from 'app/services/event';
 import { StorageService, UploadEventType } from 'app/services/storage';
 import { Id } from 'app/types/types';
+import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -70,6 +71,26 @@ export class EventPageComponent implements OnInit, OnDestroy {
         pretender => pretender.userId === this.authProvider.userId,
       )
     );
+  }
+
+  get name() {
+    return this.event.name;
+  }
+
+  get location() {
+    return this.event.location;
+  }
+
+  get date() {
+    return moment(this.event.createdAt).format('MMMM DD, YYYY, HH:mm');
+  }
+
+  get attendees() {
+    return this.event.attendees.length;
+  }
+
+  get description() {
+    return this.event.description;
   }
 
   ngOnInit() {
