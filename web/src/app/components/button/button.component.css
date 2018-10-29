@@ -77,6 +77,8 @@ a.primary {
   border-color: transparent;
   color: #fff;
   cursor: pointer;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 a.primary:hover {

@@ -9,6 +9,14 @@ export class ProgressBarComponent implements OnInit {
   @Input()
   progress = 0;
 
+  get filledStyle() {
+    return { flex: Math.floor(this.progress * 1000) };
+  }
+
+  get emptyStyle() {
+    return { flex: 1000 - this.filledStyle.flex };
+  }
+
   constructor() {}
 
   ngOnInit() {}

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { API_URL } from 'app/consts/common';
 import { Attendee, DetailedEvent } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
 import { EventService } from 'app/services/event';
@@ -21,6 +22,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
   uploading = false;
   uploadProgress = 0;
   coverMediaId: number;
+  previewCoverImage: string = null;
 
   constructor(
     private eventService: EventService,
@@ -126,6 +128,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   showEditPopup() {
     this.showEdit = true;
+    this.coverMediaId = this.event.coverMediaId;
   }
 
   closeEditPopup() {
@@ -134,10 +137,16 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   upload(event: Event) {
     const files = (event.target as HTMLInputElement).files;
-
     if (!files.length) {
       return;
     }
+    const file = files[0];
+
+    const reader = new FileReader();
+    reader.addEventListener('loadend', () => {
+      this.previewCoverImage = reader.result as string;
+    });
+    reader.readAsDataURL(file);
 
     this.uploading = true;
     this.uploadProgress = 0;
@@ -153,5 +162,21 @@ export class EventPageComponent implements OnInit, OnDestroy {
           break;
       }
     });
+  }
+
+  get editCoverPreviewStyle() {
+    const url = this.uploading
+      ? this.previewCoverImage
+      : `${API_URL}/storage/${this.coverMediaId}`;
+    return {
+      backgroundImage: `url('${url}')`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    };
+  }
+
+  removeCover() {
+    this.coverMediaId = null;
   }
 }

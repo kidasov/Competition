@@ -3,10 +3,17 @@
     <form class="form" [formGroup]="editForm" (ngSubmit)="saveEvent($event);">
       <fieldset class="form-group">
         <app-input class="input" formControlName="name" placeholder="Name" defaultValue="{{event.name}}"></app-input>
-        <input type="file" value="Select image" (change)="upload($event)" />
-        <app-progress-bar *ngIf="uploading" [progress]="uploadProgress"></app-progress-bar>
+        <div class="edit-cover-layout">
+          <div class="edit-cover-preview" [ngStyle]="editCoverPreviewStyle"></div>
+          <app-progress-bar *ngIf="uploading" class="edit-cover-upload-progress" [progress]="uploadProgress"></app-progress-bar>
+          <label *ngIf="!uploading" class="edit-cover-change">
+            <input type="file" accept="image/*" (change)="upload($event)" />
+            <app-button form="primary" value="Изменить"></app-button>
+          </label>
+          <app-button *ngIf="!uploading && coverMediaId" class="edit-cover-remove" form="primary" value="Удалить" (click)="removeCover()"></app-button>
+        </div>
         <app-switch formControlName="publish" label="Publish" [defaultValue]="published"></app-switch>
-        <app-submit class="input" value="Save"></app-submit>
+        <app-submit class="input" value="Save" [enabled]="!uploading"></app-submit>
       </fieldset>
     </form>
   </app-popup>

@@ -16,6 +16,11 @@ input {
   cursor: pointer;
 }
 
+input.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
 input:hover {
   background: #17c;
 }
