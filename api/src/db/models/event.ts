@@ -20,9 +20,9 @@ enum PublishState {
 interface Event {
   id: EventId;
   name: string;
-  createdAt: string;
-  startsAt: string;
-  endsAt: string;
+  createdAt: Date;
+  startsAt: Date;
+  endsAt: Date;
   ownerUserId: UserId;
   location: string;
   description: string;

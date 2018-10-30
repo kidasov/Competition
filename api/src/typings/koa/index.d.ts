@@ -8,7 +8,7 @@ declare module 'koa' {
     session(): Promise<Option<SessionInstance>>;
     requireSession(): Promise<SessionInstance>;
     sessionUserId(): Promise<UserId | null>;
-    decode<T>(type: t.Type<T>): T;
+    decode<T>(type: t.Type<T, any>): T;
     paramString(name: string): string;
     paramNumber(name: string): number;
   }

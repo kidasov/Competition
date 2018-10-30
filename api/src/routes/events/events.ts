@@ -4,6 +4,7 @@ import Sequelize from 'sequelize';
 import { Attendee, Event, User } from '../../db/models';
 import { asEventId, PublishState } from '../../db/models/event';
 import { asUploadId } from '../../db/models/upload';
+import { IsoDate } from '../../io-types';
 import attendees from './attendees';
 
 const Op = Sequelize.Op;
@@ -99,13 +100,17 @@ const PatchEventRequest = t.partial({
     t.literal(PublishState.Draft),
     t.literal(PublishState.Published),
   ]),
-  coverMediaId: t.number,
+  coverMediaId: t.union([t.number, t.null]),
+  startsAt: IsoDate,
+  endsAt: IsoDate,
 });
 
 router.patch('/:id', async ctx => {
   const { userId: sessionUserId } = await ctx.requireSession();
   const id = asEventId(ctx.paramNumber('id'));
-  const { name, state, coverMediaId } = ctx.decode(PatchEventRequest);
+  const { name, state, coverMediaId, startsAt, endsAt } = ctx.decode(
+    PatchEventRequest,
+  );
 
   const event = await Event.findOne({ where: { id } });
 
@@ -121,7 +126,12 @@ router.patch('/:id', async ctx => {
     {
       name,
       state,
-      coverMediaId: coverMediaId != null ? asUploadId(coverMediaId) : null,
+      coverMediaId:
+        typeof coverMediaId === 'number'
+          ? asUploadId(coverMediaId)
+          : coverMediaId,
+      startsAt,
+      endsAt,
     },
     { where: { id } },
   );

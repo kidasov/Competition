@@ -71,6 +71,18 @@
   z-index: -1;
 }
 
+.edit-date-layout {
+  color: #444444;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  padding: 8px 20px;
+}
+
+.edit-date-layout .filler {
+  flex: 1;
+}
+
 .event-content {
   display: flex;
   flex-direction: row;
