@@ -33,10 +33,16 @@ export class EventPageComponent implements OnInit, OnDestroy {
     private storageService: StorageService,
   ) {}
 
-  editForm = new FormGroup({
+  controls = {
     name: new FormControl(),
     publish: new FormControl(),
-  });
+    startsAtDate: new FormControl(),
+    startsAtTime: new FormControl(),
+    endsAtDate: new FormControl(),
+    endsAtTime: new FormControl(),
+  };
+
+  editForm = new FormGroup(this.controls);
 
   get participants(): Attendee[] {
     return this.event.attendees.filter(
@@ -82,7 +88,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
   }
 
   get date() {
-    return moment(this.event.createdAt).format('MMMM DD, YYYY, HH:mm');
+    return moment(this.event.startsAt).lang('ru').format('D MMMM YYYY, HH:mm');
   }
 
   get attendees() {
@@ -137,9 +143,11 @@ export class EventPageComponent implements OnInit, OnDestroy {
   saveEvent() {
     this.eventService
       .patchEvent(this.event.id, {
-        name: this.editForm.get('name').value,
-        state: this.editForm.get('publish').value ? 'published' : 'draft',
+        name: this.controls.name.value,
+        state: this.controls.publish.value ? 'published' : 'draft',
         coverMediaId: this.coverMediaId,
+        startsAt: this.enteredStartsAt,
+        endsAt: this.enteredEndsAt,
       })
       .subscribe(() => {
         this.fetchEvent();
@@ -172,7 +180,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
     this.uploading = true;
     this.uploadProgress = 0;
 
-    return this.storageService.uploadFile(files[0]).subscribe(uploadEvent => {
+    return this.storageService.uploadFile(file).subscribe(uploadEvent => {
       switch (uploadEvent.type) {
         case UploadEventType.Progress:
           this.uploadProgress = uploadEvent.progress;
@@ -199,5 +207,57 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   removeCover() {
     this.coverMediaId = null;
+  }
+
+  get startsAtDate(): string | undefined {
+    if (this.event == null || this.event.startsAt == null) {
+      return;
+    }
+    return moment(this.event.startsAt).format('YYYY-MM-DD');
+  }
+
+  get startsAtTime(): string {
+    if (this.event == null || this.event.startsAt == null) {
+      return '00:00';
+    }
+    return moment(this.event.startsAt).format('HH:mm');
+  }
+
+  get enteredStartsAt(): Date | undefined {
+    return this.parseDate(
+      this.controls.startsAtDate.value || this.startsAtDate,
+      this.controls.startsAtTime.value || this.startsAtTime,
+    );
+  }
+
+  get endsAtDate(): string | undefined {
+    if (this.event == null || this.event.endsAt == null) {
+      return;
+    }
+    return moment(this.event.endsAt).format('YYYY-MM-DD');
+  }
+
+  get endsAtTime(): string {
+    if (this.event == null || this.event.endsAt == null) {
+      return '00:00';
+    }
+    return moment(this.event.endsAt).format('HH:mm');
+  }
+
+  get enteredEndsAt(): Date | null {
+    return this.parseDate(
+      this.controls.endsAtDate.value || this.endsAtDate,
+      this.controls.endsAtTime.value || this.endsAtTime,
+    );
+  }
+
+  private parseDate(date: string | null, time: string | null): Date | null {
+    if (date == null || time == null) {
+      return null;
+    }
+    const parsed = moment(
+      `${date} ${time}`,
+    ).toDate();
+    return !Number.isNaN(parsed.getDate()) ? parsed : null;
   }
 }

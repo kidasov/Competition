@@ -14,10 +14,11 @@ interface AcceptParams {
 }
 
 interface PatchEventParams {
-  date?: Date;
-  name?: String;
+  name?: string;
   state?: 'published' | 'draft';
   coverMediaId?: Id;
+  startsAt?: Date;
+  endsAt?: Date;
 }
 
 @Injectable({
@@ -62,6 +63,12 @@ export class EventService {
   }
 
   public patchEvent(eventId: Id, params: PatchEventParams): Observable<Event> {
-    return this.api.patch(`/events/${eventId}`, params);
+    const { startsAt, endsAt, ...rest } = params;
+
+    return this.api.patch(`/events/${eventId}`, {
+      startsAt: startsAt instanceof Date ? startsAt.toISOString() : startsAt,
+      endsAt: endsAt instanceof Date ? endsAt.toISOString() : endsAt,
+      ...rest
+    });
   }
 }
