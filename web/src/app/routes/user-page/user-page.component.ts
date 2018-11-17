@@ -19,7 +19,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
   currentUserId: Id;
   showEdit = false;
   showEditTtw = false;
-  events: ModelEvent[];
+  events: ModelEvent[] = [];
+  authorized: boolean;
 
   editForm = new FormGroup({
     firstName: new FormControl(),
@@ -52,13 +53,13 @@ export class UserPageComponent implements OnInit, OnDestroy {
     const userId = this.route.snapshot.params.userId;
     this.userService.getEvents(userId).subscribe(events => {
       this.events = events;
-      console.log('Events', this.events);
     });
   }
 
   ngOnInit() {
     this.subscription = this.authProvider.userInfo.subscribe(userInfo => {
       this.currentUserId = userInfo.userId;
+      this.authorized = userInfo.authorized;
       this.fetchUser();
       this.fetchEvents();
     });

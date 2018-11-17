@@ -43,13 +43,13 @@
     <div class="info" *ngIf="user.ttwId">
       <div>Рейтинг:</div>
       <span class="rating">{{ user.rating }}</span>
-      <div class="connectButton" (click)="showEditTtwPopup($event)">Обновить рейтинг</div>
+      <div class="connectButton" *ngIf="authorized" (click)="showEditTtwPopup($event)">Обновить рейтинг</div>
     </div>
     <div class="info" *ngIf="user.email">
       <span>Email:</span>
       <span class="email">{{ user.email }}</span>
     </div>
 
-    <app-user-events-table class="events" [events]="events" title="Участвовал в турнирах"></app-user-events-table>
+    <app-user-events-table class="events" *ngIf="events.length" [events]="events" title="Участвовал в турнирах"></app-user-events-table>
   </div>
 </div>
