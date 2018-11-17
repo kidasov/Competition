@@ -10,27 +10,46 @@
   <app-popup *ngIf="showEdit" title="Edit user" (close)="closeEditPopup($event)">
     <form class="form" [formGroup]="editForm" (ngSubmit)="saveUser($event);">
       <fieldset class="form-group">
-        <app-input class="input" formControlName="firstName" placeholder="First name" defaultValue="{{user.firstName}}"></app-input>
-        <app-input class="input" formControlName="lastName" placeholder="Last name" defaultValue="{{user.lastName}}"></app-input>
-        <app-input class="input" formControlName="email" placeholder="Email" defaultValue="{{user.email}}"></app-input>
-        <app-input class="input" formControlName="ttwId" placeholder="Ttw id" defaultValue="{{user.ttwId}}"></app-input>
-        <app-submit class="input" value="Save"></app-submit>
+        <app-input class="input" formControlName="firstName" placeholder="Имя" defaultValue="{{user.firstName}}"></app-input>
+        <app-input class="input" formControlName="lastName" placeholder="Фамилия" defaultValue="{{user.lastName}}"></app-input>
+        <app-input class="input" formControlName="email" placeholder="Имейл" defaultValue="{{user.email}}"></app-input>
+        <app-submit class="input" value="Сохранить"></app-submit>
       </fieldset>
     </form>
   </app-popup>
 
-  <div *ngIf="user.ttwId">
-    <span>TtwId </span>
-    <span class="value">{{ user.ttwId }}</span>
-  </div>
-  <div *ngIf="user.ttwId">
-    <span>Rating: </span>
-    <span class="value">{{ user.rating }}</span>
-  </div>
-  <div *ngIf="user.email">
-    <span>Email </span>
-    <span class="value">{{ user.email }}</span>
-  </div>
+  <app-popup *ngIf="showEditTtw" title="Редактировать ттв" (close)="closeEditTtwPopup($event)">
+    <form class="form" [formGroup]="editTtwForm" (ngSubmit)="saveTtw($event)">
+      <fieldset class="form-group">
+        <label class="ttwLabel">
+          <span>http://r.ttw.ru/players/?id=</span>
+          <app-input class="ttwInput" (input)="handleTtwUrl($event)" formControlName="ttwUrl" placeholder=""></app-input>
+        </label>
+        <app-submit class="input" value="Сохранить"></app-submit>
+      </fieldset>
+    </form>
+  </app-popup>
 
-  <app-events-table class="events" [events]="events"></app-events-table>
+  <div class="user-content">
+    <div class="info" *ngIf="!user.ttwId">
+      <div>Профиль Ттв не прилинкован</div>
+      <div class="connectButton" (click)="showEditTtwPopup($event)">Связать</div>
+    </div>
+    <div class="info ttw" *ngIf="user.ttwId">
+      <div>Профиль на ттв</div>
+      <div class="ttwUrl"><a href="{{ttwLink}}">{{ttwLink}}</a></div>
+    </div>
+
+    <div class="info" *ngIf="user.ttwId">
+      <div>Рейтинг:</div>
+      <span class="rating">{{ user.rating }}</span>
+      <div class="connectButton" (click)="showEditTtwPopup($event)">Обновить рейтинг</div>
+    </div>
+    <div class="info" *ngIf="user.email">
+      <span>Email:</span>
+      <span class="email">{{ user.email }}</span>
+    </div>
+
+    <app-user-events-table class="events" [events]="events" title="Участвовал в турнирах"></app-user-events-table>
+  </div>
 </div>

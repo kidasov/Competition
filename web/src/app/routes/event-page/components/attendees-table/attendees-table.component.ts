@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Attendee } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
+import { Id } from 'app/types/types';
 
 @Component({
   selector: 'app-attendees-table',
@@ -19,7 +21,7 @@ export class AttendeesTableComponent implements OnInit {
   @Output()
   remove = new EventEmitter();
 
-  constructor(private authProvider: AuthProvider) {}
+  constructor(private authProvider: AuthProvider, private router: Router) {}
 
   ngOnInit() {}
 
@@ -41,5 +43,9 @@ export class AttendeesTableComponent implements OnInit {
 
   showLeave(attendee: Attendee) {
     return this.authProvider.userId === attendee.userId;
+  }
+
+  navigateToUserPage(userId: Id) {
+    this.router.navigate(['users', userId]);
   }
 }

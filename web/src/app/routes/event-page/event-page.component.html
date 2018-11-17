@@ -15,17 +15,17 @@
         </div>
         <app-switch formControlName="publish" label="Publish" [defaultValue]="published"></app-switch>
         <div class="edit-date-layout">
-            Начинается:
-            <span class="filler"></span>
-            <input type="date" formControlName="startsAtDate" [value]="startsAtDate" />
-            <input type="time" formControlName="startsAtTime" [value]="startsAtTime" />
-          </div>
-          <div class="edit-date-layout">
-            Заканчивается:
-            <span class="filler"></span>
-            <input type="date" formControlName="endsAtDate" [value]="endsAtDate" />
-            <input type="time" formControlName="endsAtTime" [value]="endsAtTime" />
-          </div>
+          Начинается:
+          <span class="filler"></span>
+          <input type="date" formControlName="startsAtDate" [value]="startsAtDate" />
+          <input type="time" formControlName="startsAtTime" [value]="startsAtTime" />
+        </div>
+        <div class="edit-date-layout">
+          Заканчивается:
+          <span class="filler"></span>
+          <input type="date" formControlName="endsAtDate" [value]="endsAtDate" />
+          <input type="time" formControlName="endsAtTime" [value]="endsAtTime" />
+        </div>
         <app-submit class="input" value="Save" [enabled]="!uploading"></app-submit>
       </fieldset>
     </form>
@@ -52,10 +52,10 @@
         </div>
       </div>
       <app-attendees-table *ngIf="pretenders.length > 0" [eventOwner]="eventOwner" (add)="accept($event)" (remove)="removeUser($event)"
-        title="Pretenders" [attendees]="pretenders">
+        title="Возможные участники" [attendees]="pretenders">
       </app-attendees-table>
       <app-attendees-table *ngIf="participants.length > 0" [eventOwner]="eventOwner" (remove)="removeUser($event)"
-        title="Participants" [attendees]="participants">
+        title="Участники" [attendees]="participants">
       </app-attendees-table>
       <app-attendees-table *ngIf="invited.length > 0" [eventOwner]="eventOwner" (remove)="removeUser($event)" title="Invited"
         [attendees]="invited">

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Event } from 'app/models/event';
+import { Event as ModelEvent } from 'app/models/event';
 import { User } from 'app/models/user';
 import { AuthProvider } from 'app/services/auth/provider';
 import { UserService } from 'app/services/user';
@@ -18,13 +18,17 @@ export class UserPageComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   currentUserId: Id;
   showEdit = false;
-  events: Event[];
+  showEditTtw = false;
+  events: ModelEvent[];
 
   editForm = new FormGroup({
     firstName: new FormControl(),
     lastName: new FormControl(),
     email: new FormControl(),
-    ttwId: new FormControl(),
+  });
+
+  editTtwForm = new FormGroup({
+    ttwUrl: new FormControl(),
   });
 
   constructor(
@@ -32,6 +36,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private authProvider: AuthProvider,
   ) {}
+
+  get ttwLink() {
+    return `http://r.ttw.ru/players/?id=${this.user.ttwId}`;
+  }
 
   fetchUser() {
     const userId = this.route.snapshot.params.userId;
@@ -42,9 +50,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   fetchEvents() {
     const userId = this.route.snapshot.params.userId;
-    this.userService
-      .getEvents(userId)
-      .subscribe(events => (this.events = events));
+    this.userService.getEvents(userId).subscribe(events => {
+      this.events = events;
+      console.log('Events', this.events);
+    });
   }
 
   ngOnInit() {
@@ -74,7 +83,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
         firstName: this.editForm.get('firstName').value,
         lastName: this.editForm.get('lastName').value,
         email: this.editForm.get('email').value,
-        ttwId: this.editForm.get('ttwId').value,
       })
       .subscribe(() => {
         this.fetchUser();
@@ -89,5 +97,35 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   closeEditPopup() {
     this.showEdit = false;
+  }
+
+  showEditTtwPopup(event: Event) {
+    this.showEditTtw = true;
+  }
+
+  closeEditTtwPopup() {
+    this.showEditTtw = false;
+  }
+
+  handleTtwUrl(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const regex = /http\:\/\/r\.ttw\.ru\/players\/\?id=([0-9a-f]+)/;
+    const match = target.value.match(regex);
+
+    if (match != null) {
+      target.value = match[1];
+      this.editTtwForm.get('ttwUrl').setValue(match[1]);
+    }
+  }
+
+  saveTtw(event: Event) {
+    this.userService
+      .patchUser(this.user.id, {
+        ttwId: this.editTtwForm.get('ttwUrl').value,
+      })
+      .subscribe(() => {
+        this.fetchUser();
+        this.showEditTtw = false;
+      });
   }
 }

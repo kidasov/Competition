@@ -25,6 +25,7 @@ import { EventPageComponent } from './routes/event-page/event-page.component';
 import { EventsTableComponent } from './routes/events-page/components/events-table/events-table.component';
 import { EventsPageComponent } from './routes/events-page/events-page.component';
 import { routes } from './routes/routes';
+import { UserEventsTableComponent } from './routes/user-page/components/user-events-table/user-events-table.component';
 import { UserPageComponent } from './routes/user-page/user-page.component';
 import { AddUserFormComponent } from './routes/users-page/components/add-user-form/add-user-form.component';
 import { EditUserFormComponent } from './routes/users-page/components/edit-user-form/edit-user-form.component';
@@ -58,6 +59,7 @@ import { UsersPageComponent } from './routes/users-page/users-page.component';
     AuthVkComponent,
     ProgressBarComponent,
     EventCardComponent,
+    UserEventsTableComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),

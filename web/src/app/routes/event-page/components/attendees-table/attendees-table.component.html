@@ -1,26 +1,12 @@
 <div>
   <div class="attendees-grid">
-    <div class="title">{{ title }}</div>
-    <div class="header number">
-
-    </div>
-    <div class="header name">
-      Name
-    </div>
-    <div class="header email">
-      Rating
-    </div>
-    <div class="header options">
-      Options
-    </div>
+    <div class="header">{{ title }}</div>
     <ng-container *ngFor="let attendee of attendees; let i = index;">
-      <div class="column number">
-        {{ i + 1 }}
-      </div>
+      <div class="column number">{{ i + 1 }}</div>
       <div class="column name">
-        {{ attendee.user.firstName + " " + attendee.user.lastName }}
+        <a [routerLink]="['/users', attendee.user.id]">{{ attendee.user.firstName + " " + attendee.user.lastName }} </a>
       </div>
-      <div class="column city">
+      <div class="column rating">
         {{ attendee.user.rating }}
       </div>
       <div class="column options">

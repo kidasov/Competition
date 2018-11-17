@@ -31,11 +31,87 @@
 }
 
 .user-content {
-  display: flex;
-  margin-top: 20px;
-  justify-content: center;
+  margin: 0px 100px;
+  font-size: 20px;
 }
 
-.value {
+.rating-info {
+  display: flex;
+  flex-direction: 'row';
+}
+
+.info {
+  display: flex;
+  margin-top: 40px;
+}
+
+.ttw {
+  flex-direction: column;
+}
+
+.ttwUrl {
+  margin-top: 20px;
+}
+
+.rating {
   margin-left: 20px;
+}
+
+.email {
+  margin-left: 20px;
+}
+
+.events {
+  margin-top: 50px;
+}
+
+.ttwLabel {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 10px 20px;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 0.95em;
+  background: #fff;
+  border-color: #bbb;
+  color: #555;
+}
+
+.ttwInput {
+  flex: 1;
+  padding: 0px;
+}
+
+.ttwInput ::ng-deep input {
+  border: none;
+  padding-left: 0px;
+}
+
+.ttwLabel > span {
+  align-self: center;
+  color: #808080;
+  margin-left: 20px;
+}
+
+.connectButton {
+  border-radius: 5px;
+  padding: 5px 15px;
+  font-size: 22px;
+  text-decoration: none;
+  margin-left: 20px;
+  color: #fff;
+  position: relative;
+  display: inline-block;
+  background-color: #2ecc71;
+  box-shadow: 0px 5px 0px 0px #15b358;
+}
+
+.connectButton:hover {
+  background-color: #48e68b;
+  cursor: pointer;
+}
+
+.profile {
+  display: flex;
+  flex-direction: row;
 }

@@ -19,6 +19,10 @@ export async function getTtwPlayerPoints(
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
   });
   const text = await response.text();
+  if (text.length === 0) {
+    throw new InvalidTtwId();
+  }
+
   return text.split(';').map(point => {
     const [year, month, day, rating] = point.split(',');
     const date = new Date(+year, +month, +day);
@@ -31,4 +35,10 @@ export async function getTtwCurrentRating(
 ): Promise<number | null> {
   const points = await getTtwPlayerPoints(ttwId);
   return points.length !== 0 ? points[points.length - 1].rating : null;
+}
+
+export class InvalidTtwId extends Error {
+  constructor() {
+    super('Invalid ttw id');
+  }
 }

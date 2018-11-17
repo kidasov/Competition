@@ -5,7 +5,10 @@ import { Attendee, Event, User } from '../../db/models';
 import { PublishState } from '../../db/models/event';
 import { asUserId } from '../../db/models/user';
 import logger from '../../logger';
-import { getTtwCurrentRating } from '../../ttw-parser/player-points';
+import {
+  getTtwCurrentRating,
+  InvalidTtwId,
+} from '../../ttw-parser/player-points';
 
 const router = new Router();
 
@@ -123,11 +126,15 @@ router.patch('/:id', async ctx => {
       try {
         return await getTtwCurrentRating(ttwId);
       } catch (e) {
-        logger.error('failed to fetch ttw rating:', {
-          error: e.toString(),
-          message: e.message,
-          ttwId,
-        });
+        if (e instanceof InvalidTtwId) {
+          return ctx.throw(400, e.message);
+        } else {
+          logger.error('failed to fetch ttw rating:', {
+            error: e.toString(),
+            message: e.message,
+            ttwId,
+          });
+        }
       }
     }
     return null;

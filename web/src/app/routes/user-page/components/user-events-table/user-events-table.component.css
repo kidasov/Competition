@@ -1,0 +1,13 @@
+:host {
+  display: block;
+}
+
+.event-grid {
+  display: grid;
+  grid-template-columns: 20px minmax(100px, 300px) minmax(100px, auto);
+  grid-auto-rows: minmax(42px, auto);
+}
+
+.header {
+  grid-column: 1 / -1;
+}

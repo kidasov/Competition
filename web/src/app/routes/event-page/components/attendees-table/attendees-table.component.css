@@ -1,10 +1,13 @@
 :host {
-  width: 100%;
+  align-self: flex-start;
 }
 
 .attendees-grid {
   display: grid;
-  grid-template-columns: max-content repeat(3, 1fr);
+  grid-template-columns:
+    auto minmax(200px, auto) minmax(100px, auto)
+    minmax(100px, auto);
+  grid-auto-rows: minmax(42px, auto);
 }
 
 .header {
@@ -14,12 +17,22 @@
   font-family: Raleway;
   font-size: 14px;
   padding: 20px 0;
+  grid-column: 2 / -1;
+  align-self: center;
 }
 
 .column {
-  display: flex;
-  height: 60px;
-  align-items: center;
+  align-self: center;
+}
+
+.number {
+  justify-self: right;
+  opacity: 0.5;
+}
+
+.number::after {
+  content: '.';
+  margin-right: 6px;
 }
 
 .title {
@@ -29,16 +42,19 @@
   text-transform: uppercase;
 }
 
-.header.name {
-  grid-column: 2 / 3;
-}
-
-.column.options {
-  display: flex;
-  justify-content: space-between;
+.button {
+  margin: 0px, 5px;
 }
 
 .button {
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.rating {
+  margin: 0px 20px;
+}
+
+.name {
+  word-wrap: break-word;
 }
