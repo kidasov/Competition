@@ -5,7 +5,7 @@
   <ng-container *ngFor="let event of events; let i = index">
     <div>{{ i + 1}}.</div>
     <div>
-      <a href="{{'/events/' + event.id}}">{{event.name}}</a>
+      <a [routerLink]="['/events', event.id]">{{event.name}}</a>
     </div>
     <div>{{ eventDate(i) }}</div>
   </ng-container>
