@@ -1,5 +1,33 @@
 <div class="event" *ngIf="event">
   <app-popup
+    *ngIf="showRemove"
+    title="Вы хотите удалить соревнование"
+    (close)="closeRemovePopup($event)"
+  >
+    <div class="removePopupContent">
+      <div class="removeEventDescription">
+        Соревнование будет безвозвратно удалено.
+      </div>
+      <div class="buttons">
+        <app-button
+          class="removeEventButton"
+          appearance="primary-red"
+          (click)="removeEvent($event)"
+          value="Удалить"
+        >
+        </app-button>
+        <app-button
+          class="cancelRemoveButton"
+          appearance="secondary"
+          (click)="closeRemovePopup($event)"
+          value="Отмена"
+        >
+        </app-button>
+      </div>
+    </div>
+  </app-popup>
+
+  <app-popup
     *ngIf="showEdit"
     title="Edit event"
     (close)="closeEditPopup($event)"
@@ -32,12 +60,12 @@
           ></app-progress-bar>
           <label *ngIf="!uploading" class="edit-cover-change">
             <input type="file" accept="image/*" (change)="upload($event)" />
-            <app-button form="primary" value="Изменить"></app-button>
+            <app-button appearance="primary" value="Изменить"></app-button>
           </label>
           <app-button
             *ngIf="!uploading && coverMediaId"
             class="edit-cover-remove"
-            form="primary"
+            appearance="primary"
             value="Удалить"
             (click)="removeCover()"
           ></app-button>
@@ -138,5 +166,15 @@
         [src]="'http://localhost:3003/storage/' + event.coverMediaId"
       />
     </div>
+  </div>
+  <div class="removeButtonContainer">
+    <app-button
+      class="removeButton"
+      appearance="dangerous"
+      *ngIf="eventOwner"
+      (click)="showRemovePopup($event)"
+      value="Удалить соревнование"
+    >
+    </app-button>
   </div>
 </div>

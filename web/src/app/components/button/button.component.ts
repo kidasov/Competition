@@ -9,7 +9,7 @@ export class ButtonComponent implements OnInit {
   @Input()
   value: string = null;
   @Input()
-  form = 'fancy';
+  appearance = 'fancy';
   @Input()
   icon: string = null;
   @Output()

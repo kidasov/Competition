@@ -86,13 +86,12 @@
     <div class="info" *ngIf="user.ttwId">
       <div>Рейтинг:</div>
       <span class="rating">{{ user.rating }}</span>
-      <div
-        class="connectButton"
+      <app-button
+        appearance="connect"
         *ngIf="currentUser"
         (click)="showEditTtwPopup($event)"
-      >
-        Обновить рейтинг
-      </div>
+        value="Обновить рейтинг"
+      ></app-button>
     </div>
     <div class="info" *ngIf="user.email">
       <span>Email:</span> <span class="email">{{ user.email }}</span>

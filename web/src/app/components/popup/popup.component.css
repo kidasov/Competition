@@ -39,7 +39,7 @@ app-close {
   padding: 10px 20px;
 }
 
-:host /deep/ form {
+:host > * {
   background: #ebebeb;
 }
 

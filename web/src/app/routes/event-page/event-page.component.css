@@ -138,3 +138,36 @@
 .date-container {
   margin-bottom: 50px;
 }
+
+.removeButton {
+  width: 400px;
+}
+
+.removeButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin: 40px;
+}
+
+.removePopupContent {
+  margin: 20px;
+}
+
+.buttons {
+  justify-content: space-between;
+}
+
+.removeEventButton {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.cancelRemoveButton {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.removeEventDescription {
+  color: #000;
+  margin-bottom: 20px;
+}

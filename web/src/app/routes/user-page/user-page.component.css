@@ -93,24 +93,6 @@
   margin-left: 20px;
 }
 
-.connectButton {
-  border-radius: 5px;
-  padding: 5px 15px;
-  font-size: 22px;
-  text-decoration: none;
-  margin-left: 20px;
-  color: #fff;
-  position: relative;
-  display: inline-block;
-  background-color: #2ecc71;
-  box-shadow: 0px 5px 0px 0px #15b358;
-}
-
-.connectButton:hover {
-  background-color: #48e68b;
-  cursor: pointer;
-}
-
 .profile {
   display: flex;
   flex-direction: row;

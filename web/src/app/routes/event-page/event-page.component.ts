@@ -24,6 +24,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
   uploadProgress = 0;
   coverMediaId: number;
   previewCoverImage: string = null;
+  showRemove = false;
 
   constructor(
     private eventService: EventService,
@@ -159,6 +160,12 @@ export class EventPageComponent implements OnInit, OnDestroy {
       });
   }
 
+  removeEvent() {
+    this.eventService.removeEvent(this.event).subscribe(() => {
+      this.router.navigateByUrl('/events');
+    });
+  }
+
   showEditPopup() {
     this.showEdit = true;
     this.coverMediaId = this.event.coverMediaId;
@@ -166,6 +173,14 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   closeEditPopup() {
     this.showEdit = false;
+  }
+
+  showRemovePopup() {
+    this.showRemove = true;
+  }
+
+  closeRemovePopup() {
+    this.showRemove = false;
   }
 
   upload(event: Event) {

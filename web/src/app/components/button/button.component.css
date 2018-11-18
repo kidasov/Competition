@@ -62,7 +62,9 @@ a.fancy:hover:after {
   opacity: 1;
 }
 
-a.primary {
+a.primary,
+a.primary-red,
+a.secondary {
   display: flex;
   align-items: center;
   flex: 1;
@@ -89,8 +91,53 @@ a.primary:focus {
   border-color: #05a;
 }
 
+a.primary-red {
+  background: #e74c3c;
+}
+
+a.primary-red:hover {
+  background: #ff6656;
+}
+
+a.secondary {
+  background: #cccccc;
+  color: #444444;
+}
+
+a.secondary:hover {
+  background: #dddddd;
+}
+
 .image {
   width: 24px;
   height: 24px;
   margin: 8px;
+}
+
+a.connect,
+a.dangerous {
+  border-radius: 5px;
+  padding: 8px 24px;
+  font-size: 22px;
+  text-decoration: none;
+  margin-left: 20px;
+  color: #fff;
+  position: relative;
+  display: inline-block;
+  background-color: #2ecc71;
+  box-shadow: 0px 5px 0px 0px #15b358;
+  cursor: pointer;
+}
+
+a.connect:hover {
+  background-color: #48e68b;
+}
+
+a.dangerous {
+  background-color: #e67e22;
+  box-shadow: 0px 5px 0px 0px #cd6509;
+}
+
+a.dangerous:hover {
+  background-color: #ff983c;
 }
