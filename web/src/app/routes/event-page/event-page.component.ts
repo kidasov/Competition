@@ -40,6 +40,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
     startsAtTime: new FormControl(),
     endsAtDate: new FormControl(),
     endsAtTime: new FormControl(),
+    description: new FormControl(),
   };
 
   editForm = new FormGroup(this.controls);
@@ -88,7 +89,9 @@ export class EventPageComponent implements OnInit, OnDestroy {
   }
 
   get date() {
-    return moment(this.event.startsAt).lang('ru').format('D MMMM YYYY, HH:mm');
+    return moment(this.event.startsAt)
+      .lang('ru')
+      .format('D MMMM YYYY, HH:mm');
   }
 
   get attendees() {
@@ -148,6 +151,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
         coverMediaId: this.coverMediaId,
         startsAt: this.enteredStartsAt,
         endsAt: this.enteredEndsAt,
+        description: this.controls.description.value,
       })
       .subscribe(() => {
         this.fetchEvent();
@@ -255,9 +259,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
     if (date == null || time == null) {
       return null;
     }
-    const parsed = moment(
-      `${date} ${time}`,
-    ).toDate();
+    const parsed = moment(`${date} ${time}`).toDate();
     return !Number.isNaN(parsed.getDate()) ? parsed : null;
   }
 }

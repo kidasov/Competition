@@ -1,68 +1,142 @@
 <div class="event" *ngIf="event">
-  <app-popup *ngIf="showEdit" title="Edit event" (close)="closeEditPopup($event)">
-    <form class="form" [formGroup]="editForm" (ngSubmit)="saveEvent($event);">
+  <app-popup
+    *ngIf="showEdit"
+    title="Edit event"
+    (close)="closeEditPopup($event)"
+    width="600"
+  >
+    <form class="form" [formGroup]="editForm" (ngSubmit)="saveEvent($event)">
       <fieldset class="form-group">
-        <app-input class="input" formControlName="name" placeholder="Name" defaultValue="{{event.name}}"></app-input>
+        <app-input
+          class="input"
+          formControlName="name"
+          placeholder="Name"
+          defaultValue="{{event.name}}"
+        ></app-input>
+        <app-input
+          class="input"
+          multiline
+          placeholder="Описание"
+          formControlName="description"
+          defaultValue="{{event.description}}"
+        ></app-input>
         <div class="edit-cover-layout">
-          <div class="edit-cover-preview" [ngStyle]="editCoverPreviewStyle"></div>
-          <app-progress-bar *ngIf="uploading" class="edit-cover-upload-progress" [progress]="uploadProgress"></app-progress-bar>
+          <div
+            class="edit-cover-preview"
+            [ngStyle]="editCoverPreviewStyle"
+          ></div>
+          <app-progress-bar
+            *ngIf="uploading"
+            class="edit-cover-upload-progress"
+            [progress]="uploadProgress"
+          ></app-progress-bar>
           <label *ngIf="!uploading" class="edit-cover-change">
             <input type="file" accept="image/*" (change)="upload($event)" />
             <app-button form="primary" value="Изменить"></app-button>
           </label>
-          <app-button *ngIf="!uploading && coverMediaId" class="edit-cover-remove" form="primary" value="Удалить"
-            (click)="removeCover()"></app-button>
+          <app-button
+            *ngIf="!uploading && coverMediaId"
+            class="edit-cover-remove"
+            form="primary"
+            value="Удалить"
+            (click)="removeCover()"
+          ></app-button>
         </div>
-        <app-switch formControlName="publish" label="Publish" [defaultValue]="published"></app-switch>
+        <app-switch
+          formControlName="publish"
+          label="Publish"
+          [defaultValue]="published"
+        ></app-switch>
         <div class="edit-date-layout">
-          Начинается:
-          <span class="filler"></span>
-          <input type="date" formControlName="startsAtDate" [value]="startsAtDate" />
-          <input type="time" formControlName="startsAtTime" [value]="startsAtTime" />
+          Начинается: <span class="filler"></span>
+          <input
+            type="date"
+            formControlName="startsAtDate"
+            [value]="startsAtDate"
+          />
+          <input
+            type="time"
+            formControlName="startsAtTime"
+            [value]="startsAtTime"
+          />
         </div>
         <div class="edit-date-layout">
-          Заканчивается:
-          <span class="filler"></span>
-          <input type="date" formControlName="endsAtDate" [value]="endsAtDate" />
-          <input type="time" formControlName="endsAtTime" [value]="endsAtTime" />
+          Заканчивается: <span class="filler"></span>
+          <input
+            type="date"
+            formControlName="endsAtDate"
+            [value]="endsAtDate"
+          />
+          <input
+            type="time"
+            formControlName="endsAtTime"
+            [value]="endsAtTime"
+          />
         </div>
-        <app-submit class="input" value="Save" [enabled]="!uploading"></app-submit>
+        <app-submit
+          class="input"
+          value="Save"
+          [enabled]="!uploading"
+        ></app-submit>
       </fieldset>
     </form>
   </app-popup>
   <div class="top-panel">
     <app-header class="header">{{ event.name }}</app-header>
     <div class="buttons">
-      <app-button class="button" *ngIf="canRegister" (click)="register()" value="Register"></app-button>
+      <app-button
+        class="button"
+        *ngIf="canRegister"
+        (click)="register()"
+        value="Register"
+      ></app-button>
       <app-button class="button" (click)="goBack()" value="Back"></app-button>
-      <app-button class="button" *ngIf="eventOwner" (click)="showEditPopup($event)" value="Edit"></app-button>
+      <app-button
+        class="button"
+        *ngIf="eventOwner"
+        (click)="showEditPopup($event)"
+        value="Edit"
+      ></app-button>
     </div>
   </div>
   <div class="event-content">
     <div class="left">
-      <div class="description text">
-        Очень большоое пребольшое описание у ивента. Просим всех в гости
-      </div>
+      <div class="description text">{{ event.description }}</div>
       <div class="date-container text">
-        <div class="date-header">
-          Дата
-        </div>
-        <div class="date">
-          {{ date }}
-        </div>
+        <div class="date-header">Дата</div>
+        <div class="date">{{ date }}</div>
       </div>
-      <app-attendees-table *ngIf="pretenders.length > 0" [eventOwner]="eventOwner" (add)="accept($event)" (remove)="removeUser($event)"
-        title="Возможные участники" [attendees]="pretenders">
+      <app-attendees-table
+        *ngIf="pretenders.length > 0"
+        [eventOwner]="eventOwner"
+        (add)="accept($event)"
+        (remove)="removeUser($event)"
+        title="Возможные участники"
+        [attendees]="pretenders"
+      >
       </app-attendees-table>
-      <app-attendees-table *ngIf="participants.length > 0" [eventOwner]="eventOwner" (remove)="removeUser($event)"
-        title="Участники" [attendees]="participants">
+      <app-attendees-table
+        *ngIf="participants.length > 0"
+        [eventOwner]="eventOwner"
+        (remove)="removeUser($event)"
+        title="Участники"
+        [attendees]="participants"
+      >
       </app-attendees-table>
-      <app-attendees-table *ngIf="invited.length > 0" [eventOwner]="eventOwner" (remove)="removeUser($event)" title="Invited"
-        [attendees]="invited">
+      <app-attendees-table
+        *ngIf="invited.length > 0"
+        [eventOwner]="eventOwner"
+        (remove)="removeUser($event)"
+        title="Invited"
+        [attendees]="invited"
+      >
       </app-attendees-table>
     </div>
     <div class="right">
-      <img *ngIf="event.coverMediaId" [src]="'http://localhost:3003/storage/' + event.coverMediaId" />
+      <img
+        *ngIf="event.coverMediaId"
+        [src]="'http://localhost:3003/storage/' + event.coverMediaId"
+      />
     </div>
   </div>
 </div>

@@ -6,7 +6,8 @@ label {
   flex: 1;
 }
 
-input {
+input,
+textarea {
   box-sizing: border-box;
   display: block;
   flex: 1;
@@ -20,8 +21,11 @@ input {
   background: #fff;
   border-color: #bbb;
   color: #555;
+  resize: vertical;
+  font-family: sans-serif;
 }
 
-input:focus {
+input:focus,
+textarea:focus {
   border-color: #888;
 }

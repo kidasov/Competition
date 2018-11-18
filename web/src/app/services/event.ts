@@ -19,6 +19,7 @@ interface PatchEventParams {
   coverMediaId?: Id;
   startsAt?: Date;
   endsAt?: Date;
+  description?: string;
 }
 
 @Injectable({
@@ -68,7 +69,7 @@ export class EventService {
     return this.api.patch(`/events/${eventId}`, {
       startsAt: startsAt instanceof Date ? startsAt.toISOString() : startsAt,
       endsAt: endsAt instanceof Date ? endsAt.toISOString() : endsAt,
-      ...rest
+      ...rest,
     });
   }
 }

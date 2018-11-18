@@ -1,9 +1,4 @@
-import {
-  Component,
-  forwardRef,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -23,12 +18,19 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   @Input()
   defaultValue: string;
   @Input()
-  placeholder = 'Placeholder';
+  placeholder = '';
   @Input()
   formControlName: string;
   @Input()
   type = 'text';
+  isMultiline = false;
 
+  @Input()
+  set multiline(value: string) {
+    this.isMultiline = value !== 'false';
+  }
+
+  @Input()
   private propagateChange: (string) => void;
 
   writeValue(obj: any): void {

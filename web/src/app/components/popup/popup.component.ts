@@ -7,7 +7,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class PopupComponent implements OnInit {
   @Input()
-  title: String;
+  title: string;
+  @Input()
+  width = '400';
   @Output()
   close = new EventEmitter();
 
@@ -16,6 +18,12 @@ export class PopupComponent implements OnInit {
   handleClose(event: Event) {
     event.preventDefault();
     this.close.emit();
+  }
+
+  get containerStyle() {
+    return {
+      width: `${this.width}px`,
+    };
   }
 
   ngOnInit() {}

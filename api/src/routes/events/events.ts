@@ -27,6 +27,7 @@ router.get('/', async ctx => {
         { ownerUserId: sessionUserId },
       ],
     },
+    order: [['startsAt', 'DESC']],
     include: [
       {
         model: User,
@@ -96,6 +97,7 @@ router.get('/:id', async ctx => {
 
 const PatchEventRequest = t.partial({
   name: t.string,
+  description: t.string,
   state: t.union([
     t.literal(PublishState.Draft),
     t.literal(PublishState.Published),
@@ -108,9 +110,14 @@ const PatchEventRequest = t.partial({
 router.patch('/:id', async ctx => {
   const { userId: sessionUserId } = await ctx.requireSession();
   const id = asEventId(ctx.paramNumber('id'));
-  const { name, state, coverMediaId, startsAt, endsAt } = ctx.decode(
-    PatchEventRequest,
-  );
+  const {
+    name,
+    description,
+    state,
+    coverMediaId,
+    startsAt,
+    endsAt,
+  } = ctx.decode(PatchEventRequest);
 
   const event = await Event.findOne({ where: { id } });
 
@@ -125,6 +132,7 @@ router.patch('/:id', async ctx => {
   await Event.update(
     {
       name,
+      description,
       state,
       coverMediaId:
         typeof coverMediaId === 'number'

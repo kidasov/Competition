@@ -22,7 +22,7 @@ export class EventCardComponent implements OnInit {
   }
 
   get date() {
-    return moment(this.event.createdAt).format('MMMM DD, YYYY, HH:mm');
+    return moment(this.event.startsAt).format('MMMM DD, YYYY, HH:mm');
   }
 
   get participants() {
