@@ -1,8 +1,8 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div id="root">
   <app-sidebar (loginClick)="showLoginPopup()"></app-sidebar>
-  <app-login-form *ngIf="showLogin" (close)="closeLoginPopup($event)"></app-login-form>
-  <div class="content">
-    <router-outlet></router-outlet>
-  </div>
+  <app-login-form
+    *ngIf="showLogin"
+    (close)="closeLoginPopup($event)"
+  ></app-login-form>
+  <div class="content"><router-outlet></router-outlet></div>
 </div>

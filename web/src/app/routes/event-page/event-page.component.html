@@ -1,5 +1,10 @@
 <div class="event" *ngIf="event">
+  <app-login-form
+    *ngIf="showLogin"
+    (close)="closeLoginPopup($event)"
+  ></app-login-form>
   <app-popup
+    class="remove-popup"
     *ngIf="showRemove"
     title="Вы хотите удалить соревнование"
     (close)="closeRemovePopup($event)"
@@ -12,14 +17,14 @@
         <app-button
           class="removeEventButton"
           appearance="primary-red"
-          (click)="removeEvent($event)"
+          (press)="removeEvent($event)"
           value="Удалить"
         >
         </app-button>
         <app-button
           class="cancelRemoveButton"
           appearance="secondary"
-          (click)="closeRemovePopup($event)"
+          (press)="closeRemovePopup($event)"
           value="Отмена"
         >
         </app-button>
@@ -29,7 +34,7 @@
 
   <app-popup
     *ngIf="showEdit"
-    title="Edit event"
+    title="Редактировать"
     (close)="closeEditPopup($event)"
     width="600"
   >
@@ -67,7 +72,7 @@
             class="edit-cover-remove"
             appearance="primary"
             value="Удалить"
-            (click)="removeCover()"
+            (press)="removeCover()"
           ></app-button>
         </div>
         <app-switch
@@ -103,26 +108,35 @@
         </div>
         <app-submit
           class="input"
-          value="Save"
+          value="Сохранить"
           [enabled]="!uploading"
         ></app-submit>
+        <div
+          class="toggleMore"
+          [class.expanded]="expanded"
+          (click)="toggleMore()"
+        >
+          <span>Другие действия</span>
+        </div>
+        <div *ngIf="expanded">
+          <app-button
+            class="remove-event"
+            appearance="primary-red"
+            value="Удалить соревнование"
+            (press)="showRemovePopup($event)"
+          ></app-button>
+        </div>
       </fieldset>
     </form>
   </app-popup>
   <div class="top-panel">
     <app-header class="header">{{ event.name }}</app-header>
     <div class="buttons">
-      <app-button
-        class="button"
-        *ngIf="canRegister"
-        (click)="register()"
-        value="Register"
-      ></app-button>
-      <app-button class="button" (click)="goBack()" value="Back"></app-button>
+      <app-button class="button" (press)="goBack()" value="Back"></app-button>
       <app-button
         class="button"
         *ngIf="eventOwner"
-        (click)="showEditPopup($event)"
+        (press)="showEditPopup($event)"
         value="Edit"
       ></app-button>
     </div>
@@ -134,6 +148,16 @@
         <div class="date-header">Дата</div>
         <div class="date">{{ date }}</div>
       </div>
+
+      <app-button
+        class="registerButton"
+        appearance="positive"
+        *ngIf="canRegister"
+        (press)="register()"
+        value="Записаться"
+      >
+      </app-button>
+
       <app-attendees-table
         *ngIf="pretenders.length > 0"
         [eventOwner]="eventOwner"
@@ -172,7 +196,7 @@
       class="removeButton"
       appearance="dangerous"
       *ngIf="eventOwner"
-      (click)="showRemovePopup($event)"
+      (press)="showRemovePopup($event)"
       value="Удалить соревнование"
     >
     </app-button>

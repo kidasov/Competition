@@ -171,3 +171,35 @@
   color: #000;
   margin-bottom: 20px;
 }
+
+.toggleMore {
+  text-align: center;
+  width: 100%;
+  color: #888;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.toggleMore::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 4px;
+  transition: transform 0.3s;
+}
+
+.toggleMore.expanded::before {
+  transform: rotate(90deg);
+}
+
+.toggleMore > span {
+  text-decoration: underline;
+}
+
+.remove-event {
+  padding: 10px 20px;
+}
+
+.remove-popup {
+  z-index: 3;
+}

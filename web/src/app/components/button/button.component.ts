@@ -13,13 +13,13 @@ export class ButtonComponent implements OnInit {
   @Input()
   icon: string = null;
   @Output()
-  click = new EventEmitter();
+  press = new EventEmitter();
 
   constructor() {}
 
   handleClick(event) {
     event.preventDefault();
-    this.click.emit();
+    this.press.emit();
   }
 
   ngOnInit() {}

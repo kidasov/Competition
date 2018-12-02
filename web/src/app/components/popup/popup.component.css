@@ -46,3 +46,7 @@ app-close {
 :host /deep/ fieldset {
   border: 0;
 }
+
+.container {
+  padding-bottom: 10px;
+}

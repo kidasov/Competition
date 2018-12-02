@@ -25,6 +25,8 @@ export class EventPageComponent implements OnInit, OnDestroy {
   coverMediaId: number;
   previewCoverImage: string = null;
   showRemove = false;
+  showLogin = false;
+  expanded = false;
 
   constructor(
     private eventService: EventService,
@@ -74,7 +76,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   get canRegister() {
     return (
-      this.authorized &&
+      !this.authorized ||
       !this.event.attendees.find(
         pretender => pretender.userId === this.authProvider.userId,
       )
@@ -123,9 +125,13 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   register() {
     const eventId = this.route.snapshot.params.eventId;
-    this.eventService
-      .register(eventId, { role: 'participant' })
-      .subscribe(this.fetchEvent);
+    if (this.authorized) {
+      this.eventService
+        .register(eventId, { role: 'participant' })
+        .subscribe(this.fetchEvent);
+    } else {
+      this.showLogin = true;
+    }
   }
 
   accept(userId: Id) {
@@ -276,5 +282,13 @@ export class EventPageComponent implements OnInit, OnDestroy {
     }
     const parsed = moment(`${date} ${time}`).toDate();
     return !Number.isNaN(parsed.getDate()) ? parsed : null;
+  }
+
+  closeLoginPopup() {
+    this.showLogin = false;
+  }
+
+  toggleMore() {
+    this.expanded = !this.expanded;
   }
 }
