@@ -44,14 +44,14 @@
           class="input"
           formControlName="name"
           placeholder="Name"
-          defaultValue="{{event.name}}"
+          defaultValue="{{ event.name }}"
         ></app-input>
         <app-input
           class="input"
           multiline
           placeholder="Описание"
           formControlName="description"
-          defaultValue="{{event.description}}"
+          defaultValue="{{ event.description }}"
         ></app-input>
         <div class="edit-cover-layout">
           <div
@@ -144,7 +144,7 @@
   <div class="event-content">
     <div class="left">
       <div class="description text">{{ event.description }}</div>
-      <div class="date-container text">
+      <div *ngIf="dateValid" class="date-container text">
         <div class="date-header">Дата</div>
         <div class="date">{{ date }}</div>
       </div>

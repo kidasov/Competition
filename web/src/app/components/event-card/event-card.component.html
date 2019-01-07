@@ -1,31 +1,25 @@
 <div class="card" (click)="showEvent($event)">
-  <div class="name">
-    {{ name }}
-  </div>
-  <div class="location-header">
-    Место
-  </div>
-  <div class="location">
+  <div class="name">{{ name }}</div>
+  <div class="location-header">Место</div>
+  <div *ngIf="locationSet; else unknownLocation" class="location">
     {{ location }}
   </div>
-  <div class="date-header">
-    Дата
-  </div>
-  <div class="date">
-    {{ date }}
-  </div>
-  <div class="participants-header">
-    Участники
-  </div>
-  <div class="participants">
-    {{ participants }}
-  </div>
-  <div class="description-header">
-    Описание
-  </div>
-  <div class="description">
+  <ng-template #unknownLocation>
+    <div class="location"><span class="longDash">&mdash;</span></div>
+  </ng-template>
+  <div class="date-header">Дата</div>
+  <div *ngIf="dateValid; else unknownDate" class="date">{{ date }}</div>
+  <ng-template #unknownDate>
+    <div class="date"><span class="longDash">&mdash;</span></div>
+  </ng-template>
+  <div class="participants-header">Участники</div>
+  <div class="participants">{{ participants }}</div>
+  <div class="description-header">Описание</div>
+  <div *ngIf="descriptionExist; else unknownDescription" class="description">
     {{ description }}
   </div>
-  <div class="image" [ngStyle]="image">
-  </div>
+  <ng-template #unknownDescription>
+    <div class="description"><span class="longDash">&mdash;</span></div>
+  </ng-template>
+  <div class="image" [ngStyle]="image"></div>
 </div>

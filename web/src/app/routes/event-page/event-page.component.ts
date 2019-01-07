@@ -105,6 +105,10 @@ export class EventPageComponent implements OnInit, OnDestroy {
     return this.event.description;
   }
 
+  get dateValid() {
+    return moment(this.event.startsAt).isValid();
+  }
+
   ngOnInit() {
     this.fetchEvent();
     this.subscription = this.authProvider.userInfo.subscribe(userInfo => {

@@ -21,8 +21,18 @@ export class EventCardComponent implements OnInit {
     return this.event.location;
   }
 
+  get locationSet() {
+    return this.event.location != null;
+  }
+
   get date() {
-    return moment(this.event.startsAt).format('MMMM DD, YYYY, HH:mm');
+    return moment(this.event.startsAt)
+      .lang('ru')
+      .format('D MMMM YYYY, HH:mm');
+  }
+
+  get dateValid() {
+    return moment(this.event.startsAt).isValid();
   }
 
   get participants() {
@@ -33,9 +43,18 @@ export class EventCardComponent implements OnInit {
     return this.event.description;
   }
 
+  get descriptionExist() {
+    return this.event.description != null;
+  }
+
   get image() {
+    const imageUrl =
+      this.event.coverMediaId != null
+        ? `${API_URL}/storage/${this.event.coverMediaId}`
+        : '/assets/timo.jpg';
+
     return {
-      background: `url('${API_URL}/storage/${this.event.coverMediaId}')`,
+      background: `url(${imageUrl})`,
       backgroundPosition: 'center',
       backgroundSize: 'cover',
     };

@@ -58,3 +58,9 @@
 .description {
   grid-area: 11 / 2 / 12 / 8;
 }
+
+.longDash {
+  transform: scaleX(1.7);
+  display: inline-block;
+  transform-origin: left top;
+}
