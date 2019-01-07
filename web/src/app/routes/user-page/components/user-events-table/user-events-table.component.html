@@ -3,9 +3,9 @@
   <!-- <div class="header-name">Название турнира</div>
   <div class="header-date">Дата проведения</div> -->
   <ng-container *ngFor="let event of events; let i = index">
-    <div>{{ i + 1}}.</div>
+    <div>{{ i + 1 }}.</div>
     <div>
-      <a [routerLink]="['/events', event.id]">{{event.name}}</a>
+      <a [routerLink]="['/events', event.id]">{{ event.name }}</a>
     </div>
     <div>{{ eventDate(i) }}</div>
   </ng-container>

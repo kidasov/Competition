@@ -103,8 +103,8 @@ const PatchEventRequest = t.partial({
     t.literal(PublishState.Published),
   ]),
   coverMediaId: t.union([t.number, t.null]),
-  startsAt: IsoDate,
-  endsAt: IsoDate,
+  startsAt: t.union([IsoDate, t.null]),
+  endsAt: t.union([IsoDate, t.null]),
 });
 
 router.patch('/:id', async ctx => {

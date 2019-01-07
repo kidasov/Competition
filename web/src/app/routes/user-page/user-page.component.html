@@ -28,19 +28,19 @@
           class="input"
           formControlName="firstName"
           placeholder="Имя"
-          defaultValue="{{user.firstName}}"
+          defaultValue="{{ user.firstName }}"
         ></app-input>
         <app-input
           class="input"
           formControlName="lastName"
           placeholder="Фамилия"
-          defaultValue="{{user.lastName}}"
+          defaultValue="{{ user.lastName }}"
         ></app-input>
         <app-input
           class="input"
           formControlName="email"
           placeholder="Имейл"
-          defaultValue="{{user.email}}"
+          defaultValue="{{ user.email }}"
         ></app-input>
         <app-submit class="input" value="Сохранить"></app-submit>
       </fieldset>
@@ -60,7 +60,7 @@
             class="ttwInput"
             (input)="handleTtwUrl($event)"
             formControlName="ttwUrl"
-            defaultValue="{{user.ttwId}}"
+            defaultValue="{{ user.ttwId }}"
             placeholder=""
           ></app-input>
         </label>
@@ -82,7 +82,7 @@
     <div class="info ttw" *ngIf="user.ttwId">
       <div>Профиль на ттв</div>
       <div class="ttwUrl">
-        <a href="{{ttwLink}}">{{ ttwLink }}</a>
+        <a href="{{ ttwLink }}">{{ ttwLink }}</a>
       </div>
     </div>
 
@@ -90,6 +90,7 @@
       <div>Рейтинг:</div>
       <span class="rating">{{ user.rating }}</span>
       <app-button
+        class="changeTtwLink"
         appearance="connect"
         *ngIf="currentUser"
         (press)="showEditTtwPopup($event)"

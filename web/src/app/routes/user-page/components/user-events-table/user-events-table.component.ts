@@ -18,8 +18,7 @@ export class UserEventsTableComponent implements OnInit {
   ngOnInit() {}
 
   eventDate(number) {
-    return moment(this.events[number].startsAt)
-      .lang('ru')
-      .format('D MMMM YYYY');
+    const date = moment(this.events[number].startsAt);
+    return date.isValid() ? date.lang('ru').format('D MMMM YYYY') : '';
   }
 }

@@ -21,8 +21,8 @@ interface Event {
   id: EventId;
   name: string;
   createdAt: Date;
-  startsAt: Date;
-  endsAt: Date;
+  startsAt: Date | null;
+  endsAt: Date | null;
   ownerUserId: UserId;
   location: string;
   description: string;

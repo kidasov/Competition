@@ -55,6 +55,7 @@
         ></app-input>
         <div class="edit-cover-layout">
           <div
+            *ngIf="coverMediaId"
             class="edit-cover-preview"
             [ngStyle]="editCoverPreviewStyle"
           ></div>
@@ -65,7 +66,17 @@
           ></app-progress-bar>
           <label *ngIf="!uploading" class="edit-cover-change">
             <input type="file" accept="image/*" (change)="upload($event)" />
-            <app-button appearance="primary" value="Изменить"></app-button>
+            <app-button
+              *ngIf="coverMediaId; else addCover"
+              appearance="primary"
+              value="Изменить"
+            ></app-button>
+            <ng-template #addCover
+              ><app-button
+                appearance="primary"
+                value="Добавить картинку"
+              ></app-button
+            ></ng-template>
           </label>
           <app-button
             *ngIf="!uploading && coverMediaId"
