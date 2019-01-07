@@ -17,6 +17,11 @@ enum PublishState {
   Published = 'published',
 }
 
+enum EventType {
+  Single = 'single',
+  Pair = 'pair',
+}
+
 interface Event {
   id: EventId;
   name: string;
@@ -29,6 +34,7 @@ interface Event {
   attendees: Attendee[];
   state: PublishState;
   coverMediaId: UploadId | null;
+  type: EventType;
 }
 
 type EventAttributes = Partial<Event>;
@@ -49,6 +55,7 @@ const EventModel = sequelize.define<EventInstance, EventAttributes>('event', {
   attendees: Sequelize.VIRTUAL,
   state: Sequelize.ENUM(PublishState.Draft, PublishState.Published),
   coverMediaId: Sequelize.INTEGER,
+  type: Sequelize.ENUM(EventType.Single, EventType.Pair),
 });
 
 export default EventModel;
@@ -60,4 +67,5 @@ export {
   EventAttributes,
   EventInstance,
   Event,
+  EventType,
 };

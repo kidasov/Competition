@@ -1,9 +1,10 @@
 import * as t from 'io-ts';
 import Router from 'koa-router';
-import { Attendee, Event } from '../../db/models';
+import { Attendee, Event, User } from '../../db/models';
 import { AttendeeRole, AttendeeStatus } from '../../db/models/attendee';
 import { asEventId } from '../../db/models/event';
 import { asUserId } from '../../db/models/user';
+import { IoUserId } from '../../io-types';
 
 const router = new Router();
 
@@ -93,6 +94,32 @@ router.delete('/:userId', async ctx => {
   }
 
   await Attendee.destroy({ where: { userId, eventId } });
+  ctx.status = 200;
+  ctx.body = {};
+});
+
+const PairRequest = t.partial({
+  targetUserId: t.union([IoUserId, t.null]),
+});
+
+router.post('/pair', async ctx => {
+  const { userId } = await ctx.requireSession();
+  const eventId = asEventId(ctx.paramNumber('eventId'));
+  const { targetUserId } = ctx.decode(PairRequest);
+
+  if (targetUserId != null && targetUserId === userId) {
+    return ctx.throw(400);
+  }
+
+  const [affectedCount] = await Attendee.update(
+    { pairedUserId: targetUserId },
+    { where: { userId, eventId } },
+  );
+
+  if (!affectedCount) {
+    return ctx.throw(404);
+  }
+
   ctx.status = 200;
   ctx.body = {};
 });

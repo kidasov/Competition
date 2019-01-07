@@ -16,6 +16,7 @@ interface AcceptParams {
 interface PatchEventParams {
   name?: string;
   state?: 'published' | 'draft';
+  type?: 'single' | 'pair';
   coverMediaId?: Id;
   startsAt?: Date;
   endsAt?: Date;

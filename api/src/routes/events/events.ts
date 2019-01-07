@@ -2,7 +2,7 @@ import * as t from 'io-ts';
 import Router from 'koa-router';
 import Sequelize from 'sequelize';
 import { Attendee, Event, User } from '../../db/models';
-import { asEventId, PublishState } from '../../db/models/event';
+import { asEventId, PublishState, EventType } from '../../db/models/event';
 import { asUploadId } from '../../db/models/upload';
 import { IsoDate } from '../../io-types';
 import attendees from './attendees';
@@ -48,6 +48,7 @@ router.post('/', async ctx => {
     name,
     ownerUserId: sessionUserId,
     state: PublishState.Draft,
+    type: EventType.Single,
   });
 
   ctx.status = 201;
@@ -105,6 +106,7 @@ const PatchEventRequest = t.partial({
   coverMediaId: t.union([t.number, t.null]),
   startsAt: t.union([IsoDate, t.null]),
   endsAt: t.union([IsoDate, t.null]),
+  type: t.union([t.literal(EventType.Single), t.literal(EventType.Pair)]),
 });
 
 router.patch('/:id', async ctx => {
@@ -117,6 +119,7 @@ router.patch('/:id', async ctx => {
     coverMediaId,
     startsAt,
     endsAt,
+    type,
   } = ctx.decode(PatchEventRequest);
 
   const event = await Event.findOne({ where: { id } });
@@ -140,6 +143,7 @@ router.patch('/:id', async ctx => {
           : coverMediaId,
       startsAt,
       endsAt,
+      type,
     },
     { where: { id } },
   );

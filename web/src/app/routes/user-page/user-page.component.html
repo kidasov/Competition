@@ -73,6 +73,7 @@
     <div class="info" *ngIf="!user.ttwId">
       <div>Профиль Ттв не прилинкован</div>
       <app-button
+        class="addTtwLink"
         appearance="connect"
         *ngIf="currentUser"
         (press)="showEditTtwPopup($event)"

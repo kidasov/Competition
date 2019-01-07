@@ -22,6 +22,8 @@ interface Attendee {
   status: AttendeeStatus;
   role: AttendeeRole;
   joinedAt: string;
+  pairedUserId: UserId | null;
+
   event?: Event;
 }
 
@@ -50,6 +52,7 @@ const AttendeeModel = sequelize.define<AttendeeInstance, AttendeeAttributes>(
       type: Sequelize.DATE,
       defaultValue: sequelize.fn('now'),
     },
+    pairedUserId: Sequelize.INTEGER,
   },
 );
 

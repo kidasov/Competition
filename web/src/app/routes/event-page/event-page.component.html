@@ -87,8 +87,13 @@
           ></app-button>
         </div>
         <app-switch
+          formControlName="pair"
+          label="Парное соревнование"
+          [defaultValue]="paired"
+        ></app-switch>
+        <app-switch
           formControlName="publish"
-          label="Publish"
+          label="Опубликовать"
           [defaultValue]="published"
         ></app-switch>
         <div class="edit-date-layout">
@@ -171,6 +176,7 @@
 
       <app-attendees-table
         *ngIf="pretenders.length > 0"
+        [type]="event.type"
         [eventOwner]="eventOwner"
         (add)="accept($event)"
         (remove)="removeUser($event)"

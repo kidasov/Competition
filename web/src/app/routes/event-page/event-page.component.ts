@@ -44,6 +44,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
     endsAtDate: new FormControl(),
     endsAtTime: new FormControl(),
     description: new FormControl(),
+    pair: new FormControl(),
   };
 
   editForm = new FormGroup(this.controls);
@@ -72,6 +73,10 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   get published() {
     return this.event.state === 'published';
+  }
+
+  get paired() {
+    return this.event.type === 'pair';
   }
 
   get canRegister() {
@@ -159,6 +164,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
       .patchEvent(this.event.id, {
         name: this.controls.name.value,
         state: this.controls.publish.value ? 'published' : 'draft',
+        type: this.controls.pair.value ? 'pair' : 'single',
         coverMediaId: this.coverMediaId,
         startsAt: this.enteredStartsAt,
         endsAt: this.enteredEndsAt,

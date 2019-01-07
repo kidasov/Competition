@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Attendee } from 'app/models/event';
+import { Attendee, EventType } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
 import { Id } from 'app/types/types';
 
@@ -16,6 +16,8 @@ export class AttendeesTableComponent implements OnInit {
   title: String;
   @Input()
   eventOwner: Boolean = false;
+  @Input()
+  type: EventType;
   @Output()
   add = new EventEmitter();
   @Output()
@@ -24,6 +26,10 @@ export class AttendeesTableComponent implements OnInit {
   constructor(private authProvider: AuthProvider, private router: Router) {}
 
   ngOnInit() {}
+
+  isPaired(index) {
+    return this.type === 'pair' ? Math.floor(index / 2) + 1 : index + 1;
+  }
 
   handleAdd(attendee: Attendee) {
     this.add.emit(attendee.userId);

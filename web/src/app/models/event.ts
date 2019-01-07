@@ -9,7 +9,18 @@ export class EventData {
   location: string;
   description: string;
   coverMediaId: Id;
-  state: 'published' | 'draft';
+  state: PublishState;
+  type: EventType;
+}
+
+export enum PublishState {
+  Draft = 'draft',
+  Published = 'published',
+}
+
+export enum EventType {
+  Single = 'single',
+  Pair = 'pair',
 }
 
 export class Event extends EventData {
