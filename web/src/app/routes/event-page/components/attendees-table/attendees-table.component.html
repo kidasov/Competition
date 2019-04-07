@@ -1,35 +1,71 @@
 <div>
   <div class="attendees-grid">
     <div class="header">{{ title }}</div>
-    <ng-container *ngFor="let attendee of attendees; let i = index">
-      <div class="column number">{{ isPaired(i) }}</div>
-      <div class="column name">
-        <a [routerLink]="['/users', attendee.user.id]"
-          >{{ attendee.user.firstName + ' ' + attendee.user.lastName }}
-        </a>
+    <ng-container *ngFor="let item of items; let i = index">
+      <div class="column number">
+        <span>{{ item.index }}</span>
       </div>
-      <div class="column rating">{{ attendee.user.rating }}</div>
-      <div class="column options">
-        <app-icon-button
-          class="button"
-          *ngIf="showAdd(attendee)"
-          (click)="handleAdd(attendee)"
-          image="/assets/baseline-add_circle_outline-24px.svg"
-        ></app-icon-button>
-        <app-icon-button
-          class="button"
-          *ngIf="showRemove(attendee)"
-          (click)="handleRemove(attendee)"
-          image="/assets/baseline-remove_circle_outline-24px.svg"
-        ></app-icon-button>
-        <app-icon-button
-          class="button"
-          *ngIf="showLeave(attendee)"
-          (click)="handleRemove(attendee)"
-          image="/assets/baseline-directions_run-24px.svg"
-          name="Leave"
+      <div class="column name">
+        <a [routerLink]="['/users', item.userId]">{{ item.displayName }} </a>
+
+        <span *ngIf="item.pairedUserName"
+          >/
+          <a [routerLink]="['/users', item.pairedUser.userId]"
+            >{{ item.pairedUserName }}
+          </a></span
         >
-        </app-icon-button>
+
+        <div
+          *ngIf="
+            !item.pairedUser &&
+            currentUserId !== item.userId &&
+            currentAttendee.pairedUserId !== item.userId
+          "
+          class="column join"
+        >
+          <button (click)="pairWithUser(item.userId)">
+            Присоединиться
+          </button>
+        </div>
+        <span
+          ><a
+            href="#"
+            *ngIf="!item.pairedUser"
+            (click)="openRequestersPopup($event, item.userId)"
+            >Хотят присоединиться {{ item.requesters.length }}</a
+          >
+        </span>
+        <app-popup
+          *ngIf="popupUserId == item.userId"
+          title="Хотят присоединиться к {{ item.displayName }}"
+          (close)="closeRequestersPopup()"
+        >
+          <div class="popup-content">
+            <ul>
+              <ng-container *ngFor="let requester of item.requesters">
+                <li>
+                  <span>{{ requester.displayName }}</span>
+                  <button
+                    *ngIf="currentUserId !== requester.userId"
+                    (click)="pairWithUser(requester.userId)"
+                  >
+                    Принять запрос
+                  </button>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </app-popup>
+      </div>
+      <div class="column rating">{{ item.rating }}</div>
+      <div class="column options">
+        <ng-container *ngFor="let action of item.actions">
+          <app-icon-button
+            class="button"
+            (click)="action.onClick()"
+            [image]="'/assets/' + action.icon"
+          ></app-icon-button>
+        </ng-container>
       </div>
     </ng-container>
   </div>

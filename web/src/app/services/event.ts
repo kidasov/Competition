@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Id } from 'app/types/types';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { DetailedEvent, Event } from '../models/event';
 import { ApiService } from './api';
 
@@ -27,6 +27,8 @@ interface PatchEventParams {
   providedIn: 'root',
 })
 export class EventService {
+  eventSubjects = {};
+
   constructor(private api: ApiService) {}
 
   public createEvent(name: String): Observable<Event> {
@@ -41,8 +43,25 @@ export class EventService {
     return this.api.get('/events');
   }
 
+  private getEventSubject(eventId): BehaviorSubject<DetailedEvent> {
+    let eventSubject = this.eventSubjects[eventId];
+
+    if (!eventSubject) {
+      eventSubject = new BehaviorSubject<DetailedEvent>(null);
+      this.eventSubjects[eventId] = eventSubject;
+    }
+
+    return eventSubject;
+  }
+
+  public fetchEvent(eventId: Id): void {
+    this.api.get(`/events/${eventId}`).subscribe(event => {
+      this.getEventSubject(eventId).next(event);
+    });
+  }
+
   public getEvent(eventId: Id): Observable<DetailedEvent> {
-    return this.api.get(`/events/${eventId}`);
+    return this.getEventSubject(eventId);
   }
 
   public register(eventId: Id, params: RegisterParams): Observable<void> {
@@ -72,5 +91,13 @@ export class EventService {
       endsAt: endsAt instanceof Date ? endsAt.toISOString() : endsAt,
       ...rest,
     });
+  }
+
+  public pairWithUser(eventId: Id, targetUserId: Id): void {
+    this.api
+      .post(`/events/${eventId}/attendees/pair`, {
+        targetUserId,
+      })
+      .subscribe(() => this.fetchEvent(eventId));
   }
 }

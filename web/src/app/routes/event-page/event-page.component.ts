@@ -18,7 +18,6 @@ import { Subscription } from 'rxjs';
 export class EventPageComponent implements OnInit, OnDestroy {
   event: DetailedEvent;
   authorized: boolean;
-  subscription: Subscription;
   showEdit = false;
   uploading = false;
   uploadProgress = 0;
@@ -27,6 +26,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
   showRemove = false;
   showLogin = false;
   expanded = false;
+  subscription = new Subscription();
 
   constructor(
     private eventService: EventService,
@@ -50,9 +50,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
   editForm = new FormGroup(this.controls);
 
   get participants(): Attendee[] {
-    return this.event.attendees.filter(
-      attendee => attendee.status === 'approved',
-    );
+    return this.event.attendees;
   }
 
   get pretenders(): Attendee[] {
@@ -77,6 +75,10 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   get paired() {
     return this.event.type === 'pair';
+  }
+
+  get eventId() {
+    return this.event.id;
   }
 
   get canRegister() {
@@ -115,10 +117,18 @@ export class EventPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    const eventId = this.route.snapshot.params.eventId;
     this.fetchEvent();
-    this.subscription = this.authProvider.userInfo.subscribe(userInfo => {
-      this.authorized = userInfo.authorized;
-    });
+    this.subscription.add(
+      this.eventService.getEvent(eventId).subscribe(event => {
+        this.event = event;
+      }),
+    );
+    this.subscription.add(
+      this.authProvider.userInfo.subscribe(userInfo => {
+        this.authorized = userInfo.authorized;
+      }),
+    );
   }
 
   ngOnDestroy() {
@@ -127,9 +137,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   fetchEvent = () => {
     const eventId = this.route.snapshot.params.eventId;
-    this.eventService.getEvent(eventId).subscribe(event => {
-      this.event = event;
-    });
+    this.eventService.fetchEvent(eventId);
   };
 
   register() {
@@ -238,6 +246,12 @@ export class EventPageComponent implements OnInit, OnDestroy {
       backgroundSize: 'cover',
       backgroundPosition: 'center',
     };
+  }
+
+  get image() {
+    return this.event.coverMediaId != null
+        ? `${API_URL}/storage/${this.event.coverMediaId}`
+        : '/assets/timo.jpg';
   }
 
   removeCover() {

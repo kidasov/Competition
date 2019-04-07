@@ -175,36 +175,18 @@
       </app-button>
 
       <app-attendees-table
-        *ngIf="pretenders.length > 0"
-        [type]="event.type"
-        [eventOwner]="eventOwner"
-        (add)="accept($event)"
-        (remove)="removeUser($event)"
-        title="Возможные участники"
-        [attendees]="pretenders"
-      >
-      </app-attendees-table>
-      <app-attendees-table
         *ngIf="participants.length > 0"
         [eventOwner]="eventOwner"
         (remove)="removeUser($event)"
         title="Участники"
         [attendees]="participants"
-      >
-      </app-attendees-table>
-      <app-attendees-table
-        *ngIf="invited.length > 0"
-        [eventOwner]="eventOwner"
-        (remove)="removeUser($event)"
-        title="Invited"
-        [attendees]="invited"
+        [eventId]="eventId"
       >
       </app-attendees-table>
     </div>
     <div class="right">
       <img
-        *ngIf="event.coverMediaId"
-        [src]="'http://localhost:3003/storage/' + event.coverMediaId"
+        [src]="image"
       />
     </div>
   </div>

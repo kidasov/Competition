@@ -58,3 +58,16 @@
 .name {
   word-wrap: break-word;
 }
+
+.join {
+  color: #c6c6c6;
+}
+
+.popup-content ul {
+  list-style-type: none;
+}
+
+.popup-content ul > li {
+  color: #000;
+  padding: 20px;
+}

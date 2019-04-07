@@ -34,6 +34,8 @@ export interface Attendee {
   status: 'join_request' | 'invited' | 'approved';
   role: 'owner' | 'participant' | 'watcher' | 'judge';
   joinedAt: Date;
+  user: User;
+  pairedUserId: Id | null;
 }
 
 export interface EventWithUsers extends Event {
