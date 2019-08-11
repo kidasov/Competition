@@ -6,8 +6,10 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { AuthVkComponent } from './auth-vk/auth-vk.component';
+import { AddEventButtonComponent } from './components/add-event-button/add-event-button.component';
 import { ButtonComponent } from './components/button/button.component';
 import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
+import { EditUserButtonComponent } from './components/edit-user-button/edit-user-button.component';
 import { EventCardComponent } from './components/event-card/event-card.component';
 import { EventsComponent } from './components/events/events.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -31,6 +33,11 @@ import { AddUserFormComponent } from './routes/users-page/components/add-user-fo
 import { EditUserFormComponent } from './routes/users-page/components/edit-user-form/edit-user-form.component';
 import { UsersTableComponent } from './routes/users-page/components/users-table/users-table.component';
 import { UsersPageComponent } from './routes/users-page/users-page.component';
+
+// @ts-ignore
+window.jQuery = require('jquery');
+// @ts-ignore
+window.Bootstrap = require('bootstrap');
 
 @NgModule({
   declarations: [
@@ -60,6 +67,8 @@ import { UsersPageComponent } from './routes/users-page/users-page.component';
     ProgressBarComponent,
     EventCardComponent,
     UserEventsTableComponent,
+    AddEventButtonComponent,
+    EditUserButtonComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),

@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -14,16 +15,28 @@ import { AuthProvider } from '../../services/auth/provider';
   styleUrls: ['./sidebar.component.css'],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+  @Input()
+  title: string;
+  @Input()
+  current: string;
   @Output()
-  loginClick = new EventEmitter();
+  showAddEventClick = new EventEmitter();
   authorized: boolean;
   subscription: Subscription;
   userId: number;
+  isEventsPage = false;
+  isProfilePage = false;
+  showLogin = false;
 
   constructor(private authProvider: AuthProvider) {}
 
-  handleLogin() {
-    this.loginClick.emit();
+  handleLogout(event: Event) {
+    this.authProvider.invalidateSessionKey();
+    event.preventDefault();
+  }
+
+  showAddEventPopup() {
+    this.showAddEventClick.emit();
   }
 
   ngOnInit() {
@@ -31,9 +44,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.authorized = userInfo.authorized;
       this.userId = userInfo.userId;
     });
+    this.isEventsPage = this.current === 'events';
+    this.isProfilePage = this.current === 'profile';
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  showLoginPopup() {
+    this.showLogin = true;
+  }
+
+  closeLoginPopup() {
+    this.showLogin = false;
   }
 }

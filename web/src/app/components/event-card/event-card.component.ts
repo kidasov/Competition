@@ -60,8 +60,9 @@ export class EventCardComponent implements OnInit {
     };
   }
 
-  showEvent() {
+  showEvent(event: Event) {
     this.router.navigate(['events', this.event.id]);
+    event.preventDefault();
   }
 
   constructor(private router: Router) {}

@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AUTH_URL } from 'app/consts/auth';
 import { AuthService } from 'app/services/auth/service';
+import $ from 'jquery';
 
 @Component({
   selector: 'app-login-form',
@@ -35,6 +36,11 @@ export class LoginFormComponent implements OnInit {
     window.location.href = AUTH_URL;
   }
 
+  closeLogin() {
+    $('.modal').modal('hide');
+    this.close.emit();
+  }
+
   signIn(event: Event) {
     event.preventDefault();
     this.authService
@@ -42,7 +48,7 @@ export class LoginFormComponent implements OnInit {
         email: this.signInForm.get('email').value,
         password: this.signInForm.get('password').value,
       })
-      .subscribe(() => this.close.emit());
+      .subscribe(() => this.closeLogin());
   }
 
   signUp(event: Event) {
@@ -54,8 +60,10 @@ export class LoginFormComponent implements OnInit {
         email: this.registerForm.get('email').value,
         password: this.registerForm.get('password').value,
       })
-      .subscribe(() => this.close.emit());
+      .subscribe(() => this.closeLogin());
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    $('.modal').appendTo('body');
+  }
 }

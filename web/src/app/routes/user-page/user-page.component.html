@@ -1,4 +1,11 @@
 <div *ngIf="user">
+    <app-sidebar
+    title="Соревнования"
+    (showAddEventClick)="showAddPopup()"
+    (loginClick)="showLoginPopup()"
+    current="profile"
+  ></app-sidebar>
+
   <div class="top-panel">
     <app-header class="header">{{ user.name }}</app-header>
     <div class="buttons">

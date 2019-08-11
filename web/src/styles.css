@@ -4,26 +4,9 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik');
 @import url('https://fonts.googleapis.com/css?family=PT+Sans+Caption');
 @import url('https://fonts.googleapis.com/css?family=Forum');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100%;
-  min-height: 100%;
-  font-family: 'Rubik';
-}
+@import "bootstrap.min.css";
+@import "~font-awesome/css/font-awesome.css";
 
 body {
-  background-color: #263238;
-  color: #ffffff;
-}
-
-a {
-  color: #fdd835;
-  text-decoration: none !important;
+  font-family: Ubuntu, sans-serif;
 }

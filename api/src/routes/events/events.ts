@@ -2,7 +2,7 @@ import * as t from 'io-ts';
 import Router from 'koa-router';
 import Sequelize from 'sequelize';
 import { Attendee, Event, User } from '../../db/models';
-import { asEventId, PublishState, EventType } from '../../db/models/event';
+import { asEventId, EventType, PublishState } from '../../db/models/event';
 import { asUploadId } from '../../db/models/upload';
 import { IsoDate } from '../../io-types';
 import attendees from './attendees';

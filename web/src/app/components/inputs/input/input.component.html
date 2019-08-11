@@ -1,15 +1,17 @@
-<label>
-  <textarea
-    *ngIf="isMultiline"
-    value="{{defaultValue}}"
-    placeholder="{{placeholder}}"
-    (input)="onChange($event)"
-  ></textarea>
-  <input
-    type="{{type}}"
-    *ngIf="!isMultiline"
-    value="{{defaultValue}}"
-    placeholder="{{placeholder}}"
-    (input)="onChange($event)"
-  />
-</label>
+<label for="input-element">{{placeholder}}</label>
+<textarea
+  id="input-element"
+  *ngIf="isMultiline"
+  value="{{defaultValue}}"
+  placeholder="{{placeholder}}"
+  (input)="onChange($event)"
+></textarea>
+<input
+  id="input-element"
+  type="{{type}}"
+  *ngIf="!isMultiline"
+  value="{{defaultValue}}"
+  placeholder="{{placeholder}}"
+  (input)="onChange($event)"
+  class="form-control"
+/>

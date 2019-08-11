@@ -1,23 +1,8 @@
-<div class="top-panel">
-  <app-header class="header">Events</app-header>
-  <app-button
-    class="add-button"
-    (press)="showAddPopup()"
-    value="Add event"
-  ></app-button>
-</div>
-
-<app-popup *ngIf="showAdd" title="Create event" (close)="closeAddPopup($event)">
-  <form class="form" [formGroup]="createForm" (ngSubmit)="addEvent($event)">
-    <fieldset class="form-group">
-      <app-input
-        class="input"
-        formControlName="name"
-        placeholder="Name"
-      ></app-input>
-      <app-submit class="input" value="Create"></app-submit>
-    </fieldset>
-  </form>
-</app-popup>
+<app-sidebar
+  title="Соревнования"
+  (showAddEventClick)="showAddPopup()"
+  (loginClick)="showLoginPopup()"
+  current="events"
+></app-sidebar>
 
 <app-events-table class="events" [events]="events"></app-events-table>

@@ -14,7 +14,8 @@ import { Subscription } from 'rxjs';
 })
 export class EventsPageComponent implements OnInit, OnDestroy {
   events: CompetitionEvent[] = [];
-  showAdd: Boolean = false;
+  showAdd = false;
+  showLogin = false;
   subscription: Subscription;
 
   createForm = new FormGroup({
@@ -66,5 +67,13 @@ export class EventsPageComponent implements OnInit, OnDestroy {
 
   closeAddPopup() {
     this.showAdd = false;
+  }
+
+  showLoginPopup() {
+    this.showLogin = true;
+  }
+
+  closeLoginPopup() {
+    this.showLogin = false;
   }
 }

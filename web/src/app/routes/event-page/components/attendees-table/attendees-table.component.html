@@ -18,7 +18,7 @@
         <div
           *ngIf="
             !item.pairedUser &&
-            currentUserId !== item.userId &&
+            currentUserId !== item.userId && currentAttendee &&
             currentAttendee.pairedUserId !== item.userId
           "
           class="column join"
