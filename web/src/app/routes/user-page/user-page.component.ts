@@ -7,6 +7,7 @@ import { AuthProvider } from 'app/services/auth/provider';
 import { UserService } from 'app/services/user';
 import { Id } from 'app/types/types';
 import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-page',
@@ -15,12 +16,14 @@ import { Subscription } from 'rxjs';
 })
 export class UserPageComponent implements OnInit, OnDestroy {
   user: User;
-  subscription: Subscription;
+  subscription: Subscription = new Subscription();
+  userSubscription: Subscription;
   currentUserId: Id;
   showEdit = false;
   showEditTtw = false;
   events: ModelEvent[] = [];
   authorized: boolean;
+  sidebarActions: string[] = ['edit'];
 
   editForm = new FormGroup({
     firstName: new FormControl(),
@@ -42,13 +45,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
     return `http://r.ttw.ru/players/?id=${this.user.ttwId}`;
   }
 
-  fetchUser() {
-    const userId = this.route.snapshot.params.userId;
-    this.userService.getUser(userId).subscribe(user => {
-      this.user = new User(user);
-    });
-  }
-
   fetchEvents() {
     const userId = this.route.snapshot.params.userId;
     this.userService.getEvents(userId).subscribe(events => {
@@ -57,12 +53,19 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription = this.authProvider.userInfo.subscribe(userInfo => {
+    const routeUserId = this.route.snapshot.params.userId;
+    this.subscription = this.authProvider.userInfo.pipe(switchMap(userInfo => {
       this.currentUserId = userInfo.userId;
       this.authorized = userInfo.authorized;
-      this.fetchUser();
       this.fetchEvents();
+      if (this.currentUserId === +routeUserId) {
+        return this.userService.currentUser;
+      }
+      return this.userService.getUser(routeUserId);
+    })).subscribe(user => {
+      this.user = new User(user);
     });
+
   }
 
   ngOnDestroy() {
@@ -76,20 +79,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   handleLogout() {
     this.authProvider.invalidateSessionKey();
-  }
-
-  saveUser() {
-    this.userService
-      .patchUser(this.user.id, {
-        firstName: this.editForm.get('firstName').value,
-        lastName: this.editForm.get('lastName').value,
-        email: this.editForm.get('email').value,
-      })
-      .subscribe(() => {
-        this.fetchUser();
-        this.fetchEvents();
-        this.showEdit = false;
-      });
   }
 
   showEditPopup() {
@@ -125,7 +114,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
         ttwId: this.editTtwForm.get('ttwUrl').value,
       })
       .subscribe(() => {
-        this.fetchUser();
         this.showEditTtw = false;
       });
   }

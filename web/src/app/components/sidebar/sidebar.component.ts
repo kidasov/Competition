@@ -6,8 +6,8 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { AuthProvider } from 'app/services/auth/provider';
 import { Subscription } from 'rxjs';
-import { AuthProvider } from '../../services/auth/provider';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,6 +19,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   title: string;
   @Input()
   current: string;
+  @Input()
+  actions: string[];
   @Output()
   showAddEventClick = new EventEmitter();
   authorized: boolean;
@@ -28,7 +30,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   isProfilePage = false;
   showLogin = false;
 
-  constructor(private authProvider: AuthProvider) {}
+  constructor(private authProvider: AuthProvider ) {}
 
   handleLogout(event: Event) {
     this.authProvider.invalidateSessionKey();
@@ -58,5 +60,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   closeLoginPopup() {
     this.showLogin = false;
+  }
+
+  hasEdit() {
+
   }
 }

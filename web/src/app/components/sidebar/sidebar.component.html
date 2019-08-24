@@ -8,8 +8,10 @@ style="margin-bottom: 20px">
       <a class="nav-link" href="#" *ngIf="authorized" [routerLink]="['/users' , userId]">Профиль</a>
     </li>
   </ul>
-  <app-add-event-button></app-add-event-button>
-  <!-- <app-edit-user-button></app-edit-user-button> -->
+  <ng-container *ngFor="let action of actions">
+  <app-add-event-button *ngIf="action === 'add'"></app-add-event-button>
+  <app-edit-user-button *ngIf="action === 'edit'"></app-edit-user-button>
+  </ng-container>
   <ul class="navbar-nav">
     <li class="nav-item">
         <a class="nav-link" data-toggle="modal" data-target="#loginEventModal" *ngIf="!authorized" (click)="showLoginPopup($event)" href="#">Войти</a>

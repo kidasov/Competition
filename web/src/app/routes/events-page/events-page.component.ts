@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Event as CompetitionEvent } from 'app/models/event';
@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./events-page.component.css'],
 })
 export class EventsPageComponent implements OnInit, OnDestroy {
+  @Input()
+  sidebarActions: string[] = ['add'];
   events: CompetitionEvent[] = [];
   showAdd = false;
   showLogin = false;

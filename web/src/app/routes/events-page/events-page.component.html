@@ -2,7 +2,7 @@
   title="Соревнования"
   (showAddEventClick)="showAddPopup()"
   (loginClick)="showLoginPopup()"
-  current="events"
+  [actions]="sidebarActions"
 ></app-sidebar>
 
 <app-events-table class="events" [events]="events"></app-events-table>
