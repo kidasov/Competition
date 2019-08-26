@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppComponent } from './app.component';
 import { AuthVkComponent } from './auth-vk/auth-vk.component';
@@ -75,6 +76,7 @@ window.Bootstrap = require('bootstrap');
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent],

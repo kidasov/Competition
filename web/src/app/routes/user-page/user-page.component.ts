@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { faPencilAlt, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { Event as ModelEvent } from 'app/models/event';
 import { User } from 'app/models/user';
 import { AuthProvider } from 'app/services/auth/provider';
@@ -8,6 +9,7 @@ import { UserService } from 'app/services/user';
 import { Id } from 'app/types/types';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import $ from 'jquery';
 
 @Component({
   selector: 'app-user-page',
@@ -15,12 +17,12 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./user-page.component.css'],
 })
 export class UserPageComponent implements OnInit, OnDestroy {
+  faPencilAlt = faPencilAlt;
+  faSyncAlt = faSyncAlt;
   user: User;
   subscription: Subscription = new Subscription();
   userSubscription: Subscription;
   currentUserId: Id;
-  showEdit = false;
-  showEditTtw = false;
   events: ModelEvent[] = [];
   authorized: boolean;
   sidebarActions: string[] = ['edit'];
@@ -54,18 +56,21 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const routeUserId = this.route.snapshot.params.userId;
-    this.subscription = this.authProvider.userInfo.pipe(switchMap(userInfo => {
-      this.currentUserId = userInfo.userId;
-      this.authorized = userInfo.authorized;
-      this.fetchEvents();
-      if (this.currentUserId === +routeUserId) {
-        return this.userService.currentUser;
-      }
-      return this.userService.getUser(routeUserId);
-    })).subscribe(user => {
-      this.user = new User(user);
-    });
-
+    this.subscription = this.authProvider.userInfo
+      .pipe(
+        switchMap(userInfo => {
+          this.currentUserId = userInfo.userId;
+          this.authorized = userInfo.authorized;
+          this.fetchEvents();
+          if (this.currentUserId === +routeUserId) {
+            return this.userService.currentUser;
+          }
+          return this.userService.getUser(routeUserId);
+        }),
+      )
+      .subscribe(user => {
+        this.user = new User(user);
+      });
   }
 
   ngOnDestroy() {
@@ -81,20 +86,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.authProvider.invalidateSessionKey();
   }
 
-  showEditPopup() {
-    this.showEdit = true;
-  }
-
-  closeEditPopup() {
-    this.showEdit = false;
-  }
-
-  showEditTtwPopup(event: Event) {
-    this.showEditTtw = true;
-  }
-
-  closeEditTtwPopup() {
-    this.showEditTtw = false;
+  closeTtwPopup() {
+    $('#editTtwModal').modal('hide');
   }
 
   handleTtwUrl(event: Event) {
@@ -109,12 +102,17 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
 
   saveTtw(event: Event) {
-    this.userService
-      .patchUser(this.user.id, {
-        ttwId: this.editTtwForm.get('ttwUrl').value,
-      })
-      .subscribe(() => {
-        this.showEditTtw = false;
-      });
+    const ttwId = this.editTtwForm.get('ttwUrl').value;
+    if (ttwId) {
+      this.userService
+        .patchUser(this.user.id, {
+          ttwId,
+        })
+        .subscribe(() => {
+          this.closeTtwPopup();
+        });
+    } else {
+      this.closeTtwPopup();
+    }
   }
 }
