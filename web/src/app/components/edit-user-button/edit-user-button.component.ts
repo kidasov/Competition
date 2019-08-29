@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { User } from 'app/models/user';
 import $ from 'jquery';
@@ -11,7 +11,7 @@ import { UserService } from '../../services/user';
   templateUrl: './edit-user-button.component.html',
   styleUrls: ['./edit-user-button.component.css']
 })
-export class EditUserButtonComponent implements OnInit {
+export class EditUserButtonComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   currentUser: User;
   
@@ -28,7 +28,11 @@ export class EditUserButtonComponent implements OnInit {
     $('.modal').on('shown.bs.modal', function() {
       $('#first-name').focus();
     });
-    this.subscription = this.userService.currentUser.subscribe(user => this.currentUser = user);
+    this.subscription.add(this.userService.currentUser.subscribe(user => this.currentUser = user));
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   saveUser() {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Id } from 'app/types/types';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, empty, Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { DetailedEvent, Event } from '../models/event';
 import { ApiService } from './api';
 
@@ -27,6 +28,8 @@ interface PatchEventParams {
   providedIn: 'root',
 })
 export class EventService {
+  _currentEventId = new BehaviorSubject<Id>(-1);
+  _currentEvent: Observable<DetailedEvent>;
   eventSubjects = {};
 
   constructor(private api: ApiService) {}
@@ -90,7 +93,7 @@ export class EventService {
       startsAt: startsAt instanceof Date ? startsAt.toISOString() : startsAt,
       endsAt: endsAt instanceof Date ? endsAt.toISOString() : endsAt,
       ...rest,
-    });
+    }).pipe(tap(() => this.fetchEvent(eventId)));
   }
 
   public pairWithUser(eventId: Id, targetUserId: Id): void {
@@ -98,6 +101,23 @@ export class EventService {
       .post(`/events/${eventId}/attendees/pair`, {
         targetUserId,
       })
-      .subscribe(() => this.fetchEvent(eventId));
+      .subscribe(event => this.getEventSubject(eventId).next(event));
   }
+
+  public setEventId(eventId: Id) {
+    this._currentEventId.next(eventId);
+  }
+
+  get currentEvent() {
+    if (!this._currentEvent) {
+      this._currentEvent = this._currentEventId.pipe(switchMap(eventId => {
+        if (eventId !== -1) {
+          return this.getEventSubject(eventId);
+        }
+        return empty();
+      }));
+    }
+    return this._currentEvent;
+  }
+
 }

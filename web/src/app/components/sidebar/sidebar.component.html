@@ -11,6 +11,7 @@ style="margin-bottom: 20px">
   <ng-container *ngFor="let action of actions">
   <app-add-event-button *ngIf="action === 'add'"></app-add-event-button>
   <app-edit-user-button *ngIf="action === 'edit'"></app-edit-user-button>
+  <app-edit-event-button *ngIf="action === 'edit-event'"></app-edit-event-button>
   </ng-container>
   <ul class="navbar-nav">
     <li class="nav-item">

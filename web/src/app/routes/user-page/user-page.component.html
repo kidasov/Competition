@@ -1,8 +1,6 @@
 <div *ngIf="user">
   <app-sidebar
-    title="Соревнования"
     (showAddEventClick)="showAddPopup()"
-    (loginClick)="showLoginPopup()"
     [actions]="sidebarActions"
   ></app-sidebar>
 

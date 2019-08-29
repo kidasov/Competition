@@ -1,4 +1,5 @@
 <div class="event" *ngIf="event">
+  <app-sidebar [actions]="sidebarActions"> </app-sidebar>
   <app-login-form
     *ngIf="showLogin"
     (close)="closeLoginPopup($event)"
@@ -185,9 +186,7 @@
       </app-attendees-table>
     </div>
     <div class="right">
-      <img
-        [src]="image"
-      />
+      <img [src]="image" />
     </div>
   </div>
   <div class="removeButtonContainer">

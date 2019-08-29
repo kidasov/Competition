@@ -27,6 +27,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
   showLogin = false;
   expanded = false;
   subscription = new Subscription();
+  sidebarActions: string[] = ['edit-event'];
 
   constructor(
     private eventService: EventService,
@@ -118,6 +119,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const eventId = this.route.snapshot.params.eventId;
+    this.eventService.setEventId(eventId);
     this.fetchEvent();
     this.subscription.add(
       this.eventService.getEvent(eventId).subscribe(event => {

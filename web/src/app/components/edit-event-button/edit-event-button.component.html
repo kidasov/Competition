@@ -1,0 +1,36 @@
+<button
+  class="btn btn-primary mr-2 my-sm-0"
+  data-toggle="modal"
+  data-target="#editEventModal"
+>
+  Редактировать соревнование
+</button>
+
+<div class="modal fade show" id="editEventModal" tabindex="-1" role="document">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Редактировать пользователя</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+        <span aria-hidden="true">&times;</span> 
+        </button>
+      </div>
+      <form class="form" [formGroup]="editForm" (ngSubmit)="saveEvent($event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <input id="event-name" class="form-control my-3" value={{currentEvent.name}} formControlName="name" placeholder="Название">
+            <input id="event-description" class="form-control my-3" value={{currentEvent.description}} formControlName="description" placeholder="Описание">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
