@@ -10,7 +10,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Редактировать пользователя</h5>
+        <h5 class="modal-title">Редактировать соревнование</h5>
         <button
           type="button"
           class="close"
@@ -81,6 +81,48 @@
                 Удалить
               </button>
             </span>
+          </div>
+          <div class="custom-control custom-switch mt-3">
+            <input
+              formControlName="pair"
+              type="checkbox"
+              class="custom-control-input"
+              id="pairSwitch"
+              [checked]="paired"
+            />
+            <label class="custom-control-label" for="pairSwitch">
+              Парное соревнование
+            </label>
+          </div>
+          <div class="custom-control custom-switch mt-3">
+            <input
+              formControlName="publish"
+              type="checkbox"
+              class="custom-control-input"
+              id="publishSwitch"
+              [checked]="published"
+            />
+            <label class="custom-control-label" for="publishSwitch">
+              Опубликовать
+            </label>
+          </div>
+          <div class="form-group mt-3">
+            <label for="startsAtDate">Начинается:</label>
+            <input
+              type="datetime-local"
+              class="form-control"
+              formControlName="startsAtDate"
+              [value]="startsAtDate"
+            />
+          </div>
+          <div class="form-group mt-3">
+            <label for="endsAtDate">Заканчивается:</label>
+            <input
+              type="datetime-local"
+              class="form-control"
+              formControlName="endsAtDate"
+              [value]="endsAtDate"
+            />
           </div>
         </div>
         <div class="modal-footer">
