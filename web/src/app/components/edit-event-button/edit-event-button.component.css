@@ -1,0 +1,10 @@
+.edit-cover-preview {
+  width: 72px;
+  height: 72px;
+}
+
+.edit-cover-change input {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}

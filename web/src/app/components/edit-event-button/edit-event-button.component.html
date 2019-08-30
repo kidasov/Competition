@@ -17,14 +17,70 @@
           data-dismiss="modal"
           aria-label="Close"
         >
-        <span aria-hidden="true">&times;</span> 
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <form class="form" [formGroup]="editForm" (ngSubmit)="saveEvent($event)">
         <div class="modal-body">
           <div class="form-group">
-            <input id="event-name" class="form-control my-3" value={{currentEvent.name}} formControlName="name" placeholder="Название">
-            <input id="event-description" class="form-control my-3" value={{currentEvent.description}} formControlName="description" placeholder="Описание">
+            <input
+              id="event-name"
+              class="form-control my-3"
+              value="{{ currentEvent.name }}"
+              formControlName="name"
+              placeholder="Название"
+            />
+            <input
+              id="event-description"
+              class="form-control my-3"
+              value="{{ currentEvent.description }}"
+              formControlName="description"
+              placeholder="Описание"
+            />
+          </div>
+          <div class="edit-cover-layout d-inline-flex align-items-center">
+            <div
+              *ngIf="coverMediaId"
+              class="edit-cover-preview"
+              [ngStyle]="editCoverPreviewStyle"
+            ></div>
+            <app-progress-bar
+              *ngIf="uploading"
+              class="edit-cover-upload-progress"
+              [progress]="uploadProgress"
+            ></app-progress-bar>
+            <label *ngIf="!uploading" class="edit-cover-change mb-0 ml-0">
+              <input
+                id="file-input"
+                type="file"
+                accept="image/*"
+                (change)="upload($event)"
+              />
+              <button
+                *ngIf="coverMediaId; else addCover"
+                class="btn btn-primary ml-3"
+                (click)="handleFileButtonClick($event)"
+              >
+                Изменить
+              </button>
+              <ng-template #addCover>
+                <button
+                  class="btn btn-primary"
+                  (click)="handleFileButtonClick($event)"
+                >
+                  Добавить картинку
+                </button>
+              </ng-template>
+            </label>
+            <span class="ml-3">
+              <button
+                *ngIf="!uploading && coverMediaId"
+                class="edit-cover-remove btn btn-primary"
+                (click)="removeCover($event)"
+              >
+                Удалить
+              </button>
+            </span>
           </div>
         </div>
         <div class="modal-footer">
