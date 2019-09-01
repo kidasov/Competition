@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { API_URL } from 'app/consts/common';
 import { DetailedEvent } from 'app/models/event';
 import { EventService } from 'app/services/event';
@@ -14,6 +16,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./edit-event-button.component.css'],
 })
 export class EditEventButtonComponent implements OnInit, OnDestroy {
+  faTrashAlt = faTrashAlt;
   subscription = new Subscription();
   currentEvent: DetailedEvent;
   coverMediaId: number;
@@ -34,7 +37,11 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
 
   editForm = new FormGroup(this.controls);
 
-  constructor(private eventService: EventService, private storageService: StorageService) {}
+  constructor(
+    private eventService: EventService,
+    private storageService: StorageService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     $('.modal').appendTo('body');
@@ -42,9 +49,10 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
       $('#event-name').focus();
     });
     this.subscription.add(
-      this.eventService.currentEvent.subscribe(event => { this.currentEvent = event;
-      this.coverMediaId = event.coverMediaId;
-    })
+      this.eventService.currentEvent.subscribe(event => {
+        this.currentEvent = event;
+        this.coverMediaId = event.coverMediaId;
+      }),
     );
   }
 
@@ -67,14 +75,13 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
   }
 
   get enteredStartsAt(): Date | undefined {
-    return this.parseDate(this.controls.startsAtDate.value || this.startsAtDate
+    return this.parseDate(
+      this.controls.startsAtDate.value || this.startsAtDate,
     );
   }
 
   get enteredEndsAt(): Date | null {
-    return this.parseDate(
-      this.controls.endsAtDate.value || this.endsAtDate
-    );
+    return this.parseDate(this.controls.endsAtDate.value || this.endsAtDate);
   }
 
   private parseDate(date: string | null): Date | null {
@@ -142,7 +149,7 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
     const name = this.controls.name.value;
     const description = this.controls.description.value;
     const pair = this.controls.pair.value ? 'pair' : 'single';
-    const publish = this.controls.publish.value ? 'published' : 'draft'; 
+    const publish = this.controls.publish.value ? 'published' : 'draft';
     const data = {};
     if (name !== null) {
       data['name'] = name;
@@ -163,6 +170,13 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
     data['endsAt'] = this.enteredEndsAt;
     this.eventService.patchEvent(this.currentEvent.id, data).subscribe(() => {
       $('#editEventModal').modal('hide');
+    });
+  }
+
+  removeEvent() {
+    this.eventService.removeEvent(this.currentEvent).subscribe(() => {
+      $('#removeEventModal').modal('hide');
+      this.router.navigateByUrl('/events');
     });
   }
 

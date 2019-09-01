@@ -1,5 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'app/models/user';
 import $ from 'jquery';
 import { Subscription } from 'rxjs';
@@ -12,6 +13,7 @@ import { UserService } from '../../services/user';
   styleUrls: ['./edit-user-button.component.css']
 })
 export class EditUserButtonComponent implements OnInit, OnDestroy {
+  faTrashAlt = faTrashAlt;
   subscription: Subscription = new Subscription();
   currentUser: User;
   
