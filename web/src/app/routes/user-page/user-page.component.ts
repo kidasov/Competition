@@ -7,9 +7,9 @@ import { User } from 'app/models/user';
 import { AuthProvider } from 'app/services/auth/provider';
 import { UserService } from 'app/services/user';
 import { Id } from 'app/types/types';
+import $ from 'jquery';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import $ from 'jquery';
 
 @Component({
   selector: 'app-user-page',

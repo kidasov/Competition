@@ -7,8 +7,11 @@
   <div class="top-panel">
     <app-header class="header">{{ event.name }}</app-header>
   </div>
-  <div class="event-content">
-    <div class="left">
+  <div class="d-flex flex-row m-10">
+    <div class="flex">
+      <img class="event-image mw-300" [src]="image" />
+    </div>
+    <div class="flex ml-5">
       <div class="description text">{{ event.description }}</div>
       <div *ngIf="dateValid" class="date-container text">
         <div class="date-header">Дата</div>
@@ -23,7 +26,6 @@
         value="Записаться"
       >
       </app-button>
-
       <app-attendees-table
         *ngIf="participants.length > 0"
         [eventOwner]="eventOwner"
@@ -33,9 +35,6 @@
         [eventId]="eventId"
       >
       </app-attendees-table>
-    </div>
-    <div class="right">
-      <img [src]="image" />
     </div>
   </div>
 </div>
