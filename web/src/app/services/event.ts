@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Id } from 'app/types/types';
 import { BehaviorSubject, empty, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
+import { Attendee } from '../models/attendee';
 import { DetailedEvent, Event } from '../models/event';
 import { ApiService } from './api';
 
@@ -58,7 +59,8 @@ export class EventService {
   }
 
   public fetchEvent(eventId: Id): void {
-    this.api.get(`/events/${eventId}`).subscribe(event => {
+    this.api.get(`/events/${eventId}`).subscribe((event: DetailedEvent) => {
+      event.attendees = event.attendees.map(attendee => new Attendee(attendee));
       this.getEventSubject(eventId).next(event);
     });
   }
@@ -79,11 +81,11 @@ export class EventService {
     return this.api.put(
       `/events/${eventId}/attendees/${userId}/accept`,
       params,
-    );
+    ).pipe(tap(() => this.fetchEvent(eventId)));
   }
 
   public removeUser(eventId: Id, userId: Id): Observable<void> {
-    return this.api.delete(`/events/${eventId}/attendees/${userId}`);
+    return this.api.delete(`/events/${eventId}/attendees/${userId}`).pipe(tap(() => this.fetchEvent(eventId)));
   }
 
   public patchEvent(eventId: Id, params: PatchEventParams): Observable<Event> {

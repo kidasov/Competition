@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-hover">
   <thead>
     <tr>
       <th>#</th>
@@ -9,10 +9,21 @@
   </thead>
   <tbody>
     <tr *ngFor="let attendee of attendees; let i = index">
-      <td>{{i + 1}}</td>
-      <td>{{attendee.name}}</td>
-      <td>{{attendee.rating}}</td>
-      <td></td>
+      <td>{{ i + 1 }}</td>
+      <td>{{ attendee.name }}</td>
+      <td>{{ attendee.rating }}</td>
+      <td [ngSwitch]="attendee.status">        
+        <div *ngSwitchCase="'join_request'">
+          <span>Желает присоединиться</span>
+          <a href="#" class="ml-2" (click)="accept(attendee.userId)">Принять</a>
+          <a href="#" class="ml-2" (click)="kick(attendee.userId)">Отказать</a>
+        </div>
+        <span *ngSwitchCase="'invited'">Приглашен</span>
+        <div *ngSwitchCase="'approved'">
+          <span>Участник</span>
+          <a href="#" class="ml-2" (click)="kick(attendee.userId)">Удалить</a>
+        </div>
+      </td>
     </tr>
   </tbody>
 </table>

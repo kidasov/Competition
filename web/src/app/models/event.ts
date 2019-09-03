@@ -1,4 +1,5 @@
 import { Id } from 'app/types/types';
+import { Attendee } from './attendee';
 import { User } from './user';
 
 export class EventData {
@@ -26,16 +27,6 @@ export enum EventType {
 export class Event extends EventData {
   id: Id;
   createdAt: Date;
-}
-
-export interface Attendee {
-  eventId: Id;
-  userId: Id;
-  status: 'join_request' | 'invited' | 'approved';
-  role: 'owner' | 'participant' | 'watcher' | 'judge';
-  joinedAt: Date;
-  user: User;
-  pairedUserId: Id | null;
 }
 
 export interface EventWithUsers extends Event {

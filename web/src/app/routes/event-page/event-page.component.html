@@ -7,34 +7,39 @@
   <div class="top-panel">
     <app-header class="header">{{ event.name }}</app-header>
   </div>
-  <div class="d-flex flex-row m-10">
-    <div class="flex">
-      <img class="event-image mw-300" [src]="image" />
-    </div>
-    <div class="flex ml-5">
-      <div class="description text">{{ event.description }}</div>
-      <div *ngIf="dateValid" class="date-container text">
-        <div class="date-header">Дата</div>
-        <div class="date">{{ date }}</div>
+  <div class="m-5">
+    <div class="d-flex flex-row">
+      <div class="flex">
+        <img class="event-image mw-300" [src]="image" />
       </div>
+      <div class="flex ml-5">
+        <div class="description text">{{ event.description }}</div>
+        <div *ngIf="dateValid" class="date-container text">
+          <div class="date-header">Дата</div>
+          <div class="date">{{ date }}</div>
+        </div>
 
-      <app-button
-        class="registerButton"
-        appearance="positive"
-        *ngIf="canRegister"
-        (press)="register()"
-        value="Записаться"
-      >
-      </app-button>
-      <app-attendees-table
-        *ngIf="participants.length > 0"
-        [eventOwner]="eventOwner"
-        (remove)="removeUser($event)"
-        title="Участники"
-        [attendees]="participants"
-        [eventId]="eventId"
-      >
-      </app-attendees-table>
+        <app-button
+          class="registerButton"
+          appearance="positive"
+          *ngIf="canRegister"
+          (press)="register()"
+          value="Записаться"
+        >
+        </app-button>
+        <app-attendees-table
+          *ngIf="participants.length > 0"
+          [eventOwner]="eventOwner"
+          (remove)="removeUser($event)"
+          title="Участники"
+          [attendees]="participants"
+          [eventId]="eventId"
+        >
+        </app-attendees-table>
+      </div>
+    </div>
+    <div class="attendees-table">
+      <app-attendee-table [attendees]="event.attendees" [event]="event"></app-attendee-table>
     </div>
   </div>
 </div>

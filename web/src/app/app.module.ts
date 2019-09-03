@@ -35,6 +35,7 @@ import { EditUserFormComponent } from './routes/users-page/components/edit-user-
 import { UsersTableComponent } from './routes/users-page/components/users-table/users-table.component';
 import { UsersPageComponent } from './routes/users-page/users-page.component';
 import { EditEventButtonComponent } from './components/edit-event-button/edit-event-button.component';
+import { AttendeeTableComponent } from './routes/event-page/components/attendee-table/attendee-table.component';
 
 // @ts-ignore
 window.jQuery = require('jquery');
@@ -72,6 +73,7 @@ window.Bootstrap = require('bootstrap');
     AddEventButtonComponent,
     EditUserButtonComponent,
     EditEventButtonComponent,
+    AttendeeTableComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),
