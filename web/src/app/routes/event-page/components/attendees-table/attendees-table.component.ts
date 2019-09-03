@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Attendee, DetailedEvent, EventType } from 'app/models/event';
+import { Attendee } from 'app/models/attendee';
+import { DetailedEvent, EventType } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
 import { EventService } from 'app/services/event';
 import { Id } from 'app/types/types';
