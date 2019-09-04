@@ -10,6 +10,7 @@ import { AuthVkComponent } from './auth-vk/auth-vk.component';
 import { AddEventButtonComponent } from './components/add-event-button/add-event-button.component';
 import { ButtonComponent } from './components/button/button.component';
 import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.component';
+import { EditEventButtonComponent } from './components/edit-event-button/edit-event-button.component';
 import { EditUserButtonComponent } from './components/edit-user-button/edit-user-button.component';
 import { EventCardComponent } from './components/event-card/event-card.component';
 import { EventsComponent } from './components/events/events.component';
@@ -23,6 +24,7 @@ import { PopupComponent } from './components/popup/popup.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SwitchComponent } from './components/switch/switch.component';
+import { AttendeeTableComponent } from './routes/event-page/components/attendee-table/attendee-table.component';
 import { AttendeesTableComponent } from './routes/event-page/components/attendees-table/attendees-table.component';
 import { EventPageComponent } from './routes/event-page/event-page.component';
 import { EventsTableComponent } from './routes/events-page/components/events-table/events-table.component';
@@ -34,8 +36,6 @@ import { AddUserFormComponent } from './routes/users-page/components/add-user-fo
 import { EditUserFormComponent } from './routes/users-page/components/edit-user-form/edit-user-form.component';
 import { UsersTableComponent } from './routes/users-page/components/users-table/users-table.component';
 import { UsersPageComponent } from './routes/users-page/users-page.component';
-import { EditEventButtonComponent } from './components/edit-event-button/edit-event-button.component';
-import { AttendeeTableComponent } from './routes/event-page/components/attendee-table/attendee-table.component';
 
 // @ts-ignore
 window.jQuery = require('jquery');

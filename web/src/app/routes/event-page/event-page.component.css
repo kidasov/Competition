@@ -29,12 +29,6 @@
 .date {
   grid-area: 2 / 2 / 2 / 3;
 }
-
-.date-container {
-  display: flex;
-  align-self: stretch;
-}
-
 .date {
   margin-left: 20px;
 }
@@ -63,4 +57,20 @@
 
 .attendees-table {
   margin-top: 100px;
+}
+
+.text {
+  font-size: 1.1rem;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.ml-10 {
+  margin-left: 10em;
+}
+
+.register {
+  background-color: indianred
 }

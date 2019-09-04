@@ -57,6 +57,10 @@ export class EventPageComponent implements OnInit, OnDestroy {
     return this.event.id;
   }
 
+  get eventType() {
+    return this.event.type === 'single' ? 'Личное первенство' : 'Командное первенство';
+  }
+
   get canRegister() {
     return (
       !this.authorized ||
@@ -74,8 +78,14 @@ export class EventPageComponent implements OnInit, OnDestroy {
     return this.event.location;
   }
 
-  get date() {
+  get startDate() {
     return moment(this.event.startsAt)
+      .lang('ru')
+      .format('D MMMM YYYY, HH:mm');
+  }
+
+  get endDate() {
+    return moment(this.event.endsAt)
       .lang('ru')
       .format('D MMMM YYYY, HH:mm');
   }
