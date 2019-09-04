@@ -61,6 +61,10 @@ export class EventPageComponent implements OnInit, OnDestroy {
     return this.event.type === 'single' ? 'Личное первенство' : 'Командное первенство';
   }
 
+  get eventDescription() {
+    return this.event.description || 'Соревнование по настольному теннису';
+  }
+
   get canRegister() {
     return (
       !this.authorized ||
