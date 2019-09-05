@@ -8,68 +8,68 @@
     <app-header class="header">{{ event.name }}</app-header>
   </div>
   <div class="m-5">
-    <div class="d-flex flex-row">
-      <div class="flex">
+    <div class="row">
+      <div class="col-sm-12 col-md-6 p-3">
         <img class="event-image mw-300 img-thumbnail" [src]="image" />
       </div>
-      <div class="flex ml-5">
-        <div class="row">
-          <div class="column">
-            <div>
-              <span class="bold text">Описание</span>
-            </div>
-            <div class="mt-3">
-              <div class="text">
+      <div class="col-sm-12 col-md-6 p-3">
+        <table class="table table-borderless">
+          <tbody>
+            <tr>
+              <th>
+                <span class="text">Описание</span>
+              </th>
+              <td>
+                <span class="text">{{ eventDescription }}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>
                 <span class="bold text">Дата начала</span>
-              </div>
-            </div>
-            <div class="mt-3">
-              <div class="text">
-                <span class="bold text">Дата завершения</span>
-              </div>
-            </div>
-            <div class="mt-3">
-              <div>
-                <span class="bold text">Тип соревнования</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="column ml-5">
-            <div>
-              <span class="text">{{ eventDescription }}</span>
-            </div>
-            <div class="mt-3">
-              <span class="text" *ngIf="isEndDateValid; else dateNotSet">{{ startDate }}</span>
-              <ng-template #dateNotSet>
-                <span class="text">Не установлена</span>
-              </ng-template>
-            </div>
-            <div class="mt-3">
-              <span class="text" *ngIf="isEndDateValid; else dateNotSet">{{ endDate }}</span>
-              <ng-template #dateNotSet>
-                <span class="text">Не установлена</span>
-              </ng-template>
-            </div>
-            <div class="mt-3">
-              <span class="text">{{ eventType }}</span>
-            </div>
-          </div>
-
-          <!-- <app-button
-            class="registerButton"
-            appearance="positive"
-            *ngIf="canRegister"
-            (press)="register()"
-            value="Записаться"
-          >
-          </app-button> -->
-        </div>
-        <div class="row mt-5">
-          <button class="btn btn-lg register" (click)="register()" *ngIf="canRegister">
-            <span class="text">Записаться на соревнование</span>
-          </button>
-        </div>
+              </td>
+              <td>
+                <span class="text" *ngIf="isEndDateValid; else dateNotSet">{{
+                  startDate
+                }}</span>
+                <ng-template #dateNotSet>
+                  <span class="text">Не установлена</span>
+                </ng-template>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="text">Дата завершения</span>
+              </th>
+              <td>
+                <span class="text" *ngIf="isEndDateValid; else dateNotSet">{{
+                  endDate
+                }}</span>
+                <ng-template #dateNotSet>
+                  <span class="text">Не установлена</span>
+                </ng-template>
+              </td>
+            </tr>
+            <tr>
+              <th>
+                <span class="text">Тип соревнования</span>
+              </th>
+              <td>
+                <span class="text">{{ eventType }}</span>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <button
+                  class="btn btn-lg btn-primary mt-2"
+                  (click)="register()"
+                  *ngIf="canRegister"
+                >
+                  <span class="text">Записаться на соревнование</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <!-- <app-attendees-table
           *ngIf="participants.length > 0"
           [eventOwner]="eventOwner"
