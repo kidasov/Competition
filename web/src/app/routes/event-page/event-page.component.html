@@ -40,10 +40,16 @@
               <span class="text">{{ eventDescription }}</span>
             </div>
             <div class="mt-3">
-              <span class="text">{{ startDate }}</span>
+              <span class="text" *ngIf="isEndDateValid; else dateNotSet">{{ startDate }}</span>
+              <ng-template #dateNotSet>
+                <span class="text">Не установлена</span>
+              </ng-template>
             </div>
             <div class="mt-3">
-              <span class="text">{{ endDate }}</span>
+              <span class="text" *ngIf="isEndDateValid; else dateNotSet">{{ endDate }}</span>
+              <ng-template #dateNotSet>
+                <span class="text">Не установлена</span>
+              </ng-template>
             </div>
             <div class="mt-3">
               <span class="text">{{ eventType }}</span>

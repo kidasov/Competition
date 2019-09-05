@@ -102,8 +102,12 @@ export class EventPageComponent implements OnInit, OnDestroy {
     return this.event.description;
   }
 
-  get dateValid() {
+  get isStartDateValid() {
     return moment(this.event.startsAt).isValid();
+  }
+
+  get isEndDateValid() {
+    return moment(this.event.endsAt).isValid();
   }
 
   ngOnInit() {
