@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'app/models/user';
 import $ from 'jquery';
@@ -16,14 +17,15 @@ export class EditUserButtonComponent implements OnInit, OnDestroy {
   faTrashAlt = faTrashAlt;
   subscription: Subscription = new Subscription();
   currentUser: User;
-  
+  routeUserId: string;
+
   editForm = new FormGroup({
     firstName: new FormControl(),
     lastName: new FormControl(),
     email: new FormControl()
   });
 
-  constructor(private userService: UserService, private authProvider: AuthProvider) { }
+  constructor(private userService: UserService, private authProvider: AuthProvider, private route: ActivatedRoute) { }
 
   ngOnInit() {
     $('.modal').appendTo('body');
@@ -31,6 +33,7 @@ export class EditUserButtonComponent implements OnInit, OnDestroy {
       $('#first-name').focus();
     });
     this.subscription.add(this.userService.currentUser.subscribe(user => this.currentUser = user));
+    this.subscription.add(this.route.params.subscribe(params => this.routeUserId = params.userId));
   }
 
   ngOnDestroy() {

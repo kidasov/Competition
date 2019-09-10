@@ -1,11 +1,12 @@
 <button
-    class="btn btn-primary mr-2 my-sm-0"
-    data-toggle="modal"
-    data-target="#editProfileModal">
-    Рерактировать профиль
+  *ngIf="currentUser && currentUser.id === +routeUserId"
+  class="btn btn-primary mr-2 my-sm-0"
+  data-toggle="modal"
+  data-target="#editProfileModal">
+  Рерактировать профиль
 </button>
 
-<div class="modal fade show" id="editProfileModal" tabindex="-1" role="document">
+<div class="modal fade show" *ngIf="currentUser" id="editProfileModal" tabindex="-1" role="document">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

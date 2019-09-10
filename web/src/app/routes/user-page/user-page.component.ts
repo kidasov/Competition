@@ -8,7 +8,7 @@ import { AuthProvider } from 'app/services/auth/provider';
 import { UserService } from 'app/services/user';
 import { Id } from 'app/types/types';
 import $ from 'jquery';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -55,17 +55,16 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const routeUserId = this.route.snapshot.params.userId;
-    this.subscription = this.authProvider.userInfo
+    this.subscription = combineLatest(this.authProvider.userInfo, this.route.params)
       .pipe(
-        switchMap(userInfo => {
+        switchMap(([userInfo, params]) => {
           this.currentUserId = userInfo.userId;
           this.authorized = userInfo.authorized;
           this.fetchEvents();
-          if (this.currentUserId === +routeUserId) {
+          if (this.currentUserId === +params.userId) {
             return this.userService.currentUser;
           }
-          return this.userService.getUser(routeUserId);
+          return this.userService.getUser(params.userId);
         }),
       )
       .subscribe(user => {
