@@ -101,7 +101,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
 
   saveTtw(event: Event) {
-    const ttwId = this.editTtwForm.get('ttwUrl').value;
+    const ttwId = this.editTtwForm.get('ttwUrl').value || this.user.ttwId ;
     if (ttwId) {
       this.userService
         .patchUser(this.user.id, {
