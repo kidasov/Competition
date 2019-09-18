@@ -1,35 +1,90 @@
 <div class="card text-white bg-secondary mb-4 event-card" style="width: 40rem;">
-  
-  <div class="row">
+  <div class="card-body">
+    <div class="row">
       <div class="col-sm-6">
-        <div class="card-body">
-            <h3 class="card-title">{{ name }}</h3>
-            <div>Место</div>
-            <div *ngIf="locationSet; else unknownLocation" class="location">
-              {{ location }}
-            </div>
-            <ng-template #unknownLocation>
-              <div><span class="longDash">&mdash;</span></div>
-            </ng-template>
-            <div>Дата</div>
-            <div *ngIf="dateValid; else unknownDate" class="date">{{ date }}</div>
-            <ng-template #unknownDate>
-              <div><span class="longDash">&mdash;</span></div>
-            </ng-template>
-            <div>Участники</div>
-            <div>{{ participants }}</div>
-            <div>Описание</div>
-            <div *ngIf="descriptionExist; else unknownDescription" class="description">
-              {{ description }}
-            </div>
-            <ng-template #unknownDescription>
-              <div><span class="longDash">&mdash;</span></div>
-            </ng-template>
-            <a href="#" class="btn btn-lg btn-primary mt-5" (click)="showEvent($event)">Открыть</a> 
-        </div>
+        <table class="table">
+          <tbody>
+            <tr style="height: 200px">
+              <th>
+                <h3 class="card-title">{{ name }}</h3>
+              </th>
+            </tr>
+
+            <tr>
+              <td>
+                <div>Место</div>
+              </td>
+              <td>
+                <div>
+                  <span
+                    *ngIf="locationSet; else unknownLocation"
+                    class="location"
+                  >
+                    {{ location }}
+                  </span>
+                  <ng-template #unknownLocation>
+                    <span class="longDash">&mdash;</span>
+                  </ng-template>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div>
+                  <span>Дата</span>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <span *ngIf="dateValid; else unknownDate" class="date">
+                    {{ date }}
+                  </span>
+                  <ng-template #unknownDate>
+                    <span class="longDash">&mdash;</span>
+                  </ng-template>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div>Участники</div>
+              </td>
+              <td>
+                <div>{{ participants }}</div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div>Описание</div>
+              </td>
+              <td>
+                <div>
+                  <span
+                    *ngIf="descriptionExist; else unknownDescription"
+                    class="description"
+                  >
+                    {{ description }}
+                  </span>
+                  <ng-template #unknownDescription>
+                    <span class="longDash">&mdash;</span>
+                  </ng-template>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <a
+                href="#"
+                class="btn btn-lg btn-primary mt-5"
+                (click)="showEvent($event)"
+                >Открыть</a
+              >
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="col-sm-6 text-right">
         <div class="card-img-top image" [ngStyle]="image"></div>
       </div>
+    </div>
   </div>
 </div>

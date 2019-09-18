@@ -1,3 +1,13 @@
 .image {
   height: 100%;
 }
+
+.card {
+  height: 100%;
+  margin: 1em 2em;
+}
+
+.table td > div {
+  height: 3em;
+  overflow: hidden;
+}
