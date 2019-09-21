@@ -3,11 +3,10 @@
 }
 
 .card {
-  height: 100%;
   margin: 1em 2em;
 }
 
 .table td > div {
-  height: 3em;
-  overflow: hidden;
+  height: 1em;
+
 }

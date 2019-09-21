@@ -2,11 +2,12 @@
   *ngIf="currentUser && currentUser.id === +routeUserId"
   class="btn btn-primary mr-2 my-sm-0"
   data-toggle="modal"
-  data-target="#editProfileModal">
+  data-target="#editProfileModal"
+>
   Рерактировать профиль
 </button>
 
-<div class="modal fade show" *ngIf="currentUser" id="editProfileModal" tabindex="-1" role="document">
+<div class="modal fade show" id="editProfileModal" tabindex="-1" role="document">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -17,21 +18,39 @@
           data-dismiss="modal"
           aria-label="Close"
         >
-        <span aria-hidden="true">&times;</span> 
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <form class="form" [formGroup]="editForm" (ngSubmit)="saveUser($event)">
-          <div class="modal-body">
-            <div class="form-group">
-              <input id="first-name" value={{currentUser.firstName}} class="form-control my-3" formControlName="firstName" placeholder="Имя">
-              <input id="last-name" value={{currentUser.lastName}} class="form-control my-3" formControlName="lastName" placeholder="Фамилия"/>
-              <input id="email" value={{currentUser.email}} class="form-control my-3" formControlName="email" placeholder="Электронная почта"/>
-            </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input
+              id="first-name"
+              value="{{ currentUser.firstName }}"
+              class="form-control my-3"
+              formControlName="firstName"
+              placeholder="Имя"
+            />
+            <input
+              id="last-name"
+              value="{{ currentUser.lastName }}"
+              class="form-control my-3"
+              formControlName="lastName"
+              placeholder="Фамилия"
+            />
+            <input
+              id="email"
+              value="{{ currentUser.email }}"
+              class="form-control my-3"
+              formControlName="email"
+              placeholder="Электронная почта"
+            />
           </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-          </div>
-        </form> 
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
