@@ -29,7 +29,7 @@ import { MDCSwitch } from '@material/switch';
 export class SwitchComponent
   implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
   constructor() {}
-  @ViewChild('switch')
+  @ViewChild('switch', { static: true })
   ref: ElementRef;
   switchControl: MDCSwitch;
   @Input()
