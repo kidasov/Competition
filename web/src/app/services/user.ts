@@ -20,6 +20,7 @@ interface PatchUserParams {
 export class UserService {
   _currentUser: Observable<User>;
   _userUpdated = new BehaviorSubject<boolean>(false);
+  _users: Observable<User[]>;
   constructor(private api: ApiService, private authProvider: AuthProvider) {
     console.log('UserService constructor');
   }
@@ -66,5 +67,14 @@ export class UserService {
       }), shareReplay(1));
     }
     return this._currentUser;
+  }
+
+  get users() {
+    if (!this._users) {
+      this._users = this.api
+      .get('/users')
+      .pipe(map((response: User[]) => response.map(user => new User(user))), shareReplay(1));
+    }
+    return this._users;
   }
 }

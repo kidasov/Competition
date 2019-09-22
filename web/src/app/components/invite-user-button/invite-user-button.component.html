@@ -17,7 +17,7 @@
           data-dismiss="modal"
           aria-label="Close"
         >
-          <span aria-hidde="true">&times;</span>
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <form
@@ -27,9 +27,8 @@
       >
         <div class="modal-body">
           <div class="form-group">
-            <ng-select [searchable]="true" [addTag]="span" formControlName="invitedUser">
-
-              <ng-option *ngFor="let user of users" value="user.id">
+            <ng-select [searchable]="true" id="select" autofocus formControlName="invitedUser">
+              <ng-option *ngFor="let user of users;" value="user.id">
                   <span>{{ user.name }}</span>
                   <span class="ml-2">{{ user.rating }}</span>
               </ng-option>

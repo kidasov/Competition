@@ -5,7 +5,6 @@ import { DetailedEvent, EventType } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
 import { EventService } from 'app/services/event';
 import { Id } from 'app/types/types';
-import { Subscription } from 'rxjs';
 
 export interface AttendeeWrapper {
   attendee: Attendee | null;
@@ -56,6 +55,7 @@ export class AttendeesTableComponent implements OnInit {
       const teamRating = attendeeRating + teammateRating;
 
       return {
+        id: attendee.userId,
         attendeeName: attendee.name,
         teammateName: teammate && teammate.name,
         attendeeRating: attendee.rating,
@@ -63,6 +63,10 @@ export class AttendeesTableComponent implements OnInit {
         totalRating: teamRating
       };
     });
+  }
+
+  trackById(index, item) {
+    return item.id;
   }
 
   // @Input()

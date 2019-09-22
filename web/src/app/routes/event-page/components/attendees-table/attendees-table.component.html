@@ -81,37 +81,42 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let attendee of attendees; let i = index">
-      <td>{{ i + 1 }}</td>
-      <td>
-        {{ attendee.attendeeName }}
-        <span class="ml-2">{{ attendee.attendeeRating }}</span>
-      </td>
-      <td>
-        <span *ngIf="attendee.teammateName;else invite_teammate">
-          {{ attendee.teammateName }}
-          <span class="ml-2">{{ attendee.teammateRating }}</span>
-        </span>
-        <ng-template #invite_teammate>
-          <!-- <app-invite-user-button></app-invite-user-button> -->
-        </ng-template>
-      </td>
-      <td>{{ attendee.totalRating }}</td>
-      <td [ngSwitch]="attendee.status">
-        <div *ngSwitchCase="'join_request'">
-          <span>Желает присоединиться</span>
-          <a href="#" class="ml-2" (click)="accept(attendee.userId)">Принять</a>
-          <a href="#" class="ml-2" (click)="kick(attendee.userId)">Отказать</a>
-        </div>
-        <span *ngSwitchCase="'invited'">Приглашен</span>
-        <div *ngSwitchCase="'approved'">
-          <span>Участник</span>
-          <a href="#" class="ml-2" (click)="kick(attendee.userId)">Удалить</a>
-        </div>
-      </td>
-    </tr>
+    <ng-container
+      *ngFor="let attendee of attendees; let i = index; trackBy: trackById"
+    >
+      <tr>
+        <td>{{ i + 1 }}</td>
+        <td>
+          {{ attendee.attendeeName }}
+          <span class="ml-2">{{ attendee.attendeeRating }}</span>
+        </td>
+        <td>
+          <span *ngIf="attendee.teammateName; else invite_teammate">
+            {{ attendee.teammateName }}
+            <span class="ml-2">{{ attendee.teammateRating }}</span>
+          </span>
+          <ng-template #invite_teammate>
+            <app-invite-user-button></app-invite-user-button>
+          </ng-template>
+        </td>
+        <td>{{ attendee.totalRating }}</td>
+        <td [ngSwitch]="attendee.status">
+          <div *ngSwitchCase="'join_request'">
+            <span>Желает присоединиться</span>
+            <a href="#" class="ml-2" (click)="accept(attendee.userId)"
+              >Принять</a
+            >
+            <a href="#" class="ml-2" (click)="kick(attendee.userId)"
+              >Отказать</a
+            >
+          </div>
+          <span *ngSwitchCase="'invited'">Приглашен</span>
+          <div *ngSwitchCase="'approved'">
+            <span>Участник</span>
+            <a href="#" class="ml-2" (click)="kick(attendee.userId)">Удалить</a>
+          </div>
+        </td>
+      </tr>
+    </ng-container>
   </tbody>
 </table>
-
-
-<app-invite-user-button></app-invite-user-button>
