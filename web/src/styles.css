@@ -5,6 +5,7 @@
 @import url('https://fonts.googleapis.com/css?family=PT+Sans+Caption');
 @import url('https://fonts.googleapis.com/css?family=Forum');
 @import "bootstrap.min.css";
+@import "~@ng-select/ng-select/themes/ant.design.theme.css";
 
 body {
   font-family: Ubuntu, sans-serif;

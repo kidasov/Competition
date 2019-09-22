@@ -110,6 +110,14 @@ export class EventPageComponent implements OnInit, OnDestroy {
     return moment(this.event.endsAt).isValid();
   }
 
+  get isPair() {
+    return this.event.type === 'pair';
+  }
+
+  get isSingle() {
+    return this.event.type === 'single';
+  }
+
   ngOnInit() {
     const eventId = this.route.snapshot.params.eventId;
     this.eventService.setEventId(eventId);

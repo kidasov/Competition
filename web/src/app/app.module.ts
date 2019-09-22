@@ -5,6 +5,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { AppComponent } from './app.component';
 import { AuthVkComponent } from './auth-vk/auth-vk.component';
 import { AddEventButtonComponent } from './components/add-event-button/add-event-button.component';
@@ -19,6 +21,7 @@ import { IconButtonComponent } from './components/icon-button/icon-button.compon
 import { CloseComponent } from './components/icons/close/close.component';
 import { InputComponent } from './components/inputs/input/input.component';
 import { SubmitComponent } from './components/inputs/submit/submit.component';
+import { InviteUserButtonComponent } from './components/invite-user-button/invite-user-button.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
@@ -74,13 +77,16 @@ window.Bootstrap = require('bootstrap');
     EditUserButtonComponent,
     EditEventButtonComponent,
     AttendeeTableComponent,
+    InviteUserButtonComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),
     BrowserModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgSelectModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
