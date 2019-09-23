@@ -78,6 +78,7 @@
       <th>Первый участник</th>
       <th>Второй участник</th>
       <th>Сумарный рейтинг</th>
+      <th>Статус</th>
     </tr>
   </thead>
   <tbody>
@@ -96,7 +97,27 @@
             <span class="ml-2">{{ attendee.teammateRating }}</span>
           </span>
           <ng-template #invite_teammate>
-            <app-invite-user-button></app-invite-user-button>
+            <app-invite-user-button
+              *ngIf="
+                currentUser &&
+                  currentUser.id === attendee.id;
+                else join_team
+              "
+            ></app-invite-user-button>
+          </ng-template>
+          <ng-template #join_team>
+            <a
+              href="#"
+              *ngIf="
+                !attendee.pairedUserId &&
+                currentUser &&
+                currentUser.id !== attendee.id &&
+                currentUser.pairedUserId !== attendee.id
+              "
+              (click)="pairWithUser(attendee.id)"
+            >
+              Присоединиться
+            </a>
           </ng-template>
         </td>
         <td>{{ attendee.totalRating }}</td>
