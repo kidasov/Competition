@@ -10,33 +10,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <ul class="nav nav-tabs" role="tablist">
-          <li class="nav-item">
-            <a
-              class="nav-link active"
-              id="invite-user-tab"
-              data-toggle="tab"
-              aria-controls="invite-user"
-              aria-selected="true"
-              href="#invite-user"
-            >
-              <h5 class="modal-title">Пригласить</h5>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              id="joined-users-tab"
-              data-toggle="tab"
-              href="#joined-users"
-              role="tab"
-              aria-controls="joined-users"
-              aria-selected="false"
-            >
-              <h5 class="modal-title">Присоединятся</h5>
-            </a>
-          </li>
-        </ul>
+        <h5 class="modal-title">Пригласить игрока</h5>
         <button
           type="button"
           class="close"
@@ -46,44 +20,50 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="tab-content">
-        <div
-          class="tab-pane fade show active"
-          id="invite-user"
-          role="tabpanel"
-          aria-labelledby="invite-user-tab"
-        >
-          <form
-            class="form"
-            [formGroup]="inviteForm"
-            (ngSubmit)="inviteUser($event)"
-          >
-            <div class="modal-body">
-              <div class="form-group">
-                <ng-select
-                  [searchable]="true"
-                  id="select"
-                  autofocus
-                  formControlName="invitedUser"
-                >
-                  <ng-option *ngFor="let user of users" value="user.id">
-                    <span>{{ user.name }}</span>
-                    <span class="ml-2">{{ user.rating }}</span>
-                  </ng-option>
-                </ng-select>
-              </div>
-            </div>
-          </form>
-          <div class="modal-footer">
+      <form
+        class="form"
+        [formGroup]="inviteForm"
+        (ngSubmit)="inviteUser($event)"
+      >
+        <div class="modal-body">
+          <div class="form-group">
+            <ng-select
+              [searchable]="true"
+              id="select"
+              autofocus
+              formControlName="invitedUser"
+            >
+              <ng-option *ngFor="let user of users" [value]="user.id">
+                <span>{{ user.name }}</span>
+                <span class="ml-2">{{ user.rating }}</span>
+              </ng-option>
+            </ng-select>
+          </div>
+          <h5 *ngIf="requesters.length > 0" class="requesters-header">Участники, которые хотят присоединиться:</h5>
+          <table class="table table-borderless">
+            <tbody>
+              <ng-container *ngFor="let requester of requesters; let i = index">
+                <tr>
+                  <td>
+                    <span>{{ requester.name }}</span>
+                  </td>
+                  <td>
+                    <span>{{ requester.rating }}</span>
+                  </td>
+                  <td>
+                    <button class="btn btn-primary" (click)="pairWithUser(requester.userId)">Принять в команду</button>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
             <button type="submit" class="btn btn-primary">
               Сохранить
             </button>
           </div>
-        </div>
-        <div clas="tab-pane fade" id="joined-users" role="tabpanel" aria-labelledby="joined-users-tab">
-          
-        </div>
-      </div>
+      </form>
     </div>
   </div>
 </div>

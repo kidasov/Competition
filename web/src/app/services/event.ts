@@ -103,7 +103,7 @@ export class EventService {
       .post(`/events/${eventId}/attendees/pair`, {
         targetUserId,
       })
-      .subscribe(event => this.getEventSubject(eventId).next(event));
+      .subscribe(() => this.fetchEvent(eventId));
   }
 
   public setEventId(eventId: Id) {

@@ -1,12 +1,12 @@
 import { User } from './user';
 
-enum AttendeeStatus {
+export enum AttendeeStatus {
   JoinRequest = 'join_request',
   Invited = 'invited',
   Approved = 'approved',
 }
 
-enum AttendeeRole {
+export enum AttendeeRole {
   Owner = 'owner',
   Participant = 'participant',
   Watcher = 'watcher',

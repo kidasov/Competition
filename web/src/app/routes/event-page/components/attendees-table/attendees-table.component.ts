@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Attendee } from 'app/models/attendee';
+import { Attendee, AttendeeRole, AttendeeStatus } from 'app/models/attendee';
 import { DetailedEvent, EventType } from 'app/models/event';
 import { User } from 'app/models/user';
 import { EventService } from 'app/services/event';
@@ -23,10 +23,11 @@ export class AttendeesTableComponent implements OnInit {
   event: DetailedEvent;
   subscription = new Subscription();
   currentUser: User;
+  users: { [key: number]: User };
 
   constructor(
     private eventService: EventService,
-    private userService: UserService,
+    private userService: UserService
   ) {}
 
   accept(userId: Id) {
@@ -46,6 +47,16 @@ export class AttendeesTableComponent implements OnInit {
         console.log('current user id', this.currentUser);
       }),
     );
+
+    this.subscription.add(
+      this.userService.users.subscribe(
+        users =>
+          (this.users = users.reduce((res, user) => {
+            res[user.id] = user;
+            return res;
+          }, {})),
+      ),
+    );
   }
 
   get attendeeMap() {
@@ -57,27 +68,64 @@ export class AttendeesTableComponent implements OnInit {
 
   get attendees() {
     const attendeeMap = this.attendeeMap;
-    return this.event.attendees.map(attendee => {
-      const possibleTeammate = attendeeMap[attendee.pairedUserId];
-      const teammate =
-        possibleTeammate && possibleTeammate.pairedUserId === attendee.userId
-          ? possibleTeammate
-          : null;
-      const attendeeRating = attendee.rating || 0;
-      const teammateRating = (teammate && teammate.rating) || 0;
-      const teamRating = attendeeRating + teammateRating;
+    const pairedUsers = {};
 
-      return {
-        ...attendee,
-        id: attendee.userId,
-        pairedUserId: attendee.pairedUserId,
-        attendeeName: attendee.name,
-        teammateName: teammate && teammate.name,
-        attendeeRating: attendee.rating,
-        teammateRating: teammate && teammate.rating,
-        totalRating: teamRating,
-      };
-    });
+    return this.event.attendees
+      .map(attendee => {
+        if (pairedUsers[attendee.userId] === true) {
+          return null;
+        }
+
+        const possibleTeammate = attendeeMap[attendee.pairedUserId];
+
+        const isPair =
+          possibleTeammate && possibleTeammate.pairedUserId === attendee.userId;
+
+        let teammate = isPair ? possibleTeammate : null;
+
+        if (
+          this.currentUser &&
+          attendee.userId === this.currentUser.id &&
+          !teammate && this.users &&
+          attendee.pairedUserId
+        ) {
+          const currentDate = new Date();
+          const user = this.users[attendee.pairedUserId];
+          // @ts-ignore
+          teammate = new Attendee({
+            role: AttendeeRole.Watcher,
+            eventId: this.event.id,
+            pairedUserId: null,
+            status: AttendeeStatus.Invited,
+            createdAt: currentDate,
+            joinedAt: currentDate,
+            updatedAt: currentDate,
+            user: user,
+            userId: attendee.pairedUserId
+          });
+        }
+
+        const attendeeRating = attendee.rating || 0;
+        const teammateRating = (teammate && teammate.rating) || 0;
+        const teamRating = attendeeRating + teammateRating;
+
+        if (isPair) {
+          pairedUsers[teammate.userId] = true;
+        }
+
+        return {
+          ...attendee,
+          id: attendee.userId,
+          pairedUserId: attendee.pairedUserId,
+          attendeeName: attendee.name,
+          teammateName: teammate && teammate.name,
+          attendeeRating: attendee.rating,
+          teammateRating: teammate && teammate.rating,
+          totalRating: teamRating,
+          isPair
+        };
+      })
+      .filter(attendee => attendee);
   }
 
   trackById(index, item) {
@@ -87,6 +135,15 @@ export class AttendeesTableComponent implements OnInit {
   pairWithUser(targetUserId: Id) {
     this.eventService.pairWithUser(this.event.id, targetUserId);
     return false;
+  }
+
+  dismissInvite() {
+    this.eventService.pairWithUser(this.event.id, null);
+    return false;
+  }
+
+  get eventOwner(): Boolean {
+    return this.currentUser && this.currentUser.id === this.event.ownerUserId;
   }
 
   // @Input()
