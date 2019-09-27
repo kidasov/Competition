@@ -1,5 +1,18 @@
 <div class="events row">
-  <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngFor="let event of events">
+  <div *ngIf="events.length === 1; else many_events">
+    <div
+      *ngFor="let event of events"
+    >
+      <app-event-card class="event" [event]="event"></app-event-card>
+    </div>
+  </div>
+  <ng-template
+    #many_events
+  >
+    <div 
+    class="col-sm-12 col-md-12 col-lg-6 col-xl-6"
+    *ngFor="let event of events">
     <app-event-card class="event" [event]="event"></app-event-card>
   </div>
+  </ng-template>
 </div>

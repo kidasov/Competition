@@ -1,9 +1,6 @@
 <div class="event" *ngIf="event">
   <app-sidebar [actions]="sidebarActions"> </app-sidebar>
-  <app-login-form
-    *ngIf="showLogin"
-    (close)="closeLoginPopup($event)"
-  ></app-login-form>
+  <app-login-form></app-login-form>
   <div class="top-panel">
     <app-header class="header">{{ event.name }}</app-header>
   </div>
@@ -61,11 +58,21 @@
               <td colspan="2">
                 <button
                   class="btn btn-lg btn-primary mt-2"
-                  (click)="register()"
-                  *ngIf="canRegister"
+                  *ngIf="!authorized; else register_button"
+                  data-toggle="modal"
+                  data-target="#loginEventModal"
                 >
-                  <span class="text">Записаться на соревнование</span>
+                  Записаться на соревнование
                 </button>
+                <ng-template #register_button>
+                  <button
+                    class="btn btn-lg btn-primary mt-2"
+                    (click)="register()"
+                    *ngIf="canRegister"
+                  >
+                    <span class="text">Записаться на соревнование</span>
+                  </button>
+                </ng-template>
               </td>
             </tr>
           </tbody>
@@ -78,10 +85,7 @@
         [attendees]="event.attendees"
         [event]="event"
       ></app-attendee-table>
-      <app-attendees-table
-        *ngIf="isPair"
-        [event]="event"
-      >
+      <app-attendees-table *ngIf="isPair" [event]="event">
       </app-attendees-table>
     </div>
   </div>

@@ -1,12 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { API_URL } from 'app/consts/common';
 import { Attendee } from 'app/models/attendee';
 import { DetailedEvent } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
 import { EventService } from 'app/services/event';
-import { StorageService, UploadEventType } from 'app/services/storage';
 import { Id } from 'app/types/types';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
@@ -22,7 +20,6 @@ export class EventPageComponent implements OnInit, OnDestroy {
   showEdit = false;
   coverMediaId: number;
   previewCoverImage: string = null;
-  showLogin = false;
   subscription = new Subscription();
   sidebarActions: string[] = ['edit-event'];
 
@@ -149,8 +146,6 @@ export class EventPageComponent implements OnInit, OnDestroy {
       this.eventService
         .register(eventId, { role: 'participant' })
         .subscribe(this.fetchEvent);
-    } else {
-      this.showLogin = true;
     }
   }
 

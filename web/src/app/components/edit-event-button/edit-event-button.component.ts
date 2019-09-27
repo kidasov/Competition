@@ -169,7 +169,7 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
     data['startsAt'] = this.enteredStartsAt;
     data['endsAt'] = this.enteredEndsAt;
     this.eventService.patchEvent(this.currentEvent.id, data).subscribe(() => {
-      $('#editEventModal').modal('hide');
+      this.closeEditEventModal();
     });
   }
 
@@ -183,5 +183,13 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
   handleFileButtonClick() {
     $('#file-input').click();
     return false;
+  }
+
+  closeEditEventModal() {
+    $('#editEventModal').modal('hide');
+  }
+
+  showEditEventModal() {
+    $('#editEventModal').modal('show');
   }
 }

@@ -57,6 +57,7 @@
                 (change)="upload($event)"
               />
               <button
+                type="button"
                 *ngIf="coverMediaId; else addCover"
                 class="btn btn-primary ml-3"
                 (click)="handleFileButtonClick($event)"
@@ -65,6 +66,7 @@
               </button>
               <ng-template #addCover>
                 <button
+                  type="button"
                   class="btn btn-primary"
                   (click)="handleFileButtonClick($event)"
                 >
@@ -74,6 +76,7 @@
             </label>
             <span class="ml-3">
               <button
+                type="button"
                 *ngIf="!uploading && coverMediaId"
                 class="edit-cover-remove btn btn-primary"
                 (click)="removeCover($event)"
@@ -127,9 +130,11 @@
         </div>
         <div class="modal-footer">
           <button
+            type="button"
             class="btn btn-danger"
             data-toggle="modal"
             data-target="#removeEventModal"
+            (click)="closeEditEventModal()"
           >
             <fa-icon class="mr-2" [icon]="faTrashAlt"></fa-icon>
             Удалить
@@ -158,6 +163,7 @@
           class="close"
           data-dismiss="modal"
           aria-label="Close"
+          (click)="showEditEventModal()"
         >
           <span aria-hidden="true">&times;</span>
         </button>
@@ -166,7 +172,7 @@
         <span>Действие нельзя будет отменить</span>
       </div>
       <div class="modal-footer d-inline-flex align-items-center">
-        <button class="btn btn-primary" data-dismiss="modal">Отмена</button>
+        <button class="btn btn-primary" (click)="showEditEventModal()" data-dismiss="modal">Отмена</button>
         <button (click)="removeEvent($event)" class="btn btn-danger">
           Удалить
         </button>
