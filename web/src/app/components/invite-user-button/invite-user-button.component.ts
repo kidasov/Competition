@@ -4,12 +4,12 @@ import { Attendee } from 'app/models/attendee';
 import { DetailedEvent } from 'app/models/event';
 import { User } from 'app/models/user';
 import { AuthProvider } from 'app/services/auth/provider';
+import { EventService } from 'app/services/event';
 import { UserService } from 'app/services/user';
+import { Id } from 'app/types/types';
 import $ from 'jquery';
 import { combineLatest, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { EventService } from 'app/services/event';
-import { Id } from 'app/types/types';
 
 @Component({
   selector: 'app-invite-user-button',
