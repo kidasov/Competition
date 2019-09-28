@@ -32,6 +32,8 @@ import { AttendeesTableComponent } from './routes/event-page/components/attendee
 import { EventPageComponent } from './routes/event-page/event-page.component';
 import { EventsTableComponent } from './routes/events-page/components/events-table/events-table.component';
 import { EventsPageComponent } from './routes/events-page/events-page.component';
+import { NotificationsTableComponent } from './routes/notifications-page/components/notifications-table/notifications-table.component';
+import { NotificationsPageComponent } from './routes/notifications-page/notifications-page.component';
 import { routes } from './routes/routes';
 import { UserEventsTableComponent } from './routes/user-page/components/user-events-table/user-events-table.component';
 import { UserPageComponent } from './routes/user-page/user-page.component';
@@ -78,6 +80,8 @@ window.Bootstrap = require('bootstrap');
     EditEventButtonComponent,
     AttendeeTableComponent,
     InviteUserButtonComponent,
+    NotificationsPageComponent,
+    NotificationsTableComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),

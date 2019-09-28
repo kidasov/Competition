@@ -1,0 +1,10 @@
+<app-sidebar
+  (showAddEventClick)="showAddPopup()"
+  [actions]="sidebarActions"
+></app-sidebar>
+
+<div class="m-5">
+  <app-notifications-table
+    [notifications]="notifications"
+  ></app-notifications-table>
+</div>

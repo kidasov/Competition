@@ -1,0 +1,14 @@
+<ul class="list-group" *ngFor="let notification of notifications">
+  <li *ngIf="notification.type === 'pair_invite'" class="list-group-item list-group-item-action d-inline-flex align-items-center">
+    <span class="message">Пользователь {{notification.sentByUser.name}} приглашает сыграть с ним в турнире {{notification.event.name}}</span>
+    <ul class="notification-actions d-inline-flex">
+        <li class="accept mr-2">
+          <button type="button" class="btn btn-primary">Присоединиться</button>
+        </li>
+        <li class="dismiss ml-2">
+          <button type="button" class="btn btn-primary">Отказать</button>
+        </li>
+      </ul>
+  </li>
+  <li *ngIf="notification.type === 'event_invited'" class="list-group-item list-group-item-action">Пользователь {{notification.sentByUser.name}} приглашает сыграть в турнире {{notification.event.name}}</li>
+</ul>

@@ -1,0 +1,11 @@
+.notification-actions {
+  list-style: none;
+}
+
+.list-group-item {
+  padding: 1.5rem 2.25rem;
+}
+
+.message {
+  flex: 1
+}

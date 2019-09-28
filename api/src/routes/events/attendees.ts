@@ -1,8 +1,9 @@
 import * as t from 'io-ts';
 import Router from 'koa-router';
-import { Attendee, Event, User } from '../../db/models';
+import { Attendee, Event, Notification } from '../../db/models';
 import { AttendeeRole, AttendeeStatus } from '../../db/models/attendee';
 import { asEventId } from '../../db/models/event';
+import { NotificationType } from '../../db/models/notification';
 import { asUserId } from '../../db/models/user';
 import { IoUserId } from '../../io-types';
 
@@ -35,6 +36,44 @@ router.post('/register', async ctx => {
     userId,
     role,
     status: AttendeeStatus.JoinRequest,
+  });
+
+  ctx.status = 201;
+  ctx.body = { attendee };
+});
+
+const InviteRequest = t.type({
+  userId: IoUserId,
+  role: t.union([
+    t.literal(AttendeeRole.Participant),
+    t.literal(AttendeeRole.Watcher),
+    t.literal(AttendeeRole.Judge),
+    t.literal(AttendeeRole.Owner),
+  ]),
+});
+
+router.post('/invite', async ctx => {
+  const { userId } = await ctx.requireSession();
+  const eventId = asEventId(ctx.paramNumber('eventId'));
+  const { role, userId: invitedUserId } = ctx.decode(InviteRequest);
+
+  const event = await Event.findOne({
+    where: { id: eventId },
+  });
+
+  if (!event) {
+    return ctx.throw(404);
+  }
+
+  if (event.ownerUserId !== userId) {
+    return ctx.throw(403);
+  }
+
+  const attendee = await Attendee.create({
+    eventId,
+    userId: invitedUserId,
+    role,
+    status: AttendeeStatus.Invited,
   });
 
   ctx.status = 201;
@@ -118,6 +157,15 @@ router.post('/pair', async ctx => {
 
   if (!affectedCount) {
     return ctx.throw(404);
+  }
+
+  if (targetUserId) {
+     Notification.create({
+      sentBy: userId,
+      eventId,
+      userId: targetUserId,
+      type: NotificationType.PairInvitation,
+    });
   }
 
   ctx.status = 200;
