@@ -6,16 +6,17 @@ import { UserId, UserModel } from './user';
 enum NotificationType {
   Invitation = 'event_invite',
   PairInvitation = 'pair_invite',
+  RejectInvitation = 'reject_invite',
 }
 
 interface Notification {
   id: number;
-  userId: UserId;
-  eventId: EventId;
-  type: NotificationType;
   createdAt: Date;
-  read: boolean;
+  userId: UserId;
+  type: NotificationType;
   sentBy: UserId;
+  eventId: EventId;
+  read: boolean;
 }
 
 type NotificationAttributes = Partial<Notification>;
@@ -32,12 +33,17 @@ const NotificationModel = sequelize.define<
     defaultValue: sequelize.fn('now'),
   },
   userId: Sequelize.INTEGER,
-  eventId: Sequelize.INTEGER,
   type: Sequelize.ENUM(
     NotificationType.Invitation,
     NotificationType.PairInvitation,
+    NotificationType.RejectInvitation,
   ),
   sentBy: Sequelize.INTEGER,
+  eventId: Sequelize.INTEGER,
+  read: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
 });
 
 NotificationModel.belongsTo(UserModel, { as: 'sentByUser', foreignKey: 'sentBy' });

@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { AuthProvider } from 'app/services/auth/provider';
+import { NotificationService } from 'app/services/notification';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -28,9 +29,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   userId: number;
   isEventsPage = false;
   isProfilePage = false;
+  isNotificationsPage = false;
   showLogin = false;
+  unread: number;
 
-  constructor(private authProvider: AuthProvider ) {}
+  constructor(private authProvider: AuthProvider, private notificationService: NotificationService) {}
 
   handleLogout(event: Event) {
     this.authProvider.invalidateSessionKey();
@@ -48,6 +51,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
     this.isEventsPage = this.current === 'events';
     this.isProfilePage = this.current === 'profile';
+    this.isNotificationsPage = this.current === 'notifications';
+    this.subscription.add(this.notificationService.unread.subscribe(unread => this.unread = unread));
   }
 
   ngOnDestroy() {

@@ -109,7 +109,7 @@ export class AttendeesTableComponent implements OnInit {
         const teammateRating = (teammate && teammate.rating) || 0;
         const teamRating = attendeeRating + teammateRating;
 
-        if (isPair) {
+        if (teammate) {
           pairedUsers[teammate.userId] = true;
         }
 
@@ -125,7 +125,7 @@ export class AttendeesTableComponent implements OnInit {
           isPair
         };
       })
-      .filter(attendee => attendee);
+      .filter(attendee => attendee && !pairedUsers[attendee.userId]);
   }
 
   trackById(index, item) {

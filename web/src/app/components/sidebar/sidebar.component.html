@@ -1,17 +1,22 @@
 <header class="navbar sticky-top navbar-expand-lg navbar-light bg-light" id="navbarColor03"
 style="margin-bottom: 20px">
   <ul class="navbar-nav collapse navbar-collapse">
-    <li [ngClass]="{'active': this.isEventsPage}" class="nav-item">
+    <li [ngClass]="{'nav-item': true, 'active': isEventsPage}">
       <a class="nav-link" href="#" routerLink="/events">Соревнования</a>
     </li>
     <li [ngClass]="{'nav-item': true, 'active': isProfilePage}">
       <a class="nav-link" href="#" *ngIf="authorized" [routerLink]="['/users' , userId]">Профиль</a>
+    </li>
+    <li [ngClass]="{'nav-item': true, 'active': isNotificationsPage}">
+      <a class="nav-link" href="#" *ngIf="authorized" routerLink="/notifications"><span>Уведомления</span><span *ngIf="unread > 0" class="unread"> (новых: {{unread}})</span></a>
     </li>
   </ul>
   <ng-container *ngFor="let action of actions">
   <app-add-event-button *ngIf="authorized && action === 'add'"></app-add-event-button>
   <app-edit-user-button *ngIf="authorized && action === 'edit'"></app-edit-user-button>
   <app-edit-event-button *ngIf="authorized && action === 'edit-event'"></app-edit-event-button>
+  <app-remove-all-notifications-button *ngIf="authorized && action === 'remove-notifications'"></app-remove-all-notifications-button>
+
   </ng-container>
   <ul class="navbar-nav">
     <li class="nav-item">

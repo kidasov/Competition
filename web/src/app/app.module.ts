@@ -41,6 +41,7 @@ import { AddUserFormComponent } from './routes/users-page/components/add-user-fo
 import { EditUserFormComponent } from './routes/users-page/components/edit-user-form/edit-user-form.component';
 import { UsersTableComponent } from './routes/users-page/components/users-table/users-table.component';
 import { UsersPageComponent } from './routes/users-page/users-page.component';
+import { RemoveAllNotificationsButtonComponent } from './components/remove-all-notifications-button/remove-all-notifications-button.component';
 
 // @ts-ignore
 window.jQuery = require('jquery');
@@ -82,6 +83,7 @@ window.Bootstrap = require('bootstrap');
     InviteUserButtonComponent,
     NotificationsPageComponent,
     NotificationsTableComponent,
+    RemoveAllNotificationsButtonComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),

@@ -98,7 +98,7 @@
             <span class="ml-2">{{ attendee.teammateRating }}</span>
             <span class="ml-2">
               <a href="#" (click)="dismissInvite()">
-                <span *ngIf="attendee.isPair">Покинуть команду</span>
+                <span *ngIf="attendee.isPair && attendee.pairedUserId === this.currentUser.id">Покинуть команду</span>
                 <span *ngIf="!attendee.isPair">Отменить приглашение</span>
               </a>
             </span>

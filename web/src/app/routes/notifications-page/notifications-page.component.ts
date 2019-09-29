@@ -3,27 +3,42 @@ import { Notification } from 'app/models/notification';
 import { NotificationService } from 'app/services/notification';
 import { Observable, Subscription } from 'rxjs';
 
+const MARK_NOTIFICATIONS_AS_READ_TIME = 3000;
+
 @Component({
   selector: 'app-notifications-page',
   templateUrl: './notifications-page.component.html',
-  styleUrls: ['./notifications-page.component.css']
+  styleUrls: ['./notifications-page.component.css'],
 })
 export class NotificationsPageComponent implements OnInit, OnDestroy {
-  sidebarActions: string[] = [];
-  subscribtion = new Subscription();
+  subscription = new Subscription();
   notifications: Notification[] = [];
+  sidebarActions = ['remove-notifications'];
+  notificationReadTimeout = null;
 
-  constructor(private notificationService: NotificationService) { }
+  constructor(private notificationService: NotificationService) {}
 
   ngOnInit() {
-    this.subscribtion.add(this.notificationService.fetchNotifications().subscribe(notifications => {
-      this.notifications = notifications;
-      this.notifications.forEach(notification => console.log(notification.sentByUser.name))
-    }));
+    this.subscription.add(
+      this.notificationService.notifications.subscribe(notifications => {
+        this.notifications = notifications;
+        const hasUnread = notifications.find(
+          notification => notification.read === false,
+        );
+        if (hasUnread) {
+          this.notificationReadTimeout = setTimeout(
+            () => this.notificationService.readNotifications(),
+            MARK_NOTIFICATIONS_AS_READ_TIME,
+          );
+        }
+      }),
+    );
   }
 
   ngOnDestroy() {
-    this.subscribtion.unsubscribe();
+    this.subscription.unsubscribe();
+    if (this.notificationReadTimeout) {
+      clearTimeout(this.notificationReadTimeout);
+    }
   }
-
 }

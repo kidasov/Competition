@@ -1,5 +1,6 @@
 <div *ngIf="user">
   <app-sidebar
+    current="profile"
     (showAddEventClick)="showAddPopup()"
     [actions]="sidebarActions"
   ></app-sidebar>

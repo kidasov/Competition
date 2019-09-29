@@ -1,4 +1,5 @@
 import * as t from 'io-ts';
+import { asEventId, EventId } from './db/models/event';
 import { asUserId, UserId } from './db/models/user';
 
 export const IsoDate = new t.Type<Date, string>(
@@ -19,5 +20,13 @@ export const IoUserId = new t.Type<UserId, number>(
   (m): m is UserId => typeof m === 'number',
   (value, ctx) =>
     t.number.validate(value, ctx).chain(num => t.success(asUserId(num))),
+  v => +v,
+);
+
+export const IoEventId = new t.Type<EventId, number>(
+  'EventId',
+  (m): m is EventId => typeof m === 'number',
+  (value, ctx) =>
+    t.number.validate(value, ctx).chain(num => t.success(asEventId(num))),
   v => +v,
 );

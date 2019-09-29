@@ -31,11 +31,16 @@ router.post('/register', async ctx => {
     return ctx.throw(404);
   }
 
-  const attendee = await Attendee.create({
-    eventId,
-    userId,
-    role,
-    status: AttendeeStatus.JoinRequest,
+  const attendee = await Attendee.findOrCreate({
+    // @ts-ignore
+    where: {
+      eventId,
+      userId,
+    },
+    defaults: {
+      role,
+      status: AttendeeStatus.JoinRequest,
+    },
   });
 
   ctx.status = 201;
@@ -159,8 +164,17 @@ router.post('/pair', async ctx => {
     return ctx.throw(404);
   }
 
-  if (targetUserId) {
-     Notification.create({
+  const notification = await Notification.findOne({
+    where: {
+      sentBy: userId,
+      eventId,
+      userId: targetUserId,
+      type: NotificationType.PairInvitation,
+    },
+  });
+
+  if (targetUserId && !notification) {
+    Notification.create({
       sentBy: userId,
       eventId,
       userId: targetUserId,
