@@ -20,15 +20,30 @@ router.get('/', async ctx => {
   const sessionUserId = await ctx.sessionUserId();
   const { search } = ctx.request.query;
 
-  ctx.status = 200;
-  ctx.body = await Event.findAll({
-    where: {
-      name: [ 'name like', `%${search}%` ],
+  let condition = null;
+
+  if (search) {
+    condition = {
+      name: {
+        [Op.iLike]: `%${search}%`,
+      },
       [Op.or]: [
         { state: PublishState.Published },
         { ownerUserId: sessionUserId },
       ],
-    },
+    };
+  } else {
+    condition = {
+      [Op.or]: [
+        { state: PublishState.Published },
+        { ownerUserId: sessionUserId },
+      ],
+    };
+  }
+
+  ctx.status = 200;
+  ctx.body = await Event.findAll({
+    where: condition,
     order: [['startsAt', 'DESC']],
     include: [
       {

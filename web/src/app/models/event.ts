@@ -38,6 +38,6 @@ export class DetailedEvent extends Event {
 
   constructor(event: EventData) {
     super();
-    Object.assign(this, EventData);
+    Object.assign(this, event);
   }
 }

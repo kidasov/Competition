@@ -7,6 +7,7 @@
         aria-describedby="button-addon1"
         class="form-control border-0"
         formControlName="name"
+        (input)="handleChange($event.target.value)"
       />
       <div class="input-group-append">
         <button

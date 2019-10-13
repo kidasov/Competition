@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { FormGroup, FormControl } from '@angular/forms';
 import { EventService } from 'app/services/event';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+
+
+const DEBOUNCE_TIME = 500;
 
 @Component({
   selector: 'app-search-event-button',
@@ -10,6 +15,8 @@ import { EventService } from 'app/services/event';
 })
 export class SearchEventButtonComponent implements OnInit {
   faSearch = faSearch;
+  subscription: Subscription;
+  valueChanged = new Subject<string>();
 
   searchEventForm = new FormGroup({
     name: new FormControl(),
@@ -17,7 +24,16 @@ export class SearchEventButtonComponent implements OnInit {
 
   constructor(private eventService: EventService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.subscription = this.valueChanged.pipe(debounceTime(DEBOUNCE_TIME)).subscribe(() => {
+      const name = this.searchEventForm.get('name').value;
+      this.eventService.searchEvents(name);
+    });
+  }
+
+  handleChange(name: string) {
+    this.valueChanged.next(name);
+  }
 
   searchEvent() {
     const name = this.searchEventForm.get('name').value;

@@ -6,6 +6,7 @@ import { AuthProvider } from 'app/services/auth/provider';
 import { EventService } from 'app/services/event';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+import { UserService } from '../../services/user';
 
 @Component({
   selector: 'app-events-page',
@@ -18,7 +19,7 @@ export class EventsPageComponent implements OnInit, OnDestroy {
   events: CompetitionEvent[] = [];
   showAdd = false;
   showLogin = false;
-  subscription: Subscription;
+  subscription = new Subscription();
 
   createForm = new FormGroup({
     name: new FormControl(),
@@ -28,6 +29,7 @@ export class EventsPageComponent implements OnInit, OnDestroy {
     private eventService: EventService,
     private router: Router,
     private authProvider: AuthProvider,
+    private userSevice: UserService
   ) {}
 
   addEvent(e: Event) {
@@ -58,9 +60,9 @@ export class EventsPageComponent implements OnInit, OnDestroy {
   }
 
   fetchEvents = () => {
-    this.eventService.getEvents().subscribe(events => {
+    this.subscription.add(this.eventService.events.subscribe(events => {
       this.events = events;
-    });
+    }));
   }
 
   showAddPopup() {

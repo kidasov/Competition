@@ -32,9 +32,16 @@ export class EventService {
   _currentEventId = new BehaviorSubject<Id>(-1);
   _currentEvent: Observable<DetailedEvent>;
   eventSubjects = {};
-  _events: Observable<DetailedEvent[]>;
+  _eventsFetched = false;
+  _events = new BehaviorSubject<DetailedEvent[]>([]);
 
   constructor(private api: ApiService) {}
+
+  private fetchEvents() {
+    return this.api.get('/events').pipe(map(events => events.map(event => ({
+      ...event,
+    })))).subscribe(events => this._events.next(events));
+  }
 
   public createEvent(name: String): Observable<Event> {
     return this.api.post('/events', { name });
@@ -123,17 +130,16 @@ export class EventService {
     return this._currentEvent;
   }
 
-  events() {
-    if (!this._events) {
-      this._events = this.api
-      .get('/events')
-      .pipe(map((response: DetailedEvent[]) => response.map(event => new DetailedEvent(event))), shareReplay(1));
+  get events() {
+    if (!this._eventsFetched) {
+       this._eventsFetched = true;
+       this.fetchEvents();
     }
     return this._events;
   }
 
   searchEvents(name: string) {
-    return this.api.get(`/events?search=${name}`).subscribe((events) => this._events = events);
+    return this.api.get(`/events?search=${name}`).subscribe((events) => this._events.next(events));
   }
 
 }
