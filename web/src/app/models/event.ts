@@ -35,4 +35,9 @@ export interface EventWithUsers extends Event {
 
 export class DetailedEvent extends Event {
   attendees: Attendee[];
+
+  constructor(event: EventData) {
+    super();
+    Object.assign(this, EventData);
+  }
 }

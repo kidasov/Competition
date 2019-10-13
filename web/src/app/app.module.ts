@@ -25,6 +25,9 @@ import { InviteUserButtonComponent } from './components/invite-user-button/invit
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
+// tslint:disable-next-line:max-line-length
+import { RemoveAllNotificationsButtonComponent } from './components/remove-all-notifications-button/remove-all-notifications-button.component';
+import { SearchEventButtonComponent } from './components/search-event-button/search-event-button.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SwitchComponent } from './components/switch/switch.component';
 import { AttendeeTableComponent } from './routes/event-page/components/attendee-table/attendee-table.component';
@@ -41,7 +44,6 @@ import { AddUserFormComponent } from './routes/users-page/components/add-user-fo
 import { EditUserFormComponent } from './routes/users-page/components/edit-user-form/edit-user-form.component';
 import { UsersTableComponent } from './routes/users-page/components/users-table/users-table.component';
 import { UsersPageComponent } from './routes/users-page/users-page.component';
-import { RemoveAllNotificationsButtonComponent } from './components/remove-all-notifications-button/remove-all-notifications-button.component';
 
 // @ts-ignore
 window.jQuery = require('jquery');
@@ -84,6 +86,7 @@ window.Bootstrap = require('bootstrap');
     NotificationsPageComponent,
     NotificationsTableComponent,
     RemoveAllNotificationsButtonComponent,
+    SearchEventButtonComponent,
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),

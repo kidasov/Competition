@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Id } from 'app/types/types';
 import { BehaviorSubject, empty, Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { Attendee } from '../models/attendee';
 import { DetailedEvent, Event } from '../models/event';
 import { ApiService } from './api';
@@ -32,6 +32,7 @@ export class EventService {
   _currentEventId = new BehaviorSubject<Id>(-1);
   _currentEvent: Observable<DetailedEvent>;
   eventSubjects = {};
+  _events: Observable<DetailedEvent[]>;
 
   constructor(private api: ApiService) {}
 
@@ -120,6 +121,19 @@ export class EventService {
       }));
     }
     return this._currentEvent;
+  }
+
+  events() {
+    if (!this._events) {
+      this._events = this.api
+      .get('/events')
+      .pipe(map((response: DetailedEvent[]) => response.map(event => new DetailedEvent(event))), shareReplay(1));
+    }
+    return this._events;
+  }
+
+  searchEvents(name: string) {
+    return this.api.get(`/events?search=${name}`).subscribe((events) => this._events = events);
   }
 
 }

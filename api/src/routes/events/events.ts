@@ -18,10 +18,12 @@ router.use(
 
 router.get('/', async ctx => {
   const sessionUserId = await ctx.sessionUserId();
+  const { search } = ctx.request.query;
 
   ctx.status = 200;
   ctx.body = await Event.findAll({
     where: {
+      name: [ 'name like', `%${search}%` ],
       [Op.or]: [
         { state: PublishState.Published },
         { ownerUserId: sessionUserId },
