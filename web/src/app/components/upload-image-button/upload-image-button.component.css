@@ -1,0 +1,5 @@
+#file-input {
+  opacity: 0;
+  z-index: -1;
+  visibility: hidden;
+}

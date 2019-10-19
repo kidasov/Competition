@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { faPencilAlt, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
@@ -8,6 +8,7 @@ import { AuthProvider } from 'app/services/auth/provider';
 import { UserService } from 'app/services/user';
 import { Id } from 'app/types/types';
 import $ from 'jquery';
+import { CropperSettings, ImageCropperComponent } from 'ngx-img-cropper';
 import { combineLatest, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -37,11 +38,36 @@ export class UserPageComponent implements OnInit, OnDestroy {
     ttwUrl: new FormControl(),
   });
 
+  @ViewChild('cropper', { static: false })
+  cropper: ImageCropperComponent;
+  data = {};
+  cropperSettings = new CropperSettings({
+    width: 100,
+    height: 100,
+    croppedWidth: 100,
+    croppedHeight: 100,
+    canvasWidth: 400,
+    canvasHeight: 300,
+    noFileInput: true
+  });
+
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
     private authProvider: AuthProvider,
   ) {}
+
+  fileChangeListener($event) {
+    const image = new Image();
+    const file = $event.target.files[0];
+    const myReader = new FileReader();
+    myReader.onloadend = (loadEvent: any) => {
+      image.src = loadEvent.target.result;
+      this.cropper.setImage(image);
+    };
+
+    myReader.readAsDataURL(file);
+  }
 
   get ttwLink() {
     return `http://r.ttw.ru/players/?id=${this.user.ttwId}`;

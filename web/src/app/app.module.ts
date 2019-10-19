@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ImageCropperComponent } from 'ngx-img-cropper';
 
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -38,12 +39,14 @@ import { EventsPageComponent } from './routes/events-page/events-page.component'
 import { NotificationsTableComponent } from './routes/notifications-page/components/notifications-table/notifications-table.component';
 import { NotificationsPageComponent } from './routes/notifications-page/notifications-page.component';
 import { routes } from './routes/routes';
+import { UserAvatarComponent } from './routes/user-page/components/user-avatar/user-avatar.component';
 import { UserEventsTableComponent } from './routes/user-page/components/user-events-table/user-events-table.component';
 import { UserPageComponent } from './routes/user-page/user-page.component';
 import { AddUserFormComponent } from './routes/users-page/components/add-user-form/add-user-form.component';
 import { EditUserFormComponent } from './routes/users-page/components/edit-user-form/edit-user-form.component';
 import { UsersTableComponent } from './routes/users-page/components/users-table/users-table.component';
 import { UsersPageComponent } from './routes/users-page/users-page.component';
+import { UploadImageButtonComponent } from './components/upload-image-button/upload-image-button.component';
 
 // @ts-ignore
 window.jQuery = require('jquery');
@@ -87,6 +90,9 @@ window.Bootstrap = require('bootstrap');
     NotificationsTableComponent,
     RemoveAllNotificationsButtonComponent,
     SearchEventButtonComponent,
+    ImageCropperComponent,
+    UserAvatarComponent,
+    UploadImageButtonComponent
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),
