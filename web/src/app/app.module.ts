@@ -31,6 +31,7 @@ import { RemoveAllNotificationsButtonComponent } from './components/remove-all-n
 import { SearchEventButtonComponent } from './components/search-event-button/search-event-button.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SwitchComponent } from './components/switch/switch.component';
+import { UploadImageButtonComponent } from './components/upload-image-button/upload-image-button.component';
 import { AttendeeTableComponent } from './routes/event-page/components/attendee-table/attendee-table.component';
 import { AttendeesTableComponent } from './routes/event-page/components/attendees-table/attendees-table.component';
 import { EventPageComponent } from './routes/event-page/event-page.component';
@@ -39,14 +40,12 @@ import { EventsPageComponent } from './routes/events-page/events-page.component'
 import { NotificationsTableComponent } from './routes/notifications-page/components/notifications-table/notifications-table.component';
 import { NotificationsPageComponent } from './routes/notifications-page/notifications-page.component';
 import { routes } from './routes/routes';
-import { UserAvatarComponent } from './routes/user-page/components/user-avatar/user-avatar.component';
 import { UserEventsTableComponent } from './routes/user-page/components/user-events-table/user-events-table.component';
 import { UserPageComponent } from './routes/user-page/user-page.component';
 import { AddUserFormComponent } from './routes/users-page/components/add-user-form/add-user-form.component';
 import { EditUserFormComponent } from './routes/users-page/components/edit-user-form/edit-user-form.component';
 import { UsersTableComponent } from './routes/users-page/components/users-table/users-table.component';
 import { UsersPageComponent } from './routes/users-page/users-page.component';
-import { UploadImageButtonComponent } from './components/upload-image-button/upload-image-button.component';
 
 // @ts-ignore
 window.jQuery = require('jquery');
@@ -91,7 +90,6 @@ window.Bootstrap = require('bootstrap');
     RemoveAllNotificationsButtonComponent,
     SearchEventButtonComponent,
     ImageCropperComponent,
-    UserAvatarComponent,
     UploadImageButtonComponent
   ],
   imports: [
