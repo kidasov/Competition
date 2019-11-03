@@ -6,7 +6,12 @@
   Загрузить картинку
 </button>
 
-<div class="modal fade show no" tabindex="-1" role="document" id="uploadImageModal">
+<div
+  class="modal fade show no"
+  tabindex="-1"
+  role="document"
+  id="uploadImageModal"
+>
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -21,7 +26,10 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="d-flex justify-content-center" *ngIf="fileSelected; else fileNotSelected">
+        <div
+          class="d-flex justify-content-center"
+          *ngIf="fileSelected; else fileNotSelected"
+        >
           <img-cropper
             #cropper
             [image]="data"
@@ -30,18 +38,20 @@
           ></img-cropper>
         </div>
         <ng-template #fileNotSelected>
-          <span>
-            Друзьям будет проще узнать Вас, если Вы загрузите свою настоящую
-            фотографию. Вы можете загрузить изображение в формате JPG, GIF или
-            PNG.
-          </span>
-          <button
-            type="button"
-            class="btn btn-primary"
-            (click)="selectFile($event)"
-          >
-            Выбрать файл
-          </button>
+          <div class="d-flex flex-column justify-content-center align-items-center">
+            <span class="text-center">
+              Друзьям будет проще узнать Вас, если Вы загрузите свою настоящую
+              фотографию. Вы можете загрузить изображение в формате JPG, GIF или
+              PNG.
+            </span>
+            <button
+              type="button"
+              class="btn btn-primary mt-4"
+              (click)="selectFile($event)"
+            >
+              Выбрать файл
+            </button>
+          </div>
         </ng-template>
       </div>
       <div class="modal-footer">
