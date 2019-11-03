@@ -1,7 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { faPencilAlt, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEnvelope,
+  faLink,
+  faPencilAlt,
+  faStar,
+  faSyncAlt,
+  faUserCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import { Event as ModelEvent } from 'app/models/event';
 import { User } from 'app/models/user';
 import { AuthProvider } from 'app/services/auth/provider';
@@ -20,6 +27,10 @@ import { switchMap } from 'rxjs/operators';
 export class UserPageComponent implements OnInit, OnDestroy {
   faPencilAlt = faPencilAlt;
   faSyncAlt = faSyncAlt;
+  faUserCircle = faUserCircle;
+  faEnvelope = faEnvelope;
+  faStar = faStar;
+  faLink = faLink;
   user: User;
   subscription: Subscription = new Subscription();
   userSubscription: Subscription;
@@ -48,7 +59,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     croppedHeight: 100,
     canvasWidth: 400,
     canvasHeight: 300,
-    noFileInput: true
+    noFileInput: true,
   });
 
   constructor(
@@ -81,7 +92,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription = combineLatest(this.authProvider.userInfo, this.route.params)
+    this.subscription = combineLatest(
+      this.authProvider.userInfo,
+      this.route.params,
+    )
       .pipe(
         switchMap(([userInfo, params]) => {
           this.currentUserId = userInfo.userId;
@@ -127,7 +141,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
 
   saveTtw(event: Event) {
-    const ttwId = this.editTtwForm.get('ttwUrl').value || this.user.ttwId ;
+    const ttwId = this.editTtwForm.get('ttwUrl').value || this.user.ttwId;
     if (ttwId) {
       this.userService
         .patchUser(this.user.id, {

@@ -5,140 +5,160 @@
     [actions]="sidebarActions"
   ></app-sidebar>
 
-  <div class="top-panel">
-    <app-header class="header">{{ user.name }}</app-header>
-  </div>
-
-  <app-popup
-    *ngIf="showEdit"
-    title="Edit user"
-    (close)="closeEditPopup($event)"
-  >
-    <form class="form" [formGroup]="editForm" (ngSubmit)="saveUser($event)">
-      <fieldset class="form-group">
-        <app-input
-          class="input"
-          formControlName="firstName"
-          placeholder="Имя"
-          defaultValue="{{ user.firstName }}"
-        ></app-input>
-        <app-input
-          class="input"
-          formControlName="lastName"
-          placeholder="Фамилия"
-          defaultValue="{{ user.lastName }}"
-        ></app-input>
-        <app-input
-          class="input"
-          formControlName="email"
-          placeholder="Имейл"
-          defaultValue="{{ user.email }}"
-        ></app-input>
-        <app-submit class="input" value="Сохранить"></app-submit>
-      </fieldset>
-    </form>
-  </app-popup>
-
-  <div class="modal fade show" id="editTtwModal" tabindex="-1" role="document">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5>Редактировать Ттв</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
+  <div class="mx-5">
+    <div style="font-size: 144px">
+      <fa-icon [icon]="faUserCircle"></fa-icon>
+    </div>
+    <div style="margin-top: -20px">
+      <div class="d-flex flex-wrap align-items-center ">
+        <h4 class="mb-2 mr-3">{{ user.name }}</h4>
+        <app-upload-image-button class="mb-2"></app-upload-image-button>
+      </div>
+      <div class="email mb-2" *ngIf="user.email">
+        <fa-icon [icon]="faEnvelope"></fa-icon>
+        <a href="mailto:{{ user.email }}" class="ml-2">{{ user.email }}</a>
+      </div>
+      <div class="rating mb-2">
+        <fa-icon [icon]="faStar"></fa-icon>
+        <div *ngIf="!user.ttwId">
+          <a
+            href="#"
+            data-toggle="modal"
+            *ngIf="currentUser"
+            data-target="#editTtwModal"
           >
-            <span aria-hidden="true">&times;</span>
-          </button>
+            Указать ттв рейтинг
+          </a>
         </div>
-        <form class="form" [formGroup]="editTtwForm" (ngSubmit)="saveTtw($event)">
-          <div class="modal-body">
-            <div class="form-group">
-              <label class="ttwLabel">
-                <span>http://r.ttw.ru/players/?id=</span>
-                <input
-                  id="ttw-input"
-                  formControlName="ttwUrl"
-                  value="{{user.ttwId}}"
-                />
-              </label>
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Сохранить</button>
-            </div>
-          </div>
-        </form>
+        <span *ngIf="user.ttwId">
+          <a href="#"> Рейтинг: {{ user.rating }} </a>
+          <fa-icon
+            class="ml-3 pointer"
+            data-toggle="modal"
+            *ngIf="currentUser"
+            data-target="#editTtwModal"
+            [icon]="faSyncAlt"
+          ></fa-icon>
+        </span>
       </div>
-    </div>
-  </div>
+      <div class="profile mb-2" *ngIf="user.ttwId">
+        <div class="profile mb-2" *ngIf="user.ttwId">
+          <fa-icon [icon]="faLink"></fa-icon>
+          <a href="{{ ttwLink }}" class="ml-2">
+            {{ ttwLink }}
+          </a>
+          <fa-icon
+            class="ml-3 pointer"
+            data-toggle="modal"
+            *ngIf="currentUser"
+            data-target="#editTtwModal"
+            [icon]="faPencilAlt"
+          ></fa-icon>
+        </div>
+      </div>
 
-  <app-popup
-    *ngIf="showEditTtw"
-    title="Редактировать ттв"
-    (close)="closeEditTtwPopup($event)"
-  >
-    <form class="form" [formGroup]="editTtwForm" (ngSubmit)="saveTtw($event)">
-      <fieldset class="form-group">
-        <label class="ttwLabel">
-          <span>http://r.ttw.ru/players/?id=</span>
+      <app-user-events-table
+        class="events"
+        *ngIf="events.length"
+        [events]="events"
+        title="Участвовал в турнирах"
+      ></app-user-events-table>
+    </div>
+
+    <app-popup
+      *ngIf="showEdit"
+      title="Edit user"
+      (close)="closeEditPopup($event)"
+    >
+      <form class="form" [formGroup]="editForm" (ngSubmit)="saveUser($event)">
+        <fieldset class="form-group">
           <app-input
-            class="ttwInput"
-            (input)="handleTtwUrl($event)"
-            formControlName="ttwUrl"
-            defaultValue="{{ user.ttwId }}"
-            placeholder=""
+            class="input"
+            formControlName="firstName"
+            placeholder="Имя"
+            defaultValue="{{ user.firstName }}"
           ></app-input>
-        </label>
-        <app-submit class="input" value="Сохранить"></app-submit>
-      </fieldset>
-    </form>
-  </app-popup>
+          <app-input
+            class="input"
+            formControlName="lastName"
+            placeholder="Фамилия"
+            defaultValue="{{ user.lastName }}"
+          ></app-input>
+          <app-input
+            class="input"
+            formControlName="email"
+            placeholder="Имейл"
+            defaultValue="{{ user.email }}"
+          ></app-input>
+          <app-submit class="input" value="Сохранить"></app-submit>
+        </fieldset>
+      </form>
+    </app-popup>
 
-  <div class="user-content">
-    <div class="info" *ngIf="!user.ttwId">
-      <div>Профиль Ттв не прилинкован</div>
-      <button
-        class="btn btn-primary ml-5"
-        data-toggle="modal"
-        *ngIf="currentUser"
-        data-target="#editTtwModal"
-      >
-        Связать
-      </button>
-    </div>
-    <div class="info ttw" *ngIf="user.ttwId">
-      <div>Профиль на ттв</div>
-      <div class="ttwUrl">
-        <a href="{{ ttwLink }}">{{ ttwLink }}</a>
-        <fa-icon class="ml-3 pointer" 
-        data-toggle="modal"
-        *ngIf="currentUser"
-        data-target="#editTtwModal" [icon]="faPencilAlt"></fa-icon>
+    <div
+      class="modal fade show"
+      id="editTtwModal"
+      tabindex="-1"
+      role="document"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5>Редактировать Ттв</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form
+            class="form"
+            [formGroup]="editTtwForm"
+            (ngSubmit)="saveTtw($event)"
+          >
+            <div class="modal-body">
+              <div class="form-group">
+                <label class="ttwLabel">
+                  <span>http://r.ttw.ru/players/?id=</span>
+                  <input
+                    id="ttw-input"
+                    formControlName="ttwUrl"
+                    value="{{ user.ttwId }}"
+                  />
+                </label>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 
-    <div class="info" *ngIf="user.ttwId">
-      <div>Рейтинг:</div>
-      <span class="rating">{{ user.rating }}</span>
-      <fa-icon class="ml-3 pointer" 
-        data-toggle="modal"
-        *ngIf="currentUser"
-        data-target="#editTtwModal" [icon]="faSyncAlt"></fa-icon>
-    </div>
-    <div class="info" *ngIf="user.email">
-      <span>Email:</span> <span class="email">{{ user.email }}</span>
-    </div>
-
-    <app-user-events-table
-      class="events"
-      *ngIf="events.length"
-      [events]="events"
-      title="Участвовал в турнирах"
-    ></app-user-events-table>
+    <app-popup
+      *ngIf="showEditTtw"
+      title="Редактировать ттв"
+      (close)="closeEditTtwPopup($event)"
+    >
+      <form class="form" [formGroup]="editTtwForm" (ngSubmit)="saveTtw($event)">
+        <fieldset class="form-group">
+          <label class="ttwLabel">
+            <span>http://r.ttw.ru/players/?id=</span>
+            <app-input
+              class="ttwInput"
+              (input)="handleTtwUrl($event)"
+              formControlName="ttwUrl"
+              defaultValue="{{ user.ttwId }}"
+              placeholder=""
+            ></app-input>
+          </label>
+          <app-submit class="input" value="Сохранить"></app-submit>
+        </fieldset>
+      </form>
+    </app-popup>
   </div>
-
-  <app-upload-image-button></app-upload-image-button>
 </div>
-
