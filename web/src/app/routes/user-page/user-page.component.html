@@ -20,7 +20,7 @@
       </div>
       <div class="rating mb-2">
         <fa-icon [icon]="faStar"></fa-icon>
-        <div *ngIf="!user.ttwId">
+        <span *ngIf="!user.ttwId">
           <a
             href="#"
             data-toggle="modal"
@@ -29,7 +29,7 @@
           >
             Указать ттв рейтинг
           </a>
-        </div>
+        </span>
         <span *ngIf="user.ttwId">
           <a href="#"> Рейтинг: {{ user.rating }} </a>
           <fa-icon
