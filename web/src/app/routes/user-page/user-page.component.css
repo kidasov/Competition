@@ -67,3 +67,31 @@
 .pointer {
   cursor: pointer;
 }
+
+.avatar {
+  display: block;
+  width: 144px;
+  height: 144px;
+  border-radius: 50%;
+}
+
+.avatarContainer {
+  position: relative;
+  margin-top: 40px;
+  margin-bottom: 50px;
+}
+
+.avatarContainer::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 144px;
+  height: 144px;
+  border-radius: 50%;
+  border: 3px solid lightgray;
+  box-shadow: 1px 1px 12px 0px rgba(0, 0, 0, 0.4) inset;
+}

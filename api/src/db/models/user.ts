@@ -19,6 +19,7 @@ interface User {
   ttwId: string | null;
   createdAt: string;
   vkId: string | null;
+  avatarMediaId: number | null;
 }
 
 type UserAttributes = Partial<User>;
@@ -37,6 +38,7 @@ const UserModel = sequelize.define<UserInstance, UserAttributes>('user', {
     type: Sequelize.DATE,
     defaultValue: sequelize.fn('now'),
   },
+  avatarMediaId: Sequelize.INTEGER,
 });
 
 export default UserModel;

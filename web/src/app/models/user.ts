@@ -6,6 +6,7 @@ export class UserData {
   email: string;
   ttwId: string;
   rating: number;
+  avatarMediaId?: number;
 }
 
 export class User extends UserData {

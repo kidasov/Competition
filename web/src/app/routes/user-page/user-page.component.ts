@@ -9,6 +9,7 @@ import {
   faSyncAlt,
   faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
+import { API_URL } from 'app/consts/common';
 import { Event as ModelEvent } from 'app/models/event';
 import { User } from 'app/models/user';
 import { AuthProvider } from 'app/services/auth/provider';
@@ -153,5 +154,13 @@ export class UserPageComponent implements OnInit, OnDestroy {
     } else {
       this.closeTtwPopup();
     }
+  }
+
+  get hasAvatar() {
+    return this.user && this.user.avatarMediaId !== null;
+  }
+
+  get avatar() {
+    return `${API_URL}/storage/${this.user.avatarMediaId}`;
   }
 }

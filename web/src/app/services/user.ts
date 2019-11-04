@@ -12,6 +12,7 @@ interface PatchUserParams {
   lastName?: string;
   email?: string;
   ttwId?: string;
+  avatarMediaId?: number;
 }
 
 @Injectable({

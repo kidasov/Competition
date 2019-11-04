@@ -6,8 +6,11 @@
   ></app-sidebar>
 
   <div class="mx-5">
-    <div style="font-size: 144px">
+    <div style="font-size: 144px" *ngIf="!hasAvatar">
       <fa-icon [icon]="faUserCircle"></fa-icon>
+    </div>
+    <div *ngIf="hasAvatar" class="avatarContainer">
+      <img [src]="avatar" class="avatar"/>
     </div>
     <div style="margin-top: -20px">
       <div class="d-flex flex-wrap align-items-center ">

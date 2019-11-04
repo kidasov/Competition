@@ -23,8 +23,8 @@ router.get('/:id', async ctx => {
 
   const attributes =
     sessionUserId === id
-      ? ['id', 'firstName', 'lastName', 'email', 'ttwId', 'rating']
-      : ['id', 'firstName', 'lastName', 'ttwId', 'rating'];
+      ? ['id', 'firstName', 'lastName', 'email', 'ttwId', 'rating', 'avatarMediaId']
+      : ['id', 'firstName', 'lastName', 'ttwId', 'rating', 'avatarMediaId'];
 
   const user = await User.findOne({
     where: { id },
@@ -102,12 +102,13 @@ const PatchUserRequest = t.partial({
   lastName: t.string,
   email: t.string,
   ttwId: t.string,
+  avatarMediaId: t.number,
 });
 
 router.patch('/:id', async ctx => {
   const { userId: sessionUserId } = await ctx.requireSession();
   const id = asUserId(ctx.paramNumber('id'));
-  const { firstName, lastName, email, ttwId } = ctx.decode(PatchUserRequest);
+  const { firstName, lastName, email, ttwId, avatarMediaId } = ctx.decode(PatchUserRequest);
 
   const user = await User.findOne({
     where: { id },
@@ -149,6 +150,7 @@ router.patch('/:id', async ctx => {
       email,
       ttwId,
       rating,
+      avatarMediaId,
     },
     { where: { id: user.id } },
   );

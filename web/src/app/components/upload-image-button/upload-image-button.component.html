@@ -38,7 +38,9 @@
           ></img-cropper>
         </div>
         <ng-template #fileNotSelected>
-          <div class="d-flex flex-column justify-content-center align-items-center">
+          <div
+            class="d-flex flex-column justify-content-center align-items-center"
+          >
             <span class="text-center">
               Друзьям будет проще узнать Вас, если Вы загрузите свою настоящую
               фотографию. Вы можете загрузить изображение в формате JPG, GIF или
@@ -54,13 +56,17 @@
           </div>
         </ng-template>
       </div>
-      <div class="modal-footer">
-        <div *ngIf="fileSelected">
-          <button type="button" class="btn btn-primary">
-            Сохранить и продолжить
-          </button>
-          <button type="button" class="btn">Вернуться назад</button>
-        </div>
+      <div class="modal-footer" *ngIf="fileSelected">
+        <button type="button" class="btn btn-primary" (click)="upload($event)">
+          Сохранить и продолжить
+        </button>
+        <button
+          type="button"
+          class="btn"
+          (click)="selectFile($event)"
+        >
+          Выбрать другой файл
+        </button>
       </div>
     </div>
   </div>
