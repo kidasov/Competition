@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 
 import * as Routes from 'constants/routes';
@@ -13,20 +13,16 @@ const Navigator = createSwitchNavigator({
 
 const NavigatorApp = createAppContainer(Navigator);
 
-class App extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <NavigatorApp />
-      </View>
-    );
-  }
-}
-
-export default App;
+const App = () => (
+  <View style={styles.container}>
+    <NavigatorApp />
+  </View>
+);
 
 const styles = {
   container: {
     flex: 1,
   },
 };
+
+export default App;

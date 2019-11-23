@@ -1,13 +1,20 @@
-import React, {Component} from 'react';
-import {Text, View, KeyboardAvoidingView, ScrollView} from 'react-native';
-import {Form, FormRenderProps, Field} from 'react-final-form';
+import React from 'react';
+import {
+  Text,
+  View,
+  KeyboardAvoidingView,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import {Form, Field} from 'react-final-form';
 import {Input, Icon, Button} from 'react-native-elements';
 import styles from './styles';
 
-class Login extends Component {
-  login() {}
 
-  renderForm(props: FormRenderProps) {
+const Login = () => {
+  const login = () => { console.warn("log in here") };
+
+  const renderForm = ({ handleSubmit, form, submitting, pristine, values }) => {
     return (
       <View style={styles.formContent}>
         <Field name="username">
@@ -30,31 +37,30 @@ class Login extends Component {
             />
           )}
         </Field>
-        <Button containerStyle={styles.button} title="Войти" />
+        <Button containerStyle={styles.button} onPress={handleSubmit} title="Войти" />
       </View>
-    );
-  }
+    )
+  };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <KeyboardAvoidingView
-          behavior="padding"
-          style={styles.keyboardContainer}>
-          <ScrollView
-            style={styles.scroll}
-            contentContainerStyle={styles.content}>
-            <View>
-              <Text style={styles.logo}>Настольный теннис</Text>
-            </View>
-            <View style={styles.form}>
-              <Form render={this.renderForm} onSubmit={this.login} />
-            </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </View>
-    );
-  }
-}
+  return (
+    <View style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" style={styles.keyboardContainer}>
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.content}>
+          <View>
+            <Text style={styles.logo}>Настольный теннис</Text>
+          </View>
+          <View style={styles.form}>
+            <Form
+              onSubmit={login}
+              render={renderForm}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
+  );
+};
 
 export default Login;
