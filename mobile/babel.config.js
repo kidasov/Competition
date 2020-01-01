@@ -4,6 +4,7 @@ module.exports = {
     ['module-resolver', {
       'root': ['./src'],
       'extensions': ['.ts', '.tsx']
-    }]
+    }],
+    ["@babel/plugin-proposal-decorators", { "legacy": true }]
   ]
 };
