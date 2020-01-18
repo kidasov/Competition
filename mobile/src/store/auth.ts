@@ -10,7 +10,7 @@ export default class AuthStore {
 
   @computed
   get isAuthorized() {
-    return this.sessionKey;
+    return !!this.sessionKey;
   }
 
   @action

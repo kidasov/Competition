@@ -11,6 +11,8 @@
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.7.4",
     "@react-native-community/async-storage": "^1.7.1",
+    "@react-native-community/masked-view": "^0.1.6",
+    "@react-navigation/drawer": "^5.0.0-alpha.39",
     "babel-plugin-module-resolver": "^3.2.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "final-form": "^4.18.5",
@@ -21,9 +23,14 @@
     "react-final-form": "^6.3.0",
     "react-native": "0.61.2",
     "react-native-elements": "^1.2.5",
-    "react-native-gesture-handler": "^1.4.1",
+    "react-native-gesture-handler": "^1.5.3",
+    "react-native-reanimated": "^1.7.0",
+    "react-native-safe-area-context": "^0.6.2",
+    "react-native-screens": "^2.0.0-alpha.25",
     "react-native-vector-icons": "^6.6.0",
-    "react-navigation": "^4.0.10"
+    "react-navigation": "^4.0.10",
+    "react-navigation-drawer": "^2.3.3",
+    "react-navigation-stack": "^2.0.15"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
