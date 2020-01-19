@@ -1,14 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View} from 'react-native';
 import {Icon} from 'react-native-elements';
+import {observer} from 'mobx-react';
+import {useStores} from 'store';
 
-const Events = () => {
+const Events = observer(() => {
+  const {eventStore} = useStores();
+
+  useEffect(() => {
+    eventStore.fetchEvents();
+  }, []);
+
   return (
     <View>
       <Text>Competitions screen</Text>
     </View>
   );
-};
+});
 
 Events.navigationOptions = props => {
   return {

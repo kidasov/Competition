@@ -1,24 +1,20 @@
-import React, { useEffect } from 'react';
-import {
-  Text,
-  View,
-  KeyboardAvoidingView
-} from 'react-native';
+import React, {useEffect} from 'react';
+import {Text, View, KeyboardAvoidingView} from 'react-native';
 import {Form, Field} from 'react-final-form';
 import {Input, Icon, Button} from 'react-native-elements';
-import { observer } from "mobx-react";
+import {observer} from 'mobx-react';
 
 import styles from './styles';
 
-import { useStores } from 'store';
-import * as Routes from 'constants/routes';
+import {useStores} from 'store'
+import * as Routes from 'constants/routes'
 
-const Login = observer((props) => {
-  const { authStore } = useStores();
+const Login = observer(props => {
+  const {authStore} = useStores();
 
   const login = async ({email, password}) => {
-    const { navigation } = props;
-    await authStore.signIn({ email, password });
+    const {navigation} = props;
+    await authStore.signIn({email, password});
 
     if (authStore.isAuthorized) {
       navigation.navigate(Routes.EVENTS);

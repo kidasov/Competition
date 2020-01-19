@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { useStores } from 'store';
 import * as Routes from 'constants/routes';

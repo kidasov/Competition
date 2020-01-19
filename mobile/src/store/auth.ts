@@ -1,4 +1,3 @@
-import { useLocalStore } from 'mobx-react';
 import api from 'api';
 import { observable, action, computed } from 'mobx';
 import AsyncStorage from '@react-native-community/async-storage';
