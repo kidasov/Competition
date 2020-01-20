@@ -1,31 +1,31 @@
-import React, {useEffect} from 'react';
-import {Text, View, KeyboardAvoidingView} from 'react-native';
-import {Form, Field} from 'react-final-form';
-import {Input, Icon, Button} from 'react-native-elements';
-import {observer} from 'mobx-react';
+import * as React from 'react';
+import { Text, View, KeyboardAvoidingView } from 'react-native';
+import { Form, Field } from 'react-final-form';
+import { Input, Icon, Button } from 'react-native-elements';
+import { observer } from 'mobx-react';
 
 import styles from './styles';
 
-import {useStores} from 'store'
-import * as Routes from 'constants/routes'
+import { useStores } from 'store';
+import * as Routes from 'constants/routes';
 
 const Login = observer(props => {
-  const {authStore} = useStores();
+  const { authStore } = useStores();
 
-  const login = async ({email, password}) => {
-    const {navigation} = props;
-    await authStore.signIn({email, password});
+  const login = async ({ email, password }) => {
+    const { navigation } = props;
+    await authStore.signIn({ email, password });
 
     if (authStore.isAuthorized) {
       navigation.navigate(Routes.EVENTS);
     }
   };
 
-  const renderForm = ({handleSubmit, form, submitting, pristine, values}) => {
+  const renderForm = ({ handleSubmit, form, submitting, pristine, values }) => {
     return (
       <View style={styles.formContent}>
         <Field name="email">
-          {({input, meta}) => {
+          {({ input, meta }) => {
             return (
               <Input
                 {...input}
@@ -38,7 +38,7 @@ const Login = observer(props => {
           }}
         </Field>
         <Field name="password">
-          {({input, meta}) => (
+          {({ input, meta }) => (
             <Input
               {...input}
               containerStyle={styles.inputContainer}
