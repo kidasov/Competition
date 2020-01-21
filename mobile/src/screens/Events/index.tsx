@@ -1,18 +1,19 @@
-import React, {useEffect} from 'react';
-import {Text, View} from 'react-native';
-import {Icon} from 'react-native-elements';
-import {observer} from 'mobx-react';
-import {useStores} from 'store';
+import React, { useEffect } from 'react';
+import { Text, View } from 'react-native';
+import { Icon } from 'react-native-elements';
+import { observer } from 'mobx-react';
+import { useStores } from 'store';
+import styles from './styles';
 
 const Events = observer(() => {
-  const {eventStore} = useStores();
+  const { eventStore } = useStores();
 
   useEffect(() => {
     eventStore.fetchEvents();
-  }, []);
+  }, [eventStore]);
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text>Competitions screen</Text>
     </View>
   );
@@ -20,14 +21,16 @@ const Events = observer(() => {
 
 Events.navigationOptions = props => {
   return {
-    title: 'Home',
+    title: 'Competitions',
     headerLeft: (
-      <Icon
-        name="menu"
-        onPress={() => props.navigation.toggleDrawer()}
-        size={24}
-        color="black"
-      />
+      <View style={styles.hamburger}>
+        <Icon
+          name="menu"
+          onPress={() => props.navigation.toggleDrawer()}
+          size={24}
+          color="black"
+        />
+      </View>
     ),
   };
 };

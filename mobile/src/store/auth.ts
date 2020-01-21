@@ -2,7 +2,6 @@ import api from 'api';
 import { observable, action, computed } from 'mobx';
 import AsyncStorage from '@react-native-community/async-storage';
 
-
 export default class AuthStore {
   @observable sessionKey = null;
   @observable userId = null;
@@ -28,6 +27,13 @@ export default class AuthStore {
     this.sessionKey = sessionKey;
     this.userId = userId;
 
-    AsyncStorage.setItem('auth', JSON.stringify({ sessionKey, userId }))
+    AsyncStorage.setItem('auth', JSON.stringify({ sessionKey, userId }));
+  }
+
+  @action
+  async logout() {
+    await AsyncStorage.removeItem('auth');
+    this.sessionKey = null;
+    this.userId = null;
   }
 }

@@ -7,7 +7,7 @@ export const eventStore = new EventStore();
 
 const storesContext = React.createContext({
   authStore,
-  eventStore
-})
+  eventStore,
+});
 
 export const useStores = () => React.useContext(storesContext);

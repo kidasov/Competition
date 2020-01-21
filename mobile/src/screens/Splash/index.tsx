@@ -5,9 +5,9 @@ import * as Routes from 'constants/routes';
 const checkAuth = async (store, props) => {
   await store.checkAuth();
   props.navigation.navigate(store.isAuthorized ? Routes.EVENTS : Routes.LOGIN);
-}
+};
 
-const Splash = observer((props) => {
+const Splash = observer(props => {
   const { authStore } = useStores();
 
   checkAuth(authStore, props);
