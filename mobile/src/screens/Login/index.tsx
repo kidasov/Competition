@@ -3,21 +3,36 @@ import { Text, View, KeyboardAvoidingView } from 'react-native';
 import { Form, Field } from 'react-final-form';
 import { Input, Icon, Button } from 'react-native-elements';
 import { observer } from 'mobx-react';
-
+import { observable } from 'mobx';
 import styles from './styles';
 
-import { useStores } from 'store';
+import * as ERRORS from 'constants/errors';
 import * as Routes from 'constants/routes';
+import PopupMessage from 'components/PopupMessage';
+
+import { useStores } from 'store';
+
+const error = observable.box('');
+
+const handleCloseError = () => {
+  error.set('');
+};
 
 const Login = observer(props => {
   const { authStore } = useStores();
 
   const login = async ({ email, password }) => {
     const { navigation } = props;
-    await authStore.signIn({ email, password });
+    try {
+      await authStore.signIn({ email, password });
 
-    if (authStore.isAuthorized) {
-      navigation.navigate(Routes.EVENTS);
+      if (authStore.isAuthorized) {
+        navigation.navigate(Routes.EVENTS);
+      }
+    } catch (e) {
+      if (e.status === ERRORS.UNAUTHORIZED) {
+        error.set('Invalid username or password');
+      }
     }
   };
 
@@ -59,6 +74,11 @@ const Login = observer(props => {
 
   return (
     <View style={styles.container}>
+      {!!error.get() && (
+        <View style={styles.error}>
+          <PopupMessage text={error.get()} onClose={handleCloseError} />
+        </View>
+      )}
       <KeyboardAvoidingView behavior="padding" style={styles.keyboardContainer}>
         <View>
           <Text style={styles.logo}>Настольный теннис</Text>
