@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { observer } from 'mobx-react';
+
 import { useStores } from 'store';
+import Event from 'screens/Events/components/Event';
+
 import styles from './styles';
 
 const Events = observer(() => {
@@ -14,7 +17,9 @@ const Events = observer(() => {
 
   return (
     <View style={styles.container}>
-      <Text>Competitions screen</Text>
+      {eventStore.events.map(event => (
+        <Event event={event} />
+      ))}
     </View>
   );
 });

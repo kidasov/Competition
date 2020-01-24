@@ -6,8 +6,6 @@ export default class EventsStore {
 
   @action
   async fetchEvents() {
-    const res = await api.get('/events');
-
-    console.warn("Events", res);
+    this.events = await api.get('/events');
   }
 }
