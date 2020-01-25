@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import Fonts from 'assets/fonts';
 
 const styles = StyleSheet.create({
   button: {
@@ -11,15 +12,19 @@ const styles = StyleSheet.create({
 
   text: {
     marginBottom: 10,
-    fontFamily: 'AlegreyaSans-Regular',
+    fontFamily: Fonts.ALLEGREYA,
   },
 
   title: {
     fontWeight: '400',
-    fontFamily: 'Literata-Regular',
+    fontFamily: Fonts.ALLEGREYA,
   },
 
-  card: { borderRadius: 4, margin: 16, fontFamily: 'AlegreyaSans-Regular' },
+  buttonTitle: {
+    fontFamily: Fonts.ALLEGREYA,
+  },
+
+  card: { borderRadius: 4, margin: 16, fontFamily: Fonts.ALLEGREYA },
 });
 
 export default styles;

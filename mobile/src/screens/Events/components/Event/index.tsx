@@ -22,7 +22,7 @@ const Event = ({ event }) => {
       </Text>
       <Button
         buttonStyle={styles.button}
-        titleStyle={{ fontFamily: 'Gabriela-Regular' }}
+        titleStyle={styles.buttonTitle}
         title="Открыть"
       />
     </Card>
