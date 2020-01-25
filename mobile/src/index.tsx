@@ -12,6 +12,13 @@ import Events from 'screens/Events';
 import Splash from 'screens/Splash';
 import Logout from 'screens/Logout';
 
+const styles = {
+  container: {
+    flex: 1,
+    fontFamily: 'AlegreyaSans-Regular',
+  },
+};
+
 const MainStack = createStackNavigator({
   [Routes.EVENTS]: {
     screen: Events,
@@ -50,11 +57,5 @@ const App = () => (
     <NavigatorApp />
   </View>
 );
-
-const styles = {
-  container: {
-    flex: 1,
-  },
-};
 
 export default App;

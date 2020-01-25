@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { observer } from 'mobx-react';
 
-import { useStores } from 'store';
 import Event from 'screens/Events/components/Event';
+import { useStores } from 'store';
 
 import styles from './styles';
 
@@ -16,11 +16,15 @@ const Events = observer(() => {
   }, [eventStore]);
 
   return (
-    <View style={styles.container}>
-      {eventStore.events.map(event => (
-        <Event event={event} />
-      ))}
-    </View>
+    <FlatList
+      contentContainerStyle={{backgroundColor: "#dce775"}}
+      data={eventStore.events.slice()}
+      renderItem={({ item, index }) => {
+        return (
+          <Event event={item} key={index} />
+        );
+      }}
+    />
   );
 });
 

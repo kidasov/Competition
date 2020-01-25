@@ -8,13 +8,23 @@ import styles from './styles';
 
 const Event = ({ event }) => {
   const { name, coverMediaId } = event;
+  const image = coverMediaId
+    ? { uri: `${API_HOST}/storage/${coverMediaId}` }
+    : require('assets/images/timo.jpg');
   return (
-    <Card title={name} image={{ uri: `${API_HOST}/storage/${coverMediaId}` }}>
+    <Card
+      containerStyle={styles.card}
+      title={name}
+      titleStyle={styles.title}
+      image={image}>
       <Text style={styles.text}>
-        The idea with React Native Elements is more about component structure
-        than actual design.
+        Шла Александра по автомагистрали и употребляла хлебобулочное изделие.
       </Text>
-      <Button buttonStyle={styles.button} title="Открыть" />
+      <Button
+        buttonStyle={styles.button}
+        titleStyle={{ fontFamily: 'Gabriela-Regular' }}
+        title="Открыть"
+      />
     </Card>
   );
 };
