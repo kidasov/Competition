@@ -25,6 +25,20 @@ const styles = StyleSheet.create({
   },
 
   card: { borderRadius: 4, margin: 16, fontFamily: Fonts.ALLEGREYA },
+
+  typeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    fontFamily: Fonts.ALLEGREYA,
+  },
+
+  type: {
+    fontFamily: Fonts.ALLEGREYA,
+  },
+
+  typeDescription: {
+    fontFamily: Fonts.ALLEGREYA,
+  },
 });
 
 export default styles;

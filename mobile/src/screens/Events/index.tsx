@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { observer } from 'mobx-react';
+import { toJS } from 'mobx';
 
 import Event from 'screens/Events/components/Event';
 import { useStores } from 'store';
@@ -21,7 +22,7 @@ const Events = observer(() => {
       data={eventStore.events.slice()}
       onRefresh={eventStore.fetchEvents}
       renderItem={({ item, index }) => {
-        return <Event event={item} key={index} />;
+        return <Event event={toJS(item)} key={index} />;
       }}
       refreshing={eventStore.fetching}
     />
