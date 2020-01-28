@@ -16,6 +16,7 @@ import { DropdownMenuComponent } from './components/dropdown-menu/dropdown-menu.
 import { EditEventButtonComponent } from './components/edit-event-button/edit-event-button.component';
 import { EditUserButtonComponent } from './components/edit-user-button/edit-user-button.component';
 import { EventCardComponent } from './components/event-card/event-card.component';
+import { EventsTableComponent } from './components/events-table/events-table.component';
 import { EventsComponent } from './components/events/events.component';
 import { HeaderComponent } from './components/header/header.component';
 import { IconButtonComponent } from './components/icon-button/icon-button.component';
@@ -35,8 +36,8 @@ import { UploadImageButtonComponent } from './components/upload-image-button/upl
 import { AttendeeTableComponent } from './routes/event-page/components/attendee-table/attendee-table.component';
 import { AttendeesTableComponent } from './routes/event-page/components/attendees-table/attendees-table.component';
 import { EventPageComponent } from './routes/event-page/event-page.component';
-import { EventsTableComponent } from './routes/events-page/components/events-table/events-table.component';
 import { EventsPageComponent } from './routes/events-page/events-page.component';
+import { MyEventsPageComponent } from './routes/my-events-page/my-events-page.component';
 import { NotificationsTableComponent } from './routes/notifications-page/components/notifications-table/notifications-table.component';
 import { NotificationsPageComponent } from './routes/notifications-page/notifications-page.component';
 import { routes } from './routes/routes';
@@ -90,7 +91,8 @@ window.Bootstrap = require('bootstrap');
     RemoveAllNotificationsButtonComponent,
     SearchEventButtonComponent,
     ImageCropperComponent,
-    UploadImageButtonComponent
+    UploadImageButtonComponent,
+    MyEventsPageComponent
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),

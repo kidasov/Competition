@@ -60,6 +60,11 @@ export class EventCardComponent implements OnInit {
     };
   }
 
+  get ownerName() {
+    const { owner } = this.event;
+    return `${owner.firstName} ${owner.lastName}`;
+  }
+
   showEvent(event: Event) {
     this.router.navigate(['events', this.event.id]);
     event.preventDefault();

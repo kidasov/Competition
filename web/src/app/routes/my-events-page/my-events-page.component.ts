@@ -4,16 +4,16 @@ import { Router } from '@angular/router';
 import { Event as CompetitionEvent } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
 import { EventService } from 'app/services/event';
-import { UserService } from 'app/services/user';
 import * as moment from 'moment';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-events-page',
-  templateUrl: './events-page.component.html',
-  styleUrls: ['./events-page.component.css'],
+  selector: 'app-my-events-page',
+  templateUrl: './my-events-page.component.html',
+  styleUrls: ['./my-events-page.component.css'],
 })
-export class EventsPageComponent implements OnInit, OnDestroy {
+export class MyEventsPageComponent implements OnInit {
   @Input()
   sidebarActions: string[] = ['add'];
   events: CompetitionEvent[] = [];
@@ -54,13 +54,17 @@ export class EventsPageComponent implements OnInit, OnDestroy {
     this.subscription = this.authProvider.userInfo.subscribe(this.fetchEvents);
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
   fetchEvents = () => {
-    this.subscription.add(this.eventService.events.subscribe(events => {
+    this.subscription.add(combineLatest(this.authProvider.userInfo, this.eventService.events).pipe(map(([userInfo, events]) => {
+      return events.filter(event => event.ownerUserId === userInfo.userId);
+    })).subscribe(events => {
       this.events = events;
+      console.log('ev', this.events)
     }));
   }
 

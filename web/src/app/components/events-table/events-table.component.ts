@@ -13,7 +13,8 @@ export class EventsTableComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   formatDate(date: string) {
     return moment(date).format('MMM D, YYYY, HH:mm ');

@@ -30,6 +30,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   isEventsPage = false;
   isProfilePage = false;
   isNotificationsPage = false;
+  isMyEventsPage = false;
   showLogin = false;
   unread: number;
 
@@ -52,6 +53,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.isEventsPage = this.current === 'events';
     this.isProfilePage = this.current === 'profile';
     this.isNotificationsPage = this.current === 'notifications';
+    this.isMyEventsPage = this.current === 'my-events';
     this.subscription.add(this.notificationService.unread.subscribe(unread => this.unread = unread));
   }
 

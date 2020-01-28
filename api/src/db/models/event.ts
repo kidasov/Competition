@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 import { sequelize } from '../db';
 import { Attendee } from './attendee';
 import { UploadId } from './upload';
-import { UserId } from './user';
+import UserModel, { UserId } from './user';
 
 interface EventId extends Number {
   _eventIdBrand: string;
@@ -57,6 +57,8 @@ const EventModel = sequelize.define<EventInstance, EventAttributes>('event', {
   coverMediaId: Sequelize.INTEGER,
   type: Sequelize.ENUM(EventType.Single, EventType.Pair),
 });
+
+EventModel.belongsTo(UserModel, { foreignKey: 'ownerUserId', as: 'owner' });
 
 export default EventModel;
 export {

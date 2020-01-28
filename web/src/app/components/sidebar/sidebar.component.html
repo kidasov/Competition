@@ -4,6 +4,9 @@ style="margin-bottom: 20px">
     <li [ngClass]="{'nav-item': true, 'active': isEventsPage}">
       <a class="nav-link" href="#" routerLink="/events">Соревнования</a>
     </li>
+    <li [ngClass]="{'nav-item': true, 'active': isMyEventsPage}">
+      <a class="nav-link" href="#" routerLink="/my-events">Мои соревнования</a>
+    </li>
     <li [ngClass]="{'nav-item': true, 'active': isProfilePage}">
       <a class="nav-link" href="#" *ngIf="authorized" [routerLink]="['/users' , userId]">Профиль</a>
     </li>

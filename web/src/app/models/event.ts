@@ -7,6 +7,7 @@ export class EventData {
   startsAt?: Date;
   endsAt?: Date;
   ownerUserId: Id;
+  owner: User;
   location: string;
   description: string;
   coverMediaId: Id;

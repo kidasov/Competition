@@ -42,13 +42,13 @@ router.get('/', async ctx => {
   }
 
   ctx.status = 200;
+  // @ts-ignore
   ctx.body = await Event.findAll({
     where: condition,
     order: [['startsAt', 'DESC']],
     include: [
-      {
-        model: User,
-      },
+      'owner',
+      User,
     ],
   });
 });

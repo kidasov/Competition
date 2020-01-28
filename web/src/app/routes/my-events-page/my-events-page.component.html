@@ -1,0 +1,8 @@
+<app-sidebar
+  current="my-events"
+  (showAddEventClick)="showAddPopup()"
+  (loginClick)="showLoginPopup()"
+  [actions]="sidebarActions"
+></app-sidebar>
+
+<app-events-table class="events" [events]="events"></app-events-table>

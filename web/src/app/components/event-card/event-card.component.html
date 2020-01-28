@@ -9,7 +9,20 @@
                 <h3 class="card-title">{{ name }}</h3>
               </th>
             </tr>
-
+            <tr>
+              <td>Организатор</td>
+              <td>
+                <span
+                    *ngIf="ownerName; else unknownOwnber"
+                    class="location"
+                  >
+                    {{ ownerName }}
+                  </span>
+                  <ng-template #unknownOwnber>
+                    <span class="longDash">&mdash;</span>
+                  </ng-template>
+              </td>
+            </tr>
             <tr>
               <td>
                 <div>Место</div>
