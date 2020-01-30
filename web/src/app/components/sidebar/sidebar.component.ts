@@ -36,8 +36,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   constructor(private authProvider: AuthProvider, private notificationService: NotificationService) {}
 
-  handleLogout(event: Event) {
+  handleLogout = (event: Event) => {
     this.authProvider.invalidateSessionKey();
+    this.showLogin = true;
     event.preventDefault();
   }
 
