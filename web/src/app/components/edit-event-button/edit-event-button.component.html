@@ -112,19 +112,23 @@
           <div class="form-group mt-3">
             <label for="startsAtDate">Начинается:</label>
             <input
-              type="datetime-local"
               class="form-control"
-              formControlName="startsAtDate"
+              mode="daytime"
               [value]="startsAtDate"
+              formControlName="startsAtDate"
+              theme="dp-material"
+              [dpDayPicker]="config"
             />
           </div>
           <div class="form-group mt-3">
             <label for="endsAtDate">Заканчивается:</label>
             <input
-              type="datetime-local"
               class="form-control"
-              formControlName="endsAtDate"
+              mode="daytime"
               [value]="endsAtDate"
+              formControlName="endsAtDate"
+              theme="dp-material"
+              [dpDayPicker]="config"
             />
           </div>
         </div>
@@ -172,7 +176,13 @@
         <span>Действие нельзя будет отменить</span>
       </div>
       <div class="modal-footer d-inline-flex align-items-center">
-        <button class="btn btn-primary" (click)="showEditEventModal()" data-dismiss="modal">Отмена</button>
+        <button
+          class="btn btn-primary"
+          (click)="showEditEventModal()"
+          data-dismiss="modal"
+        >
+          Отмена
+        </button>
         <button (click)="removeEvent($event)" class="btn btn-danger">
           Удалить
         </button>

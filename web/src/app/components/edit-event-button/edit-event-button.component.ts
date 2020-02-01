@@ -9,13 +9,12 @@ import { StorageService, UploadEventType } from 'app/services/storage';
 import $ from 'jquery';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-
 @Component({
   selector: 'app-edit-event-button',
   templateUrl: './edit-event-button.component.html',
   styleUrls: ['./edit-event-button.component.css'],
 })
-export class EditEventButtonComponent implements OnInit, OnDestroy {
+export class EditEventButtonComponent implements OnInit, OnDestroy {DatePickerDirective;
   faTrashAlt = faTrashAlt;
   subscription = new Subscription();
   currentEvent: DetailedEvent;
@@ -36,6 +35,13 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
   };
 
   editForm = new FormGroup(this.controls);
+
+  config = {
+    opens: 'left',
+    format: 'DD/MM/YYYY, HH:mm',
+    locale: 'ru',
+    showTwentyFourHours: true
+  };
 
   constructor(
     private eventService: EventService,
@@ -64,14 +70,14 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
     if (this.currentEvent == null || this.currentEvent.startsAt == null) {
       return;
     }
-    return moment(this.currentEvent.startsAt).format('YYYY-MM-DDTHH:mm');
+    return moment(this.currentEvent.startsAt).format('DD/MM/YYYY,  HH:mm');
   }
 
   get endsAtDate(): string | undefined {
     if (this.currentEvent == null || this.currentEvent.endsAt == null) {
       return;
     }
-    return moment(this.currentEvent.endsAt).format('YYYY-MM-DDTHH:mm');
+    return moment(this.currentEvent.endsAt).format('DD/MM/YYYY,  HH:mm');
   }
 
   get enteredStartsAt(): Date | undefined {

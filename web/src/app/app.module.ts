@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { DpDatePickerModule } from "ng2-date-picker";
 import { ImageCropperComponent } from 'ngx-img-cropper';
 
 import { FormsModule } from '@angular/forms';
@@ -101,7 +102,8 @@ window.Bootstrap = require('bootstrap');
     HttpClientModule,
     FontAwesomeModule,
     NgSelectModule,
-    FormsModule
+    FormsModule,
+    DpDatePickerModule
   ],
   providers: [],
   bootstrap: [AppComponent],
