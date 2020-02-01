@@ -28,6 +28,7 @@ interface Event {
   createdAt: Date;
   startsAt: Date | null;
   endsAt: Date | null;
+  endsRegAt: Date | null;
   ownerUserId: UserId;
   location: string;
   description: string;
@@ -49,6 +50,7 @@ const EventModel = sequelize.define<EventInstance, EventAttributes>('event', {
   },
   startsAt: Sequelize.DATE,
   endsAt: Sequelize.DATE,
+  endsRegAt: Sequelize.DATE,
   ownerUserId: Sequelize.INTEGER,
   location: Sequelize.STRING,
   description: Sequelize.STRING,

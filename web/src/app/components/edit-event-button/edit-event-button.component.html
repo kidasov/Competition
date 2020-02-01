@@ -109,6 +109,18 @@
               Опубликовать
             </label>
           </div>
+          <div class="custom-control custom-switch mt-3">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="endsRegAtSwitch"
+              [checked]="showEndsRegAt"
+              (click)="toggleEndsRegSwitch()"
+            />
+            <label class="custom-control-label" for="endsRegAtSwitch">
+              Показать дату окончания регистрации
+            </label>
+          </div>
           <div class="form-group mt-3">
             <label for="startsAtDate">Начинается:</label>
             <input
@@ -127,6 +139,17 @@
               mode="daytime"
               [value]="endsAtDate"
               formControlName="endsAtDate"
+              theme="dp-material"
+              [dpDayPicker]="config"
+            />
+          </div>
+          <div *ngIf="showEndsRegAt" class="form-group mt-3">
+            <label for="endsRegAtDate">Окончание регистрации:</label>
+            <input
+              class="form-control"
+              mode="daytime"
+              [value]="endsRegAtDate"
+              formControlName="endsRegAtDate"
               theme="dp-material"
               [dpDayPicker]="config"
             />

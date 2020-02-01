@@ -6,6 +6,7 @@ export class EventData {
   name: string;
   startsAt?: Date;
   endsAt?: Date;
+  endsRegAt?: Date;
   ownerUserId: Id;
   owner: User;
   location: string;

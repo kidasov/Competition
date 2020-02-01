@@ -22,6 +22,7 @@ interface PatchEventParams {
   coverMediaId?: Id;
   startsAt?: Date;
   endsAt?: Date;
+  endsRegAt?: Date;
   description?: string;
 }
 
@@ -97,11 +98,12 @@ export class EventService {
   }
 
   public patchEvent(eventId: Id, params: PatchEventParams): Observable<Event> {
-    const { startsAt, endsAt, ...rest } = params;
+    const { startsAt, endsAt, endsRegAt, ...rest } = params;
 
     return this.api.patch(`/events/${eventId}`, {
       startsAt: startsAt instanceof Date ? startsAt.toISOString() : startsAt,
       endsAt: endsAt instanceof Date ? endsAt.toISOString() : endsAt,
+      endsRegAt: endsRegAt instanceof Date ?  endsRegAt.toISOString() : endsRegAt,
       ...rest,
     }).pipe(tap(() => this.fetchEvent(eventId)));
   }

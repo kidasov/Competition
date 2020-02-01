@@ -123,6 +123,7 @@ const PatchEventRequest = t.partial({
   coverMediaId: t.union([t.number, t.null]),
   startsAt: t.union([IsoDate, t.null]),
   endsAt: t.union([IsoDate, t.null]),
+  endsRegAt: t.union([IsoDate, t.null]),
   type: t.union([t.literal(EventType.Single), t.literal(EventType.Pair)]),
 });
 
@@ -136,6 +137,7 @@ router.patch('/:id', async ctx => {
     coverMediaId,
     startsAt,
     endsAt,
+    endsRegAt,
     type,
   } = ctx.decode(PatchEventRequest);
 
@@ -160,6 +162,7 @@ router.patch('/:id', async ctx => {
           : coverMediaId,
       startsAt,
       endsAt,
+      endsRegAt,
       type,
     },
     { where: { id } },

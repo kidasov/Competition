@@ -5,6 +5,7 @@ import { Attendee } from 'app/models/attendee';
 import { DetailedEvent } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
 import { EventService } from 'app/services/event';
+import { TimeService } from 'app/services/time';
 import { Id } from 'app/types/types';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
@@ -22,11 +23,14 @@ export class EventPageComponent implements OnInit, OnDestroy {
   previewCoverImage: string = null;
   subscription = new Subscription();
   sidebarActions: string[] = ['edit-event'];
+  countdownTimer = null;
+  currentTime = moment();
 
   constructor(
     private eventService: EventService,
     private route: ActivatedRoute,
     private authProvider: AuthProvider,
+    private timeService: TimeService,
     private router: Router,
   ) {}
 
@@ -116,6 +120,10 @@ export class EventPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.countdownTimer = setInterval(() => {
+      this.currentTime = moment();
+    }, 1000);
+
     const eventId = this.route.snapshot.params.eventId;
     this.eventService.setEventId(eventId);
     this.fetchEvent();
@@ -133,6 +141,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    clearInterval(this.countdownTimer);
   }
 
   fetchEvent = () => {
@@ -169,5 +178,21 @@ export class EventPageComponent implements OnInit, OnDestroy {
     return this.event.coverMediaId != null
         ? `${API_URL}/storage/${this.event.coverMediaId}`
         : '/assets/timo.jpg';
+  }
+
+
+  get timeEndsRegAt() {
+    const endsRegAt = moment(this.event.endsRegAt);
+    if (!this.event.endsRegAt || endsRegAt < this.currentTime) {
+      return null;
+    }
+    return this.timeService.timeDiff(moment(this.event.endsRegAt), this.currentTime);
+  }
+
+  get timeLeft() {
+    if (!this.event.startsAt || moment(this.event.startsAt) < this.currentTime) {
+      return null;
+    }
+    return this.timeService.timeDiff(moment(this.event.startsAt), this.currentTime);
   }
 }

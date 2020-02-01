@@ -70,3 +70,11 @@
 .ml-10 {
   margin-left: 10em;
 }
+
+.timeleft {
+  font-size: 48px;
+}
+
+.timeleft__container {
+  padding: 0.75rem;
+}

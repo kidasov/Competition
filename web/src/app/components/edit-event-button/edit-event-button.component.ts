@@ -9,18 +9,23 @@ import { StorageService, UploadEventType } from 'app/services/storage';
 import $ from 'jquery';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+
+const DATE_NOT_SET = 'Не установлена';
+const DATE_FORMAT = 'DD/MM/YYYY, HH:mm';
 @Component({
   selector: 'app-edit-event-button',
   templateUrl: './edit-event-button.component.html',
   styleUrls: ['./edit-event-button.component.css'],
 })
-export class EditEventButtonComponent implements OnInit, OnDestroy {DatePickerDirective;
+export class EditEventButtonComponent implements OnInit, OnDestroy {
+  DatePickerDirective;
   faTrashAlt = faTrashAlt;
   subscription = new Subscription();
   currentEvent: DetailedEvent;
   coverMediaId: number;
   previewCoverImage: string = null;
   uploading = false;
+  showEndsRegAt = false;
   uploadProgress = 0;
 
   controls = {
@@ -29,18 +34,17 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {DatePickerDi
     pair: new FormControl(),
     publish: new FormControl(),
     startsAtDate: new FormControl(),
-    startsAtTime: new FormControl(),
     endsAtDate: new FormControl(),
-    endsAtTime: new FormControl(),
+    endsRegAtDate: new FormControl(),
   };
 
   editForm = new FormGroup(this.controls);
 
   config = {
     opens: 'left',
-    format: 'DD/MM/YYYY, HH:mm',
+    format: DATE_FORMAT,
     locale: 'ru',
-    showTwentyFourHours: true
+    showTwentyFourHours: true,
   };
 
   constructor(
@@ -58,6 +62,7 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {DatePickerDi
       this.eventService.currentEvent.subscribe(event => {
         this.currentEvent = event;
         this.coverMediaId = event.coverMediaId;
+        this.showEndsRegAt = !!this.currentEvent.endsRegAt;
       }),
     );
   }
@@ -66,21 +71,28 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {DatePickerDi
     this.subscription.unsubscribe();
   }
 
-  get startsAtDate(): string | undefined {
+  get startsAtDate(): string {
     if (this.currentEvent == null || this.currentEvent.startsAt == null) {
-      return;
+      return DATE_NOT_SET;
     }
-    return moment(this.currentEvent.startsAt).format('DD/MM/YYYY,  HH:mm');
+    return moment(this.currentEvent.startsAt).format(DATE_FORMAT);
   }
 
-  get endsAtDate(): string | undefined {
+  get endsAtDate(): string {
     if (this.currentEvent == null || this.currentEvent.endsAt == null) {
-      return;
+      return DATE_NOT_SET;
     }
-    return moment(this.currentEvent.endsAt).format('DD/MM/YYYY,  HH:mm');
+    return moment(this.currentEvent.endsAt).format(DATE_FORMAT);
   }
 
-  get enteredStartsAt(): Date | undefined {
+  get endsRegAtDate(): string {
+    if (this.currentEvent == null || this.currentEvent.endsRegAt == null) {
+      return DATE_NOT_SET;
+    }
+    return moment(this.currentEvent.endsRegAt).format(DATE_FORMAT);
+  }
+
+  get enteredStartsAt(): Date {
     return this.parseDate(
       this.controls.startsAtDate.value || this.startsAtDate,
     );
@@ -90,11 +102,15 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {DatePickerDi
     return this.parseDate(this.controls.endsAtDate.value || this.endsAtDate);
   }
 
+  get enteredEndsRegAt() {
+    return this.parseDate(this.controls.endsRegAtDate.value || this.endsRegAtDate);
+  }
+
   private parseDate(date: string | null): Date | null {
     if (date == null) {
       return null;
     }
-    const parsed = moment(`${date}`).toDate();
+    const parsed = moment(`${date}`, DATE_FORMAT).toDate();
     return !Number.isNaN(parsed.getDate()) ? parsed : null;
   }
 
@@ -174,6 +190,7 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {DatePickerDi
     }
     data['startsAt'] = this.enteredStartsAt;
     data['endsAt'] = this.enteredEndsAt;
+    data['endsRegAt'] = this.enteredEndsRegAt;
     this.eventService.patchEvent(this.currentEvent.id, data).subscribe(() => {
       this.closeEditEventModal();
     });
@@ -197,5 +214,10 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {DatePickerDi
 
   showEditEventModal() {
     $('#editEventModal').modal('show');
+  }
+
+  toggleEndsRegSwitch() {
+    this.showEndsRegAt = !this.showEndsRegAt;
+    this.currentEvent.endsRegAt = null;
   }
 }
