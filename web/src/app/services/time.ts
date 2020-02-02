@@ -16,6 +16,7 @@ export class TimeService {
     const seconds = Math.floor(duration.asSeconds());
     const localSeconds = Math.floor(duration.seconds());
 
+    // @ts-ignore
     const pluralRules = new Intl.PluralRules('ru-RU');
     const dayForms = {
       one: 'день',

@@ -2,6 +2,7 @@
   class="btn btn-primary mr-2 my-sm-0"
   data-toggle="modal"
   data-target="#editEventModal"
+  (click)="showEditEventModal()"
 >
   Редактировать соревнование
 </button>
@@ -22,6 +23,7 @@
       </div>
       <form class="form" [formGroup]="editForm" (ngSubmit)="saveEvent($event)">
         <div class="modal-body">
+          <app-form-error *ngIf="errorMessage"  message="{{errorMessage}}"></app-form-error>
           <div class="form-group">
             <input
               id="event-name"

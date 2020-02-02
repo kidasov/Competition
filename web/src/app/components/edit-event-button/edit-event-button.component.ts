@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { API_URL } from 'app/consts/common';
+import { EDIT_EVENT_ERRORS } from 'app/consts/errors';
 import { DetailedEvent } from 'app/models/event';
 import { EventService } from 'app/services/event';
 import { StorageService, UploadEventType } from 'app/services/storage';
@@ -27,6 +28,7 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
   uploading = false;
   showEndsRegAt = false;
   uploadProgress = 0;
+  errorMessage = '';
 
   controls = {
     name: new FormControl(),
@@ -168,32 +170,44 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
   }
 
   saveEvent() {
-    const name = this.controls.name.value;
-    const description = this.controls.description.value;
-    const pair = this.controls.pair.value ? 'pair' : 'single';
-    const publish = this.controls.publish.value ? 'published' : 'draft';
-    const data = {};
-    if (name !== null) {
-      data['name'] = name;
+    try {
+      if (this.enteredEndsAt && moment(this.enteredStartsAt) > moment(this.enteredEndsAt)) {
+        throw new Error(EDIT_EVENT_ERRORS.START_DATE_MORE_THAN_END_DATE);
+      }
+
+      if (this.enteredEndsRegAt && moment(this.enteredEndsRegAt) > moment(this.enteredStartsAt)) {
+        throw new Error(EDIT_EVENT_ERRORS.START_DATE_MORE_THAN_REG_DATE);
+      }
+
+      const name = this.controls.name.value;
+      const description = this.controls.description.value;
+      const pair = this.controls.pair.value ? 'pair' : 'single';
+      const publish = this.controls.publish.value ? 'published' : 'draft';
+      const data = {};
+      if (name !== null) {
+        data['name'] = name;
+      }
+      if (description !== null) {
+        data['description'] = description;
+      }
+      if (this.coverMediaId !== this.currentEvent.coverMediaId) {
+        data['coverMediaId'] = this.coverMediaId;
+      }
+      if (pair !== this.currentEvent.type) {
+        data['type'] = pair;
+      }
+      if (publish !== this.currentEvent.state) {
+        data['state'] = publish;
+      }
+      data['startsAt'] = this.enteredStartsAt;
+      data['endsAt'] = this.enteredEndsAt;
+      data['endsRegAt'] = this.enteredEndsRegAt;
+      this.eventService.patchEvent(this.currentEvent.id, data).subscribe(() => {
+        this.closeEditEventModal();
+      });
+    } catch (error) {
+      this.errorMessage = error.message;
     }
-    if (description !== null) {
-      data['description'] = description;
-    }
-    if (this.coverMediaId !== this.currentEvent.coverMediaId) {
-      data['coverMediaId'] = this.coverMediaId;
-    }
-    if (pair !== this.currentEvent.type) {
-      data['type'] = pair;
-    }
-    if (publish !== this.currentEvent.state) {
-      data['state'] = publish;
-    }
-    data['startsAt'] = this.enteredStartsAt;
-    data['endsAt'] = this.enteredEndsAt;
-    data['endsRegAt'] = this.enteredEndsRegAt;
-    this.eventService.patchEvent(this.currentEvent.id, data).subscribe(() => {
-      this.closeEditEventModal();
-    });
   }
 
   removeEvent() {
@@ -214,6 +228,7 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
 
   showEditEventModal() {
     $('#editEventModal').modal('show');
+    this.errorMessage = '';
   }
 
   toggleEndsRegSwitch() {
