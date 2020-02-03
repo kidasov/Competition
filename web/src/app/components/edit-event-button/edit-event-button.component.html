@@ -27,11 +27,16 @@
           <div class="form-group">
             <input
               id="event-name"
-              class="form-control my-3"
-              value="{{ currentEvent.name }}"
+              class="form-control"
+              [ngClass]="{'is-invalid':name.invalid && (name.dirty || name.touched) }"
+              value="{{name.value}}"
               formControlName="name"
               placeholder="Название"
+              required
             />
+            <div class="invalid-feedback">
+              Название не должно быть пустым
+            </div>
             <input
               id="event-description"
               class="form-control my-3"
@@ -139,11 +144,15 @@
             <input
               class="form-control"
               mode="daytime"
-              [value]="endsAtDate"
+              value="{{endsAtDate}}"              
+              [ngClass]="{'is-invalid':endsAt.invalid && (endsAt.dirty || endsAt.touched) }"
               formControlName="endsAtDate"
               theme="dp-material"
               [dpDayPicker]="config"
             />
+            <div class="invalid-feedback">
+              Дата завершения соревнования должна быть больше начала соревнования
+            </div>
           </div>
           <div *ngIf="showEndsRegAt" class="form-group mt-3">
             <label for="endsRegAtDate">Окончание регистрации:</label>

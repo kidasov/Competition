@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { API_URL } from 'app/consts/common';
@@ -31,12 +31,21 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
   errorMessage = '';
 
   controls = {
-    name: new FormControl(),
+    name: new FormControl('hello world', [
+      Validators.required,
+    ]),
     description: new FormControl(),
     pair: new FormControl(),
     publish: new FormControl(),
     startsAtDate: new FormControl(),
-    endsAtDate: new FormControl(),
+    endsAtDate: new FormControl('', [
+      (control) => {
+        if (!this.controls) { return null; }
+        const isValid = moment(control.value, DATE_FORMAT).diff(moment(this.controls.startsAtDate.value)) > 0;
+
+        return isValid ?  null : {'error': { value: control.value }};
+      }
+    ]),
     endsRegAtDate: new FormControl(),
   };
 
@@ -65,12 +74,29 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
         this.currentEvent = event;
         this.coverMediaId = event.coverMediaId;
         this.showEndsRegAt = !!this.currentEvent.endsRegAt;
+        this.controls.name.setValue(this.currentEvent.name);
+        this.controls.endsAtDate.setValue(this.currentEvent.endsAt);
+        this.controls.startsAtDate.setValue(this.currentEvent.startsAt);
       }),
     );
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  endDateValidator = (control) => {
+    const isValid = moment(control.value) > moment(this.controls.startsAtDate.value);
+
+    return isValid ?  null : {'Беда': { value: control.value }};
+  }
+
+  get name() {
+    return this.controls.name;
+  }
+
+  get endsAt() {
+    return this.controls.endsAtDate;
   }
 
   get startsAtDate(): string {

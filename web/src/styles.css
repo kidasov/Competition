@@ -14,3 +14,7 @@ body {
 dp-time-select.dp-material .dp-time-select-controls {
   color: #444 !important;
 }
+
+dp-date-picker {
+  display: block !important;
+}
