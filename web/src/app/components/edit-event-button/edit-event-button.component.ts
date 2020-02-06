@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { API_URL } from 'app/consts/common';
 import { EDIT_EVENT_ERRORS } from 'app/consts/errors';
-import { DetailedEvent } from 'app/models/event';
+import { DetailedEvent, EventType, PublishState } from 'app/models/event';
 import { EventService } from 'app/services/event';
 import { StorageService, UploadEventType } from 'app/services/storage';
 import $ from 'jquery';
@@ -31,17 +31,17 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
   errorMessage = '';
 
   controls = {
-    name: new FormControl('hello world', [
+    name: new FormControl('', [
       Validators.required,
     ]),
     description: new FormControl(),
     pair: new FormControl(),
-    publish: new FormControl(),
+    publish: new FormControl(true),
     startsAtDate: new FormControl(),
     endsAtDate: new FormControl('', [
       (control) => {
         if (!this.controls) { return null; }
-        const isValid = moment(control.value, DATE_FORMAT).diff(moment(this.controls.startsAtDate.value)) > 0;
+        const isValid = moment(control.value, DATE_FORMAT).diff(moment(this.controls.startsAtDate.value, DATE_FORMAT)) > 0;
 
         return isValid ?  null : {'error': { value: control.value }};
       }
@@ -75,8 +75,11 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
         this.coverMediaId = event.coverMediaId;
         this.showEndsRegAt = !!this.currentEvent.endsRegAt;
         this.controls.name.setValue(this.currentEvent.name);
-        this.controls.endsAtDate.setValue(this.currentEvent.endsAt);
-        this.controls.startsAtDate.setValue(this.currentEvent.startsAt);
+        this.controls.publish.setValue(this.currentEvent.state === PublishState.Published);
+        this.controls.pair.setValue(this.currentEvent.type === EventType.Pair);
+        this.controls.endsAtDate.setValue(this.endsAtDate);
+        this.controls.startsAtDate.setValue(this.startsAtDate);
+        this.controls.endsRegAtDate.setValue(this.currentEvent.endsRegAt);
       }),
     );
   }
@@ -155,7 +158,7 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
   }
 
   get published() {
-    return this.currentEvent.state === 'published';
+    return this.controls.publish;
   }
 
   get paired() {

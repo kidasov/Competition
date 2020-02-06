@@ -29,7 +29,7 @@
               id="event-name"
               class="form-control"
               [ngClass]="{'is-invalid':name.invalid && (name.dirty || name.touched) }"
-              value="{{name.value}}"
+              [value]="name.value"
               formControlName="name"
               placeholder="Название"
               required
@@ -110,7 +110,7 @@
               type="checkbox"
               class="custom-control-input"
               id="publishSwitch"
-              [checked]="published"
+              [checked]="published.value"
             />
             <label class="custom-control-label" for="publishSwitch">
               Опубликовать
