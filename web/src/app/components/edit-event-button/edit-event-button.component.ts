@@ -46,7 +46,15 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
         return isValid ?  null : {'error': { value: control.value }};
       }
     ]),
-    endsRegAtDate: new FormControl(),
+    endsRegAtDate: new FormControl('', [
+      control => {
+        if (!this.controls) { return null; }
+
+        const isValid = control.value && moment(control.value, DATE_FORMAT).diff(moment(this.controls.startsAtDate, DATE_FORMAT)) > 0;
+
+        return isValid ?  null : {'error': { value: control.value }};
+      }
+    ]),
   };
 
   editForm = new FormGroup(this.controls);
@@ -100,6 +108,14 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
 
   get endsAt() {
     return this.controls.endsAtDate;
+  }
+
+  get startsAt() {
+    return this.controls.startsAtDate;
+  }
+
+  get endsRegAt() {
+    return this.controls.endsRegAtDate;
   }
 
   get startsAtDate(): string {

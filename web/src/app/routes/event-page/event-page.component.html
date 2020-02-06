@@ -25,7 +25,7 @@
                 <span class="bold text">Дата начала</span>
               </td>
               <td>
-                <span class="text" *ngIf="isEndDateValid; else dateNotSet">{{
+                <span class="text" *ngIf="isStartDateValid; else dateNotSet">{{
                   startDate
                 }}</span>
                 <ng-template #dateNotSet>

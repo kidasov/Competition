@@ -134,6 +134,7 @@
               class="form-control"
               mode="daytime"
               [value]="startsAtDate"
+              [ngClass]="{'is-invalid':startsAt.invalid && (startsAt.dirty || startsAt.touched)}"
               formControlName="startsAtDate"
               theme="dp-material"
               [dpDayPicker]="config"
@@ -160,10 +161,14 @@
               class="form-control"
               mode="daytime"
               [value]="endsRegAtDate"
+              [ngClass]="{'is-invalid':endsRegAt.invalid && (endsRegAt.dirty || endsRegAt.touched)}"
               formControlName="endsRegAtDate"
               theme="dp-material"
               [dpDayPicker]="config"
             />
+            <div class="invalid-feedback">
+              Дата регистрации соревнования должна быть меньше начала соревнования
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -177,7 +182,7 @@
             <fa-icon class="mr-2" [icon]="faTrashAlt"></fa-icon>
             Удалить
           </button>
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="btn btn-primary" [disabled]="!editForm.valid">
             Сохранить
           </button>
         </div>
