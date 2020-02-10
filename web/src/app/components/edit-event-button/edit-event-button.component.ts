@@ -50,7 +50,7 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
       control => {
         if (!this.controls) { return null; }
 
-        const isValid = control.value && moment(control.value, DATE_FORMAT).diff(moment(this.controls.startsAtDate, DATE_FORMAT)) > 0;
+        const isValid = control.value && moment(this.controls.startsAtDate.value, DATE_FORMAT).diff(moment(control.value, DATE_FORMAT)) > 0;
 
         return isValid ?  null : {'error': { value: control.value }};
       }
@@ -87,7 +87,7 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
         this.controls.pair.setValue(this.currentEvent.type === EventType.Pair);
         this.controls.endsAtDate.setValue(this.endsAtDate);
         this.controls.startsAtDate.setValue(this.startsAtDate);
-        this.controls.endsRegAtDate.setValue(this.currentEvent.endsRegAt);
+        this.controls.endsRegAtDate.setValue(this.endsRegAtDate);
       }),
     );
   }
