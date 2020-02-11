@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EventService } from 'app/services/event';
 import $ from 'jquery';
@@ -11,7 +11,7 @@ import $ from 'jquery';
 })
 export class AddEventButtonComponent implements OnInit, OnDestroy {
   createForm = new FormGroup({
-    name: new FormControl(),
+    name: new FormControl('', [Validators.required]),
   });
 
   constructor(private eventService: EventService, private router: Router) {}
@@ -34,5 +34,9 @@ export class AddEventButtonComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(`/events/${event.id}`);
       $('#addEventModal').modal('hide');
     });
+  }
+
+  get name() {
+    return this.createForm.controls.name;
   }
 }

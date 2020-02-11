@@ -23,11 +23,21 @@
       <form class="form" [formGroup]="createForm" (ngSubmit)="addEvent($event)">
         <div class="modal-body">
           <div class="form-group">
-            <input id="event-name" class="form-control" formControlName="name" placeholder="Введите название соревнования">
+            <input
+              id="event-name"
+              class="form-control"
+              [ngClass]="{'is-invalid':name.invalid && (name.dirty || name.touched) }"
+              [value]="name.value"
+              formControlName="name"
+              placeholder="Введите название соревнования"
+            />
+            <div class="invalid-feedback">
+              Название не должно быть пустым
+            </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Создать</button>
+          <button type="submit" class="btn btn-primary" [disabled]="createForm.invalid">Создать</button>
         </div>
       </form>
     </div>
