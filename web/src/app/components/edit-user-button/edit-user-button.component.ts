@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'app/models/user';
@@ -20,9 +20,9 @@ export class EditUserButtonComponent implements OnInit, OnDestroy {
   routeUserId: string;
 
   editForm = new FormGroup({
-    firstName: new FormControl(),
-    lastName: new FormControl(),
-    email: new FormControl()
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required])
   });
 
   constructor(private userService: UserService, private authProvider: AuthProvider, private route: ActivatedRoute) { }
@@ -32,12 +32,30 @@ export class EditUserButtonComponent implements OnInit, OnDestroy {
     $('.modal').on('shown.bs.modal', function() {
       $('#first-name').focus();
     });
-    this.subscription.add(this.userService.currentUser.subscribe(user => this.currentUser = user));
+    this.subscription.add(this.userService.currentUser.subscribe(user => {
+      this.currentUser = user;
+      const { firstName, lastName, email } = this.currentUser;
+      this.editForm.controls.firstName.setValue(firstName);
+      this.editForm.controls.lastName.setValue(lastName);
+      this.editForm.controls.email.setValue(email);
+    }));
     this.subscription.add(this.route.params.subscribe(params => this.routeUserId = params.userId));
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  get firstName() {
+    return this.editForm.controls.firstName;
+  }
+
+  get lastName() {
+    return this.editForm.controls.lastName;
+  }
+
+  get email() {
+    return this.editForm.controls.email;
   }
 
   saveUser() {
