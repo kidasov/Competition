@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { API_URL } from 'app/consts/common';
@@ -11,9 +11,10 @@ import * as moment from 'moment';
   templateUrl: './event-card.component.html',
   styleUrls: ['./event-card.component.css'],
 })
-export class EventCardComponent implements OnInit {
+export class EventCardComponent implements OnInit, OnDestroy {
   @Input()
   event: EventWithUsers;
+  countdownTimer = null;
   currentTime = moment();
   faClock = faClock;
 
@@ -43,7 +44,15 @@ export class EventCardComponent implements OnInit {
 
   constructor(private router: Router, private timeService: TimeService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.countdownTimer = setInterval(() => {
+      this.currentTime = moment();
+    }, 1000);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.countdownTimer);
+  }
 
   get timeLeft() {
     if (
