@@ -16,7 +16,8 @@ import { map } from 'rxjs/operators';
 export class MyEventsPageComponent implements OnInit {
   @Input()
   sidebarActions: string[] = ['add'];
-  events: CompetitionEvent[] = [];
+  currentEvents: CompetitionEvent[] = [];
+  pastEvents: CompetitionEvent[] = [];
   showAdd = false;
   showLogin = false;
   subscription = new Subscription();
@@ -31,41 +32,35 @@ export class MyEventsPageComponent implements OnInit {
     private authProvider: AuthProvider,
   ) {}
 
-  addEvent(e: Event) {
-    e.preventDefault();
-    const name = this.createForm.get('name').value;
-    this.eventService.createEvent(name).subscribe(event => {
-      this.showAdd = false;
-      this.router.navigateByUrl(`/events/${event.id}`);
-    });
-  }
-
-  removeEvent(event: CompetitionEvent) {
-    this.eventService.removeEvent(event).subscribe(() => {
-      this.events = this.events.filter(e => e.id !== event.id);
-    });
-  }
-
   formatDate(date: string) {
     return moment(date).format('MMM d, YYYY, HH:mm');
   }
 
   ngOnInit() {
-    this.subscription = this.authProvider.userInfo.subscribe(this.fetchEvents);
+    this.subscription = this.authProvider.userInfo.subscribe(() =>
+      this.eventService.fetchEvents(),
+    );
+
+    this.subscription.add(
+      combineLatest(this.authProvider.userInfo, this.eventService.events)
+        .pipe(
+          map(([userInfo, events]) => {
+            return events.filter(
+              event => event.ownerUserId === userInfo.userId,
+            );
+          }),
+        )
+        .subscribe(events => {
+          const now = moment();
+          this.currentEvents = events.filter(event => !event.startsAt || moment(event.startsAt) > now);
+          this.pastEvents = events.filter(event => moment(event.startsAt) < now);
+        }),
+    );
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  fetchEvents = () => {
-    this.subscription.add(combineLatest(this.authProvider.userInfo, this.eventService.events).pipe(map(([userInfo, events]) => {
-      return events.filter(event => event.ownerUserId === userInfo.userId);
-    })).subscribe(events => {
-      this.events = events;
-      console.log('ev', this.events)
-    }));
   }
 
   showAddPopup() {

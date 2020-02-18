@@ -1,10 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Event as CompetitionEvent } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
 import { EventService } from 'app/services/event';
-import { UserService } from 'app/services/user';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 
@@ -16,7 +14,8 @@ import { Subscription } from 'rxjs';
 export class EventsPageComponent implements OnInit, OnDestroy {
   @Input()
   sidebarActions: string[] = ['add'];
-  events: CompetitionEvent[] = [];
+  currentEvents: CompetitionEvent[] = [];
+  pastEvents: CompetitionEvent[] = [];
   showAdd = false;
   showLogin = false;
   subscription = new Subscription();
@@ -27,41 +26,24 @@ export class EventsPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private eventService: EventService,
-    private router: Router,
     private authProvider: AuthProvider,
   ) {}
-
-  addEvent(e: Event) {
-    e.preventDefault();
-    const name = this.createForm.get('name').value;
-    this.eventService.createEvent(name).subscribe(event => {
-      this.showAdd = false;
-      this.router.navigateByUrl(`/events/${event.id}`);
-    });
-  }
-
-  removeEvent(event: CompetitionEvent) {
-    this.eventService.removeEvent(event).subscribe(() => {
-      this.events = this.events.filter(e => e.id !== event.id);
-    });
-  }
 
   formatDate(date: string) {
     return moment(date).format('MMM d, YYYY, HH:mm');
   }
 
   ngOnInit() {
-    this.subscription = this.authProvider.userInfo.subscribe(this.fetchEvents);
+    this.subscription = this.authProvider.userInfo.subscribe(() => this.eventService.fetchEvents());
+    this.subscription.add(this.eventService.events.subscribe(events => {
+      const now = moment();
+      this.currentEvents = events.filter(event => !event.startsAt || moment(event.startsAt) > now);
+      this.pastEvents = events.filter(event => moment(event.startsAt) < now);
+    }));
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  fetchEvents = () => {
-    this.subscription.add(this.eventService.events.subscribe(events => {
-      this.events = events;
-    }));
   }
 
   showAddPopup() {

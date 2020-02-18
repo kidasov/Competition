@@ -38,7 +38,7 @@ export class EventService {
 
   constructor(private api: ApiService) {}
 
-  private fetchEvents() {
+  public fetchEvents() {
     return this.api.get('/events').pipe(map(events => events.map(event => ({
       ...event,
     })))).subscribe(events => this._events.next(events));
@@ -133,10 +133,6 @@ export class EventService {
   }
 
   get events() {
-    if (!this._eventsFetched) {
-       this._eventsFetched = true;
-       this.fetchEvents();
-    }
     return this._events;
   }
 
