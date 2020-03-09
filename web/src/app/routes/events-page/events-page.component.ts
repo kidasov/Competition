@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class EventsPageComponent implements OnInit, OnDestroy {
   @Input()
-  sidebarActions: string[] = ['add'];
+  sidebarActions: string[] = ['add', 'search'];
   currentEvents: CompetitionEvent[] = [];
   pastEvents: CompetitionEvent[] = [];
   showAdd = false;

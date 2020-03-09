@@ -19,7 +19,7 @@ style="margin-bottom: 20px">
   <app-edit-user-button *ngIf="authorized && action === 'edit'"></app-edit-user-button>
   <app-edit-event-button *ngIf="authorized && action === 'edit-event'"></app-edit-event-button>
   <app-remove-all-notifications-button *ngIf="authorized && action === 'remove-notifications'"></app-remove-all-notifications-button>
-  <app-search-event-button></app-search-event-button>
+  <app-search-event-button *ngIf="action === 'search'"></app-search-event-button>
 
   </ng-container>
   <ul class="navbar-nav">

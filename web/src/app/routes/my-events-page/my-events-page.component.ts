@@ -15,7 +15,7 @@ import { map } from 'rxjs/operators';
 })
 export class MyEventsPageComponent implements OnInit {
   @Input()
-  sidebarActions: string[] = ['add'];
+  sidebarActions: string[] = ['add', 'search'];
   currentEvents: CompetitionEvent[] = [];
   pastEvents: CompetitionEvent[] = [];
   showAdd = false;
