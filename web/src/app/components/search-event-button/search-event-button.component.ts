@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { EventService } from 'app/services/event';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-
 
 const DEBOUNCE_TIME = 500;
 
@@ -14,7 +12,6 @@ const DEBOUNCE_TIME = 500;
   styleUrls: ['./search-event-button.component.css'],
 })
 export class SearchEventButtonComponent implements OnInit {
-  faSearch = faSearch;
   subscription: Subscription;
   valueChanged = new Subject<string>();
 
