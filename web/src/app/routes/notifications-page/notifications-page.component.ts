@@ -13,7 +13,7 @@ const MARK_NOTIFICATIONS_AS_READ_TIME = 3000;
 export class NotificationsPageComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   notifications: Notification[] = [];
-  sidebarActions = ['remove-notifications'];
+  sidebarActions = [];
   notificationReadTimeout = null;
 
   constructor(private notificationService: NotificationService) {}
@@ -30,6 +30,10 @@ export class NotificationsPageComponent implements OnInit, OnDestroy {
             () => this.notificationService.readNotifications(),
             MARK_NOTIFICATIONS_AS_READ_TIME,
           );
+        }
+
+        if (!this.notifications) {
+          this.sidebarActions = ['remove-notifications'];
         }
       }),
     );

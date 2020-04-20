@@ -15,8 +15,8 @@
       <td [ngSwitch]="attendee.status">        
         <div *ngSwitchCase="'join_request'">
           <span>Желает присоединиться</span>
-          <a href="#" class="ml-2" (click)="accept(attendee.userId)">Принять</a>
-          <a href="#" class="ml-2" (click)="kick(attendee.userId)">Отказать</a>
+          <a href="#" *ngIf="eventOwner" class="ml-2" (click)="accept(attendee.userId)">Принять</a>
+          <a href="#" *ngIf="eventOwner" class="ml-2" (click)="kick(attendee.userId)">Отказать</a>
         </div>
         <span *ngSwitchCase="'invited'">Приглашен</span>
         <div *ngSwitchCase="'approved'">

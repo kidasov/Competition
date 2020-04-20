@@ -55,6 +55,14 @@
               </td>
             </tr>
             <tr>
+              <th>
+                <span class="text">Организатор</span>
+              </th>
+              <td>
+                <a [routerLink]="['/users', event.ownerUserId]">{{ eventOwnerName }}</a>
+              </td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <button
                   class="btn btn-lg btn-primary mt-2"

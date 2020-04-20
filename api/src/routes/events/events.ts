@@ -90,8 +90,10 @@ router.delete('/:id', async ctx => {
 router.get('/:id', async ctx => {
   const id = asEventId(ctx.paramNumber('id'));
 
+  // @ts-ignore
   const event = await Event.findOne({
     where: { id },
+    include: ['owner', User],
   });
 
   if (!event) {

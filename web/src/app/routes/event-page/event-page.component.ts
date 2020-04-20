@@ -54,6 +54,10 @@ export class EventPageComponent implements OnInit, OnDestroy {
     return this.authProvider.userId === this.event.ownerUserId;
   }
 
+  get eventOwnerName() {
+    return `${this.event.owner.firstName} ${this.event.owner.lastName}`;
+  }
+
   get eventId() {
     return this.event.id;
   }
