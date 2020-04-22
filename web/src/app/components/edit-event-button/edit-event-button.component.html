@@ -1,6 +1,7 @@
 <button
   class="btn btn-primary mr-2 my-sm-0"
-  (click)="showEdit()"
+  data-toggle="modal"
+  data-target="#editEventModal"
 >
   Редактировать соревнование
 </button>
@@ -173,7 +174,9 @@
           <button
             type="button"
             class="btn btn-danger"
-            (click)="showRemove()"
+            data-toggle="modal"
+            data-target="#removeEventModal"
+            (click)="closeEditEventModal()"
           >
             <fa-icon class="mr-2" [icon]="faTrashAlt"></fa-icon>
             Удалить

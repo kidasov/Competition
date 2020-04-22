@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, } from '@angular/router';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { API_URL } from 'app/consts/common';
 import { DetailedEvent, EventType, PublishState } from 'app/models/event';
@@ -69,7 +69,6 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
     private eventService: EventService,
     private storageService: StorageService,
     private router: Router,
-    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -90,15 +89,6 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
         this.controls.endsRegAtDate.setValue(this.endsRegAtDate);
       }),
     );
-
-    const url = this.route.snapshot.url;
-    const lastSegment = url[url.length - 1];
-
-    if (lastSegment.path === 'edit') {
-      this.showEditEventModal();
-    } else if (lastSegment.path === 'delete') {
-      this.showRemoveEventModal();
-    }
   }
 
   ngOnDestroy() {
@@ -266,7 +256,6 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
 
   closeEditEventModal() {
     $('#editEventModal').modal('hide');
-    this.router.navigate(['/events', this.currentEvent.id]);
   }
 
   showEditEventModal() {
@@ -274,21 +263,8 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
     this.errorMessage = '';
   }
 
-  showRemoveEventModal() {
-    $('#editEventModal').modal('hide');
-    $('#removeEventModal').modal('show');
-  }
-
   toggleEndsRegSwitch() {
     this.showEndsRegAt = !this.showEndsRegAt;
     this.currentEvent.endsRegAt = null;
-  }
-
-  showEdit() {
-    this.router.navigate(['/events', this.currentEvent.id, 'edit']);
-  }
-
-  showRemove() {
-    this.router.navigate(['/events', this.currentEvent.id, 'delete']);
   }
 }
