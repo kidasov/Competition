@@ -1,6 +1,9 @@
 <header class="navbar sticky-top navbar-expand-lg navbar-light bg-light" id="navbarColor03"
 style="margin-bottom: 20px">
-  <ul class="navbar-nav collapse navbar-collapse">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigationMenu" aria-controls="navigationMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <ul class="navbar-nav collapse navbar-collapse" id="navigationMenu">
     <li [ngClass]="{'nav-item': true, 'active': isEventsPage}">
       <a class="nav-link" href="#" routerLink="/events">Соревнования</a>
     </li>
