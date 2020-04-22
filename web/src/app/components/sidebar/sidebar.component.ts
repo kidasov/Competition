@@ -69,8 +69,4 @@ export class SidebarComponent implements OnInit, OnDestroy {
   closeLoginPopup() {
     this.showLogin = false;
   }
-
-  hasEdit() {
-
-  }
 }

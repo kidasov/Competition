@@ -9,6 +9,8 @@ import { UsersPageComponent } from './users-page/users-page.component';
 
 export const routes: Routes = [
   { path: 'events', component: EventsPageComponent },
+  { path: 'events/:eventId/edit', component: EventPageComponent },
+  { path: 'events/:eventId/delete', component: EventPageComponent },
   { path: 'events/:eventId', component: EventPageComponent },
   { path: 'users', component: UsersPageComponent },
   { path: 'users/:userId', component: UserPageComponent },

@@ -31,7 +31,7 @@ export class AddEventButtonComponent implements OnInit, OnDestroy {
     e.preventDefault();
     const name = this.createForm.get('name').value;
     this.eventService.createEvent(name).subscribe(event => {
-      this.router.navigateByUrl(`/events/${event.id}`);
+      this.router.navigateByUrl(`/events/${event.id}?mode=edit`);
       $('#addEventModal').modal('hide');
     });
   }

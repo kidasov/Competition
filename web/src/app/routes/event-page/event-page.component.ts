@@ -31,7 +31,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private authProvider: AuthProvider,
     private timeService: TimeService,
-    private router: Router,
+    private router: Router
   ) {}
 
   get participants(): Attendee[] {
@@ -141,6 +141,15 @@ export class EventPageComponent implements OnInit, OnDestroy {
         this.authorized = userInfo.authorized;
       }),
     );
+    
+    const url = this.route.snapshot.url;
+    const lastSegment = url[url.length - 1];
+
+    console.log('last segment', lastSegment)
+
+    if (lastSegment.path === 'edit') {
+      this.showEdit = true;
+    }
   }
 
   ngOnDestroy() {
