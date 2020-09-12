@@ -19,7 +19,7 @@
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "moment": "^2.22.2",
-    "node-fetch": "^2.2.0",
+    "node-fetch": "^2.6.1",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
     "pg-large-object": "^2.0.0",
