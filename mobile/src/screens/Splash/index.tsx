@@ -1,4 +1,4 @@
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { useStores } from 'store';
 import * as Routes from 'constants/routes';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, KeyboardAvoidingView } from 'react-native';
 import { Form, Field } from 'react-final-form';
 import { Input, Icon, Button } from 'react-native-elements';
-import { observer } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { observable } from 'mobx';
 import styles from './styles';
 
