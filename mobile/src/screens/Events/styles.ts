@@ -11,6 +11,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 32,
   },
+
+  content: {
+    flex: 1,
+    backgroundColor: '#dce775',
+  },
 });
 
 export default styles;

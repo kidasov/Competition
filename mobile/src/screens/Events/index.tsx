@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import React, { FC, useEffect } from 'react';
+import { FlatList, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
@@ -9,7 +9,7 @@ import { useStores } from 'store';
 
 import styles from './styles';
 
-const Events = observer(() => {
+const Events: FC = observer(() => {
   const { eventStore } = useStores();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const Events = observer(() => {
 
   return (
     <FlatList
-      contentContainerStyle={{ backgroundColor: '#dce775' }}
+      contentContainerStyle={styles.content}
       data={eventStore.events.slice()}
       onRefresh={eventStore.fetchEvents}
       renderItem={({ item, index }) => {
