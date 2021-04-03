@@ -2,7 +2,6 @@ import { authStore } from 'store';
 
 export const API_HOST = 'http://10.0.2.2:3003';
 
-
 async function request(path, options = {}) {
   const url = `${API_HOST}${path}`;
   console.warn('url', url, options);

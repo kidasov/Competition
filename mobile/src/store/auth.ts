@@ -1,17 +1,25 @@
 import api from 'api';
-import { observable, action, computed } from 'mobx';
+import { makeObservable, action, computed, observable } from 'mobx';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export default class AuthStore {
-  @observable sessionKey = null;
-  @observable userId = null;
+  sessionKey: string = null;
+  userId: number = null;
 
-  @computed
+  constructor() {
+    makeObservable(this, {
+      sessionKey: observable,
+      userId: observable,
+      isAuthorized: computed,
+      checkAuth: action,
+      signIn: action,
+    });
+  }
+
   get isAuthorized() {
     return !!this.sessionKey;
   }
 
-  @action
   async checkAuth() {
     const cachedAuth = await AsyncStorage.getItem('auth');
     if (cachedAuth) {
@@ -21,7 +29,6 @@ export default class AuthStore {
     }
   }
 
-  @action
   async signIn(payload) {
     const { sessionKey, userId } = await api.post('/auth/signin', payload);
     this.sessionKey = sessionKey;
@@ -30,7 +37,6 @@ export default class AuthStore {
     AsyncStorage.setItem('auth', JSON.stringify({ sessionKey, userId }));
   }
 
-  @action
   async logout() {
     await AsyncStorage.removeItem('auth');
     this.sessionKey = null;

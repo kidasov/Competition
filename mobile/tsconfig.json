@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "sourceMap": true,
+    "declaration": false,
+    "target": "es5",
+    "lib": ["es2017"]
+  }
+}

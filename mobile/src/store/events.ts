@@ -1,14 +1,26 @@
 import api from 'api';
-import { action, observable } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
+import { Event } from '../types';
 
 export default class EventsStore {
-  @observable events = [];
-  @observable fetching = false;
+  events: Event[] = [];
+  fetching = false;
 
-  @action
+  constructor() {
+    makeObservable(this, {
+      events: observable,
+      fetching: observable,
+      fetchEvents: action,
+    });
+  }
+
   async fetchEvents() {
     this.fetching = true;
-    this.events = await api.get('/events');
-    this.fetching = false;
+    const fetchedEvents = await api.get('/events');
+
+    runInAction(() => {
+      this.events = fetchedEvents;
+      this.fetching = false;
+    });
   }
 }
