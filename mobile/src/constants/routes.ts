@@ -1,4 +1,4 @@
-export const LOGIN = 'LOGIN';
-export const EVENTS = 'EVENTS';
+export const LOGIN = 'Login';
+export const EVENTS = 'Competitions';
 export const SPLASH = 'SPLASH';
-export const LOGOUT = 'LOGOUT';
+export const LOGOUT = 'Logout';

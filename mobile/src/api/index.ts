@@ -1,17 +1,22 @@
 import { authStore } from 'store';
 
-export const API_HOST = 'http://10.0.2.2:3003';
+export const API_HOST = 'http://192.168.2.103:3003';
 
 async function request(path, options = {}) {
   const url = `${API_HOST}${path}`;
   console.warn('url', url, options);
+
+  const headers: any = {
+    Accept: 'aplication/json',
+    'Content-Type': 'application/json',
+  };
+
+  if (authStore.isAuthorized) {
+    headers.Authorization = authStore.sessionKey;
+  }
+
   const response = await fetch(url, {
-    credentials: 'include',
-    headers: {
-      Accept: 'aplication/json',
-      Authorization: authStore.sessionKey,
-      'Content-Type': 'application/json',
-    },
+    headers,
     ...options,
   });
 

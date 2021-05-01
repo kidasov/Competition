@@ -8,13 +8,24 @@ import Event from 'screens/Events/components/Event';
 import { useStores } from 'store';
 
 import styles from './styles';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
-const Events: FC = observer(() => {
+export type EventsScreenNavigationProp = DrawerNavigationProp<{}>;
+
+export type EventsScreenProps = {
+  navigation: EventsScreenNavigationProp,
+};
+
+const Events = observer(({ navigation }: EventsScreenProps) => {
   const { eventStore } = useStores();
 
   useEffect(() => {
-    eventStore.fetchEvents();
-  }, [eventStore]);
+    const unsubscribe = navigation.addListener('focus', () => {
+      eventStore.fetchEvents();
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <FlatList
