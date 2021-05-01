@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontWeight: '400',
+    fontWeight: 'bold',
     fontFamily: Fonts.ALLEGREYA,
   },
 
@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     fontFamily: Fonts.ALLEGREYA,
+    marginTop: 8,
   },
 
   type: {

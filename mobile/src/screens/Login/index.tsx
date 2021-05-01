@@ -19,7 +19,7 @@ const handleCloseError = () => {
 };
 
 const Login = observer(props => {
-  const { authStore } = useStores();
+  const { authStore, eventStore } = useStores();
 
   const login = async ({ email, password }) => {
     const { navigation } = props;
