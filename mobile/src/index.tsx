@@ -1,10 +1,14 @@
 import 'react-native-gesture-handler';
+import { IntlProvider } from 'react-intl';
+import 'intl';
+import 'intl/locale-data/jsonp/ru';
 
 import React from 'react';
 import { View } from 'react-native';
 import MenuNavigator from 'navigation/Menu';
 
 import { NavigationContainer } from '@react-navigation/native';
+import { English } from 'translations';
 
 const styles = {
   container: {
@@ -14,11 +18,13 @@ const styles = {
 };
 
 const App = () => (
-  <View style={styles.container}>
-    <NavigationContainer>
-      <MenuNavigator />
-    </NavigationContainer>
-  </View>
+  <IntlProvider locale={'ru'} messages={English}>
+    <View style={styles.container}>
+      <NavigationContainer>
+        <MenuNavigator />
+      </NavigationContainer>
+    </View>
+  </IntlProvider>
 );
 
 export default App;
