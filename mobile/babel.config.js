@@ -8,6 +8,12 @@ module.exports = {
         extensions: ['.ts', '.tsx'],
       },
     ],
+    [
+      '@babel/plugin-transform-react-jsx',
+      {
+        runtime: 'automatic',
+      },
+    ],
     ['@babel/plugin-proposal-decorators', { legacy: true }],
   ],
 };
