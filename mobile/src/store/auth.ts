@@ -1,5 +1,5 @@
 import api from 'api';
-import { makeObservable, action, computed, observable } from 'mobx';
+import { makeObservable, action, computed, observable, runInAction } from 'mobx';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export default class AuthStore {
@@ -22,11 +22,13 @@ export default class AuthStore {
 
   async checkAuth() {
     const cachedAuth = await AsyncStorage.getItem('auth');
-    if (cachedAuth) {
-      const { sessionKey, userId } = JSON.parse(cachedAuth);
-      this.sessionKey = sessionKey;
-      this.userId = userId;
-    }
+    runInAction(() => {
+      if (cachedAuth) {
+        const { sessionKey, userId } = JSON.parse(cachedAuth);
+        this.sessionKey = sessionKey;
+        this.userId = userId;
+      }
+    });
   }
 
   async signIn(payload) {

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { FlatList, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { observer } from 'mobx-react-lite';
@@ -20,11 +20,10 @@ const Events = observer(({ navigation }: EventsScreenProps) => {
   const { eventStore } = useStores();
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      eventStore.fetchEvents();
-    });
+    const fetchEvents = () => eventStore.fetchEvents();
+    navigation.addListener('focus', fetchEvents);
 
-    return unsubscribe;
+    return () => navigation.removeListener('focus', fetchEvents);
   }, []);
 
   return (

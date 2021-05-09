@@ -3,12 +3,14 @@ import { IntlProvider } from 'react-intl';
 import 'intl';
 import 'intl/locale-data/jsonp/ru';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import MenuNavigator from 'navigation/Menu';
+import LoaderNavigator from 'navigation/Loader';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { English } from 'translations';
+import { useStores } from 'store';
 
 const styles = {
   container: {
@@ -17,14 +19,30 @@ const styles = {
   },
 };
 
-const App = () => (
+const App = () => {
+  const [loading, setLoading] = useState(true);
+  const { authStore } = useStores();
+
+  useEffect(() => {
+    (async () => {
+        await authStore.checkAuth();
+        setLoading(false);
+    })();
+  }, []);
+
+  const renderNavigator = () => {
+    return loading ? <LoaderNavigator /> : <MenuNavigator />;
+  }
+
+  return (
   <IntlProvider locale={'ru'} messages={English}>
     <View style={styles.container}>
       <NavigationContainer>
-        <MenuNavigator />
+        {renderNavigator()}
       </NavigationContainer>
     </View>
   </IntlProvider>
-);
+  );
+};
 
 export default App;
