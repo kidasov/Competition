@@ -39,20 +39,4 @@ const Events = observer(({ navigation }: EventsScreenProps) => {
   );
 });
 
-Events.navigationOptions = props => {
-  return {
-    title: 'Competitions',
-    headerLeft: (
-      <View style={styles.hamburger}>
-        <Icon
-          name="menu"
-          onPress={() => props.navigation.toggleDrawer()}
-          size={24}
-          color="black"
-        />
-      </View>
-    ),
-  };
-};
-
 export default Events;
