@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { FlatList, View } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { FlatList } from 'react-native';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
+import * as Routes from 'constants/routes';
+
 
 import Event from 'screens/Events/components/Event';
 import { useStores } from 'store';
@@ -32,7 +33,9 @@ const Events = observer(({ navigation }: EventsScreenProps) => {
       data={eventStore.events.slice()}
       onRefresh={eventStore.fetchEvents}
       renderItem={({ item, index }) => {
-        return <Event event={toJS(item)} key={index} />;
+        return <Event event={toJS(item)} key={index} onPress={() => navigation.navigate(Routes.EVENT, {
+          event: item,
+        })} />;
       }}
       refreshing={eventStore.fetching}
     />

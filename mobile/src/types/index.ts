@@ -1,3 +1,5 @@
+
+import Attendee from './attendee';
 import Event from './event';
 
-export { Event };
+export { Attendee, Event };

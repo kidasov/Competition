@@ -1,3 +1,4 @@
+import Attendee from './attendee';
 export default interface Event {
   name: string;
   startsAt?: Date;
@@ -5,6 +6,7 @@ export default interface Event {
   ownerUserId: number;
   location: string;
   description: string;
+  attendee: Attendee[];
   coverMediaId: number;
   state: PublishState;
   type: EventType;

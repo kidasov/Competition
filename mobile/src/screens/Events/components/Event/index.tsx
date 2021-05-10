@@ -12,6 +12,7 @@ import styles from './styles';
 
 type Props = {
   event: Event;
+  onPress: () => void;
 };
 
 const EventCard: React.FunctionComponent<Props> = (event: Props) => {
@@ -87,6 +88,7 @@ const EventCard: React.FunctionComponent<Props> = (event: Props) => {
           buttonStyle={styles.button}
           titleStyle={styles.buttonTitle}
           title="Открыть"
+          onPress={event.onPress}
         />
     </Card>
   );
