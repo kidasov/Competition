@@ -21,7 +21,8 @@
         <span *ngSwitchCase="'invited'">Приглашен</span>
         <div *ngSwitchCase="'approved'">
           <span>Участник</span>
-          <a href="#" class="ml-2" (click)="kick(attendee.userId)">Удалить</a>
+          <a *ngIf="eventOwner" href="#" class="ml-2" (click)="kick(attendee.userId)">Удалить</a>
+          <a *ngIf="currentUser && currentUser.id === attendee.userId;" href="#" class="ml-2" (click)="kick(attendee.userId)">Покинуть</a>
         </div>
       </td>
     </tr>

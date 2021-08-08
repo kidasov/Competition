@@ -15,6 +15,7 @@ function asEventId(rawId: number): EventId {
 enum PublishState {
   Draft = 'draft',
   Published = 'published',
+  Archived = 'archived',
 }
 
 enum EventType {
@@ -55,7 +56,7 @@ const EventModel = sequelize.define<EventInstance, EventAttributes>('event', {
   location: Sequelize.STRING,
   description: Sequelize.STRING,
   attendees: Sequelize.VIRTUAL,
-  state: Sequelize.ENUM(PublishState.Draft, PublishState.Published),
+  state: Sequelize.ENUM(PublishState.Draft, PublishState.Published, PublishState.Archived),
   coverMediaId: Sequelize.INTEGER,
   type: Sequelize.ENUM(EventType.Single, EventType.Pair),
 });

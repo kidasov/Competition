@@ -29,14 +29,14 @@ router.get('/', async ctx => {
       },
       [Op.or]: [
         { state: PublishState.Published },
-        { ownerUserId: sessionUserId },
+        { state: PublishState.Draft, ownerUserId: sessionUserId },
       ],
     };
   } else {
     condition = {
       [Op.or]: [
         { state: PublishState.Published },
-        { ownerUserId: sessionUserId },
+        { state: PublishState.Draft, ownerUserId: sessionUserId },
       ],
     };
   }
@@ -73,15 +73,22 @@ router.post('/', async ctx => {
 });
 
 router.delete('/:id', async ctx => {
+  const { userId: sessionUserId } = await ctx.requireSession();
   const id = asEventId(ctx.paramNumber('id'));
 
   const event = await Event.findOne({
     where: { id },
   });
 
-  if (event) {
-    await Event.destroy({ where: { id: event.id } });
+  if (!event) {
+    return ctx.throw(404);
   }
+
+  if (sessionUserId !== event.ownerUserId) {
+    return ctx.throw(403);
+  }
+
+  await Event.update({state: PublishState.Archived}, { where: { id: event.id } });
 
   ctx.status = 200;
   ctx.body = {};

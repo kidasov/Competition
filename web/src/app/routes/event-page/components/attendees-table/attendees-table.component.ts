@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Attendee, AttendeeRole, AttendeeStatus } from 'app/models/attendee';
 import { DetailedEvent, EventType } from 'app/models/event';
@@ -18,7 +18,7 @@ export interface AttendeeWrapper {
   templateUrl: './attendees-table.component.html',
   styleUrls: ['./attendees-table.component.css'],
 })
-export class AttendeesTableComponent implements OnInit {
+export class AttendeesTableComponent implements OnInit, OnDestroy {
   @Input()
   event: DetailedEvent;
   subscription = new Subscription();
@@ -44,7 +44,6 @@ export class AttendeesTableComponent implements OnInit {
     this.subscription.add(
       this.userService.currentUser.subscribe(user => {
         this.currentUser = user;
-        console.log('current user id', this.currentUser);
       }),
     );
 
@@ -57,6 +56,10 @@ export class AttendeesTableComponent implements OnInit {
           }, {})),
       ),
     );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   get attendeeMap() {
