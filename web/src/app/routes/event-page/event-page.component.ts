@@ -2,7 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { API_URL } from 'app/consts/common';
 import { Attendee } from 'app/models/attendee';
-import { DetailedEvent } from 'app/models/event';
+import {
+  DetailedEvent,
+  EventProgressState,
+  EventRegistationState,
+} from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
 import { EventService } from 'app/services/event';
 import { TimeService } from 'app/services/time';
@@ -31,7 +35,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private authProvider: AuthProvider,
     private timeService: TimeService,
-    private router: Router
+    private router: Router,
   ) {}
 
   get participants(): Attendee[] {
@@ -40,13 +44,13 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   get pretenders(): Attendee[] {
     return this.event.attendees.filter(
-      attendee => attendee.status === 'join_request',
+      (attendee) => attendee.status === 'join_request',
     );
   }
 
   get invited(): Attendee[] {
     return this.event.attendees.filter(
-      attendee => attendee.status === 'invited',
+      (attendee) => attendee.status === 'invited',
     );
   }
 
@@ -63,7 +67,9 @@ export class EventPageComponent implements OnInit, OnDestroy {
   }
 
   get eventType() {
-    return this.event.type === 'single' ? 'Личное первенство' : 'Командное первенство';
+    return this.event.type === 'single'
+      ? 'Личное первенство'
+      : 'Командное первенство';
   }
 
   get eventDescription() {
@@ -72,10 +78,46 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   get canRegister() {
     return (
+      this.event.registrationState === EventRegistationState.Opened && (
       !this.authorized ||
       !this.event.attendees.find(
-        pretender => pretender.userId === this.authProvider.userId,
-      )
+        (pretender) => pretender.userId === this.authProvider.userId,
+      ))
+    );
+  }
+
+  get canStart() {
+    return (
+      this.eventOwner &&
+      this.event.progressState === EventProgressState.Upcoming
+    );
+  }
+
+  get canFinish() {
+    return (
+      this.eventOwner &&
+      this.event.progressState === EventProgressState.Ongoing
+    );
+  }
+
+  get canReopen() {
+    return (
+      this.eventOwner &&
+      this.event.progressState === EventProgressState.Finished
+    );
+  }
+
+  get canOpenRegistration() {
+    return (
+      this.eventOwner &&
+      this.event.registrationState === EventRegistationState.Closed
+    );
+  }
+
+  get canCloseRegistration() {
+    return (
+      this.eventOwner &&
+      this.event.registrationState === EventRegistationState.Opened
     );
   }
 
@@ -88,15 +130,11 @@ export class EventPageComponent implements OnInit, OnDestroy {
   }
 
   get startDate() {
-    return moment(this.event.startsAt)
-      .lang('ru')
-      .format('D MMMM YYYY, HH:mm');
+    return moment(this.event.startsAt).lang('ru').format('D MMMM YYYY, HH:mm');
   }
 
   get endDate() {
-    return moment(this.event.endsAt)
-      .lang('ru')
-      .format('D MMMM YYYY, HH:mm');
+    return moment(this.event.endsAt).lang('ru').format('D MMMM YYYY, HH:mm');
   }
 
   get attendees() {
@@ -132,20 +170,18 @@ export class EventPageComponent implements OnInit, OnDestroy {
     this.eventService.setEventId(eventId);
     this.fetchEvent();
     this.subscription.add(
-      this.eventService.getEvent(eventId).subscribe(event => {
+      this.eventService.getEvent(eventId).subscribe((event) => {
         this.event = event;
       }),
     );
     this.subscription.add(
-      this.authProvider.userInfo.subscribe(userInfo => {
+      this.authProvider.userInfo.subscribe((userInfo) => {
         this.authorized = userInfo.authorized;
       }),
     );
-    
+
     const url = this.route.snapshot.url;
     const lastSegment = url[url.length - 1];
-
-    console.log('last segment', lastSegment)
 
     if (lastSegment.path === 'edit') {
       this.showEdit = true;
@@ -171,6 +207,61 @@ export class EventPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  openRegistration() {
+    const eventId = this.route.snapshot.params.eventId;
+    if (this.authorized) {
+      this.eventService
+        .patchEvent(eventId, {
+          registrationState: EventRegistationState.Opened,
+        })
+        .subscribe(this.fetchEvent);
+    }
+  }
+
+  closeRegistration() {
+    const eventId = this.route.snapshot.params.eventId;
+    if (this.authorized) {
+      this.eventService
+        .patchEvent(eventId, {
+          registrationState: EventRegistationState.Closed,
+        })
+        .subscribe(this.fetchEvent);
+    }
+  }
+
+  startEvent() {
+    const eventId = this.route.snapshot.params.eventId;
+    if (this.authorized) {
+      this.eventService
+        .patchEvent(eventId, {
+          progressState: EventProgressState.Ongoing,
+        })
+        .subscribe(this.fetchEvent);
+    }
+  }
+
+  finishEvent() {
+    const eventId = this.route.snapshot.params.eventId;
+    if (this.authorized) {
+      this.eventService
+        .patchEvent(eventId, {
+          progressState: EventProgressState.Finished,
+        })
+        .subscribe(this.fetchEvent);
+    }
+  }
+
+  reopenEvent() {
+    const eventId = this.route.snapshot.params.eventId;
+    if (this.authorized) {
+      this.eventService
+        .patchEvent(eventId, {
+          progressState: EventProgressState.Upcoming,
+        })
+        .subscribe(this.fetchEvent);
+    }
+  }
+
   accept(userId: Id) {
     this.eventService
       .accept(this.event.id, userId, {})
@@ -189,23 +280,31 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   get image() {
     return this.event.coverMediaId != null
-        ? `${API_URL}/storage/${this.event.coverMediaId}`
-        : '/assets/timo.jpg';
+      ? `${API_URL}/storage/${this.event.coverMediaId}`
+      : '/assets/timo.jpg';
   }
-
 
   get timeEndsRegAt() {
     const endsRegAt = moment(this.event.endsRegAt);
     if (!this.event.endsRegAt || endsRegAt < this.currentTime) {
       return null;
     }
-    return this.timeService.timeDiff(moment(this.event.endsRegAt), this.currentTime);
+    return this.timeService.timeDiff(
+      moment(this.event.endsRegAt),
+      this.currentTime,
+    );
   }
 
   get timeLeft() {
-    if (!this.event.startsAt || moment(this.event.startsAt) < this.currentTime) {
+    if (
+      !this.event.startsAt ||
+      moment(this.event.startsAt) < this.currentTime
+    ) {
       return null;
     }
-    return this.timeService.timeDiff(moment(this.event.startsAt), this.currentTime);
+    return this.timeService.timeDiff(
+      moment(this.event.startsAt),
+      this.currentTime,
+    );
   }
 }

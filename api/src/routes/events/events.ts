@@ -2,7 +2,7 @@ import * as t from 'io-ts';
 import Router from 'koa-router';
 import Sequelize from 'sequelize';
 import { Attendee, Event, User } from '../../db/models';
-import { asEventId, EventType, PublishState } from '../../db/models/event';
+import { asEventId, EventProgressState, EventRegistationState, EventType, PublishState } from '../../db/models/event';
 import { asUploadId } from '../../db/models/upload';
 import { IsoDate } from '../../io-types';
 import attendees from './attendees';
@@ -66,6 +66,8 @@ router.post('/', async ctx => {
     ownerUserId: sessionUserId,
     state: PublishState.Draft,
     type: EventType.Single,
+    progressState: EventProgressState.Upcoming,
+    registrationState: EventRegistationState.Closed,
   });
 
   ctx.status = 201;
@@ -134,6 +136,15 @@ const PatchEventRequest = t.partial({
   endsAt: t.union([IsoDate, t.null]),
   endsRegAt: t.union([IsoDate, t.null]),
   type: t.union([t.literal(EventType.Single), t.literal(EventType.Pair)]),
+  progressState: t.union([
+    t.literal(EventProgressState.Upcoming),
+    t.literal(EventProgressState.Ongoing),
+    t.literal(EventProgressState.Finished),
+  ]),
+  registrationState: t.union([
+    t.literal(EventRegistationState.Opened),
+    t.literal(EventRegistationState.Closed),
+  ])
 });
 
 router.patch('/:id', async ctx => {
@@ -148,6 +159,8 @@ router.patch('/:id', async ctx => {
     endsAt,
     endsRegAt,
     type,
+    progressState,
+    registrationState,
   } = ctx.decode(PatchEventRequest);
 
   const event = await Event.findOne({ where: { id } });
@@ -173,6 +186,8 @@ router.patch('/:id', async ctx => {
       endsAt,
       endsRegAt,
       type,
+      progressState,
+      registrationState,
     },
     { where: { id } },
   );

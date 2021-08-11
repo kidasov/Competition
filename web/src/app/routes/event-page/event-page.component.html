@@ -59,7 +59,9 @@
                 <span class="text">Организатор</span>
               </th>
               <td>
-                <a [routerLink]="['/users', event.ownerUserId]">{{ eventOwnerName }}</a>
+                <a [routerLink]="['/users', event.ownerUserId]">{{
+                  eventOwnerName
+                }}</a>
               </td>
             </tr>
             <tr>
@@ -83,15 +85,60 @@
                 </ng-template>
               </td>
             </tr>
+            <tr>
+              <td colspan="2">
+                <button
+                  class="btn btn-lg btn-primary mt-2"
+                  *ngIf="canStart"
+                  (click)="startEvent()"
+                >
+                  Начать сейчас
+                </button>
+                <button
+                  class="btn btn-lg btn-primary mt-2"
+                  *ngIf="canFinish"
+                  (click)="finishEvent()"
+                >
+                  Завершить сейчас
+                </button>
+                <button
+                  class="btn btn-lg btn-primary mt-2"
+                  *ngIf="canReopen"
+                  (click)="reopenEvent()"
+                >
+                  Переоткрыть
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <button
+                  class="btn btn-lg btn-primary mt-2"
+                  *ngIf="canOpenRegistration; else close_registration_button"
+                  (click)="openRegistration()"
+                >
+                  Открыть регистрацию
+                </button>
+                <ng-template #close_registration_button>
+                  <button
+                    class="btn btn-lg btn-primary mt-2"
+                    *ngIf="canCloseRegistration"
+                    (click)="closeRegistration()"
+                  >
+                    Закрыть регистрацию
+                  </button>
+                </ng-template>
+              </td>
+            </tr>
           </tbody>
         </table>
         <div *ngIf="timeLeft" class="timeleft__container">
           <span class="text">До начала соревнования:</span>
-          <div class="timeleft">{{timeLeft}}</div>
+          <div class="timeleft">{{ timeLeft }}</div>
         </div>
         <div *ngIf="timeEndsRegAt" class="timeleft__container">
           <span class="text">До окончания регистрации:</span>
-          <div class="timeleft">{{timeEndsRegAt}}</div>
+          <div class="timeleft">{{ timeEndsRegAt }}</div>
         </div>
       </div>
     </div>

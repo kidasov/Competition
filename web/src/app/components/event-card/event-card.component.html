@@ -18,6 +18,18 @@
         {{ date }}
       </p>
     </div>
+
+    <div *ngIf="event.isUpcoming" class="card-badge__container">
+      <span class="badge badge-primary badge-pill card-badge">Предстоящее</span>
+    </div>
+
+    <div *ngIf="event.isOngoing" class="card-badge__container">
+      <span class="badge badge-danger badge-pill card-badge">Live</span>
+    </div>
+
+    <div *ngIf="event.isFinished" class="card-badge__container">
+      <span class="badge badge-secondary badge-pill card-badge">Завершено</span>
+    </div>
   </div>
 
   <div class="view overlay">

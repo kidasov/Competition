@@ -32,3 +32,11 @@
 .timeleft {
   font-size: 3rem;
 }
+
+.card-badge__container {
+  margin-left: auto;
+}
+
+.card-badge {
+  font-size: 1.1em;
+}

@@ -23,6 +23,17 @@ enum EventType {
   Pair = 'pair',
 }
 
+enum EventProgressState {
+  Upcoming = 'upcoming',
+  Ongoing = 'ongoing',
+  Finished = 'finished',
+}
+
+enum EventRegistationState {
+  Opened = 'opened',
+  Closed = 'closed',
+}
+
 interface Event {
   id: EventId;
   name: string;
@@ -37,6 +48,8 @@ interface Event {
   state: PublishState;
   coverMediaId: UploadId | null;
   type: EventType;
+  progressState: EventProgressState;
+  registrationState: EventRegistationState;
 }
 
 type EventAttributes = Partial<Event>;
@@ -59,6 +72,8 @@ const EventModel = sequelize.define<EventInstance, EventAttributes>('event', {
   state: Sequelize.ENUM(PublishState.Draft, PublishState.Published, PublishState.Archived),
   coverMediaId: Sequelize.INTEGER,
   type: Sequelize.ENUM(EventType.Single, EventType.Pair),
+  progressState: Sequelize.ENUM(EventProgressState.Upcoming, EventProgressState.Ongoing, EventProgressState.Finished),
+  registrationState: Sequelize.ENUM(EventRegistationState.Opened, EventRegistationState.Closed),
 });
 
 EventModel.belongsTo(UserModel, { foreignKey: 'ownerUserId', as: 'owner' });
@@ -73,4 +88,6 @@ export {
   EventInstance,
   Event,
   EventType,
+  EventProgressState,
+  EventRegistationState,
 };

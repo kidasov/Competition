@@ -14,6 +14,8 @@ export class EventData {
   coverMediaId: Id;
   state: PublishState;
   type: EventType;
+  progressState: EventProgressState;
+  registrationState: EventRegistationState;
 }
 
 export enum PublishState {
@@ -26,13 +28,48 @@ export enum EventType {
   Pair = 'pair',
 }
 
+export enum EventProgressState {
+  Upcoming = 'upcoming',
+  Ongoing = 'ongoing',
+  Finished = 'finished',
+}
+
+export enum EventRegistationState {
+  Closed = 'closed',
+  Opened = 'opened',
+}
 export class Event extends EventData {
   id: Id;
   createdAt: Date;
+  get isUpcoming() {
+    return this.progressState === EventProgressState.Upcoming;
+  }
+
+  get isOngoing() {
+    return this.progressState === EventProgressState.Ongoing;
+  }
+
+  get isFinished() {
+    return this.progressState === EventProgressState.Finished;
+  }
+
+  get isRegistrationOpened() {
+    return this.registrationState === EventRegistationState
+    .Opened;
+  }
+
+  get isRegistrationClosed() {
+    return this.registrationState === EventRegistationState.Closed;
+  }
 }
 
-export interface EventWithUsers extends Event {
+export class EventWithUsers extends Event {
   users: User[];
+  
+  constructor(event: EventData) {
+    super();
+    Object.assign(this, event);
+  }
 }
 
 export class DetailedEvent extends Event {

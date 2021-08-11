@@ -3,7 +3,7 @@ import { Id } from 'app/types/types';
 import { BehaviorSubject, empty, Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { Attendee } from '../models/attendee';
-import { DetailedEvent, Event } from '../models/event';
+import { DetailedEvent, Event, EventWithUsers } from '../models/event';
 import { ApiService } from './api';
 
 type Role = 'owner' | 'participant' | 'watcher' | 'judge';
@@ -24,6 +24,8 @@ interface PatchEventParams {
   endsAt?: Date;
   endsRegAt?: Date;
   description?: string;
+  registrationState?: 'closed' | 'opened';
+  progressState?: 'upcoming' | 'ongoing' | 'finished';
 }
 
 @Injectable({
@@ -34,14 +36,15 @@ export class EventService {
   _currentEvent: Observable<DetailedEvent>;
   eventSubjects = {};
   _eventsFetched = false;
-  _events = new BehaviorSubject<DetailedEvent[]>([]);
+  _events = new BehaviorSubject<EventWithUsers[]>([]);
 
   constructor(private api: ApiService) {}
 
   public fetchEvents() {
-    return this.api.get('/events').pipe(map(events => events.map(event => ({
-      ...event,
-    })))).subscribe(events => this._events.next(events));
+    return this.api
+      .get('/events')
+      .pipe(map((events) => events.map((event) => new EventWithUsers(event))))
+      .subscribe((events) => this._events.next(events));
   }
 
   public createEvent(name: String): Observable<Event> {
@@ -52,8 +55,10 @@ export class EventService {
     return this.api.delete(`/events/${event.id}`);
   }
 
-  public getEvents(): Observable<Event[]> {
-    return this.api.get('/events');
+  public getEvents(): Observable<EventWithUsers[]> {
+    return this.api
+      .get('/events')
+      .pipe(tap((events) => events.map((event) => new EventWithUsers(event))));
   }
 
   private getEventSubject(eventId): BehaviorSubject<DetailedEvent> {
@@ -69,8 +74,10 @@ export class EventService {
 
   public fetchEvent(eventId: Id): void {
     this.api.get(`/events/${eventId}`).subscribe((event: DetailedEvent) => {
-      event.attendees = event.attendees.map(attendee => new Attendee(attendee));
-      this.getEventSubject(eventId).next(event);
+      event.attendees = event.attendees.map(
+        (attendee) => new Attendee(attendee),
+      );
+      this.getEventSubject(eventId).next(new DetailedEvent(event));
     });
   }
 
@@ -87,25 +94,29 @@ export class EventService {
     userId: Id,
     params: AcceptParams,
   ): Observable<void> {
-    return this.api.put(
-      `/events/${eventId}/attendees/${userId}/accept`,
-      params,
-    ).pipe(tap(() => this.fetchEvent(eventId)));
+    return this.api
+      .put(`/events/${eventId}/attendees/${userId}/accept`, params)
+      .pipe(tap(() => this.fetchEvent(eventId)));
   }
 
   public removeUser(eventId: Id, userId: Id): Observable<void> {
-    return this.api.delete(`/events/${eventId}/attendees/${userId}`).pipe(tap(() => this.fetchEvent(eventId)));
+    return this.api
+      .delete(`/events/${eventId}/attendees/${userId}`)
+      .pipe(tap(() => this.fetchEvent(eventId)));
   }
 
   public patchEvent(eventId: Id, params: PatchEventParams): Observable<Event> {
     const { startsAt, endsAt, endsRegAt, ...rest } = params;
 
-    return this.api.patch(`/events/${eventId}`, {
-      startsAt: startsAt instanceof Date ? startsAt.toISOString() : startsAt,
-      endsAt: endsAt instanceof Date ? endsAt.toISOString() : endsAt,
-      endsRegAt: endsRegAt instanceof Date ?  endsRegAt.toISOString() : endsRegAt,
-      ...rest,
-    }).pipe(tap(() => this.fetchEvent(eventId)));
+    return this.api
+      .patch(`/events/${eventId}`, {
+        startsAt: startsAt instanceof Date ? startsAt.toISOString() : startsAt,
+        endsAt: endsAt instanceof Date ? endsAt.toISOString() : endsAt,
+        endsRegAt:
+          endsRegAt instanceof Date ? endsRegAt.toISOString() : endsRegAt,
+        ...rest,
+      })
+      .pipe(tap(() => this.fetchEvent(eventId)));
   }
 
   public pairWithUser(eventId: Id, targetUserId: Id): void {
@@ -122,12 +133,14 @@ export class EventService {
 
   get currentEvent() {
     if (!this._currentEvent) {
-      this._currentEvent = this._currentEventId.pipe(switchMap(eventId => {
-        if (eventId !== -1) {
-          return this.getEventSubject(eventId);
-        }
-        return empty();
-      }));
+      this._currentEvent = this._currentEventId.pipe(
+        switchMap((eventId) => {
+          if (eventId !== -1) {
+            return this.getEventSubject(eventId);
+          }
+          return empty();
+        }),
+      );
     }
     return this._currentEvent;
   }
@@ -137,7 +150,10 @@ export class EventService {
   }
 
   searchEvents(name: string) {
-    return this.api.get(`/events?search=${name}`).subscribe((events) => this._events.next(events));
+    return this.api
+      .get(`/events?search=${name}`)
+      .subscribe((events) =>
+        this._events.next(events.map((event) => new EventWithUsers(event))),
+      );
   }
-
 }
