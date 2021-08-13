@@ -31,7 +31,6 @@ export class AttendeeTableComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.userService.currentUser.subscribe(user => {
         this.currentUser = user;
-        console.log('current user id', this.currentUser);
       }),
     )
   }

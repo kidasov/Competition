@@ -10,15 +10,14 @@
   <tbody>
     <tr *ngFor="let attendee of attendees; let i = index;">
       <td>{{ i + 1 }}</td>
-      <td>
-       <a [routerLink]="['/users', attendee.userId]">{{ attendee.name }}</a>
-      </td>
+      <td>{{ attendee.name }}</td>
       <td>{{ attendee.rating }}</td>
       <td [ngSwitch]="attendee.status">        
         <div *ngSwitchCase="'join_request'">
           <span>Желает присоединиться</span>
           <a href="#" *ngIf="eventOwner" class="ml-2" (click)="accept(attendee.userId)">Принять</a>
           <a href="#" *ngIf="eventOwner" class="ml-2" (click)="kick(attendee.userId)">Отказать</a>
+          <a *ngIf="currentUser && currentUser.id === attendee.userId;" href="#" class="ml-2" (click)="kick(attendee.userId)">Покинуть</a>
         </div>
         <span *ngSwitchCase="'invited'">Приглашен</span>
         <div *ngSwitchCase="'approved'">
