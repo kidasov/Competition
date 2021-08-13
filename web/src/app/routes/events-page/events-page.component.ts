@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Event as CompetitionEvent } from 'app/models/event';
+import { Event as CompetitionEvent, EventProgressState } from 'app/models/event';
 import { AuthProvider } from 'app/services/auth/provider';
 import { EventService } from 'app/services/event';
 import * as moment from 'moment';
@@ -15,7 +15,6 @@ export class EventsPageComponent implements OnInit, OnDestroy {
   @Input()
   sidebarActions: string[] = ['add', 'search'];
   currentEvents: CompetitionEvent[] = [];
-  pastEvents: CompetitionEvent[] = [];
   showAdd = false;
   showLogin = false;
   subscription = new Subscription();
@@ -37,8 +36,25 @@ export class EventsPageComponent implements OnInit, OnDestroy {
     this.subscription = this.authProvider.userInfo.subscribe(() => this.eventService.fetchEvents());
     this.subscription.add(this.eventService.events.subscribe(events => {
       const now = moment();
-      this.currentEvents = events.filter(event => !event.startsAt || moment(event.startsAt) > now);
-      this.pastEvents = events.filter(event => moment(event.startsAt) < now);
+      this.currentEvents = events.sort((first, second) => {
+        if (first.progressState === EventProgressState.Ongoing && (second.progressState === EventProgressState.Finished || second.progressState === EventProgressState.Upcoming)) {
+          return -1;
+        }
+
+        if ((first.progressState === EventProgressState.Finished || first.progressState === EventProgressState.Upcoming) && second.progressState === EventProgressState.Ongoing) {
+          return 1;
+        }
+
+        if (first.progressState === EventProgressState.Upcoming && second.progressState === EventProgressState.Finished) {
+          return -1;
+        }
+
+        if (first.progressState === EventProgressState.Finished && second.progressState === EventProgressState.Upcoming) {
+          return 1;
+        }
+
+        return 0;
+      }); 
     }));
   }
 

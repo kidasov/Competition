@@ -150,9 +150,6 @@
               theme="dp-material"
               [dpDayPicker]="config"
             />
-            <div class="invalid-feedback">
-              Дата завершения соревнования должна быть больше начала соревнования
-            </div>
           </div>
           <div *ngIf="showEndsRegAt" class="form-group mt-3">
             <label for="endsRegAtDate">Окончание регистрации:</label>
@@ -165,9 +162,6 @@
               theme="dp-material"
               [dpDayPicker]="config"
             />
-            <div class="invalid-feedback">
-              Дата регистрации соревнования должна быть меньше начала соревнования
-            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -181,7 +175,7 @@
             <fa-icon class="mr-2" [icon]="faTrashAlt"></fa-icon>
             Удалить
           </button>
-          <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">
+          <button type="submit" class="btn btn-primary">
             Сохранить
           </button>
         </div>

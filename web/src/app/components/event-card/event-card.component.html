@@ -1,46 +1,66 @@
 <div class="card promoting-card">
   <a href="#" style="padding: 0" (click)="showEvent($event)" class="btn">
-  <div class="card-body d-flex flex-row">
-    <img
-      src="/assets/avatar.jpg"
-      class="rounded-circle mr-3"
-      height="50px"
-      width="50px"
-      alt="avatar"
-    />
+    <div class="card-body d-flex flex-row">
+      <img
+        src="/assets/avatar.jpg"
+        class="rounded-circle mr-3"
+        height="50px"
+        width="50px"
+        alt="avatar"
+      />
 
-    <div class="flex">
-      <div>
-        <h4 style="text-align: left;" class="card-title font-weight-bold mb-2">{{ name }}</h4>
+      <div class="flex">
+        <div>
+          <h4 style="text-align: left" class="card-title font-weight-bold mb-2">
+            {{ name }}
+          </h4>
+        </div>
+        <p class="card-text" style="text-align: left">
+          <fa-icon [icon]="faClock"></fa-icon>
+          {{ date }}
+        </p>
       </div>
-      <p class="card-text" style="text-align: left;">
-        <fa-icon [icon]="faClock"></fa-icon>
-        {{ date }}
-      </p>
+
+      <div *ngIf="event.isUpcoming" class="card-badge__container">
+        <div>
+          <span class="badge badge-primary badge-pill card-badge"
+            >Предстоящее</span
+          >
+        </div>
+        <div *ngIf="event.isRegistrationOpened" class="mt-2">
+          <span class="badge badge-success badge-pill card-badge"
+            >Регистрация открыта</span
+          >
+        </div>
+      </div>
+
+      <div *ngIf="event.isOngoing" class="card-badge__container">
+        <div>
+          <span class="badge badge-danger badge-pill card-badge">Live</span>
+        </div>
+        <div *ngIf="event.isRegistrationOpened" class="mt-2">
+          <span class="badge badge-success badge-pill card-badge ml-2"
+            >Регистрация открыта</span
+          >
+        </div>
+      </div>
+
+      <div *ngIf="event.isFinished" class="card-badge__container">
+        <span class="badge badge-secondary badge-pill card-badge"
+          >Завершено</span
+        >
+      </div>
     </div>
 
-    <div *ngIf="event.isUpcoming" class="card-badge__container">
-      <span class="badge badge-primary badge-pill card-badge">Предстоящее</span>
+    <div class="view overlay">
+      <img class="card-img-top rounded-0" [src]="image" alt="Card image" />
     </div>
 
-    <div *ngIf="event.isOngoing" class="card-badge__container">
-      <span class="badge badge-danger badge-pill card-badge">Live</span>
+    <div *ngIf="timeLeft" class="card-body">
+      <div class="timeleft__container">
+        <span class="text">До начала соревнования:</span>
+        <div class="timeleft">{{ timeLeft }}</div>
+      </div>
     </div>
-
-    <div *ngIf="event.isFinished" class="card-badge__container">
-      <span class="badge badge-secondary badge-pill card-badge">Завершено</span>
-    </div>
-  </div>
-
-  <div class="view overlay">
-    <img class="card-img-top rounded-0" [src]="image" alt="Card image" />
-  </div>
-
-  <div *ngIf="timeLeft" class="card-body">
-    <div class="timeleft__container">
-      <span class="text">До начала соревнования:</span>
-      <div class="timeleft">{{ timeLeft }}</div>
-    </div>
-  </div>
   </a>
 </div>

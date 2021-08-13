@@ -10,7 +10,9 @@
   <tbody>
     <tr *ngFor="let attendee of attendees; let i = index;">
       <td>{{ i + 1 }}</td>
-      <td>{{ attendee.name }}</td>
+      <td>
+       <a [routerLink]="['/users', attendee.userId]">{{ attendee.name }}</a>
+      </td>
       <td>{{ attendee.rating }}</td>
       <td [ngSwitch]="attendee.status">        
         <div *ngSwitchCase="'join_request'">

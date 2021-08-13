@@ -37,23 +37,8 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
     pair: new FormControl(),
     publish: new FormControl(true),
     startsAtDate: new FormControl(),
-    endsAtDate: new FormControl('', [
-      (control) => {
-        if (!this.controls) { return null; }
-        const isValid = moment(control.value, DATE_FORMAT).diff(moment(this.controls.startsAtDate.value, DATE_FORMAT)) > 0;
-
-        return isValid ?  null : {'error': { value: control.value }};
-      }
-    ]),
-    endsRegAtDate: new FormControl('', [
-      control => {
-        if (!this.controls) { return null; }
-
-        const isValid = control.value && moment(this.controls.startsAtDate.value, DATE_FORMAT).diff(moment(control.value, DATE_FORMAT)) > 0;
-
-        return isValid ?  null : {'error': { value: control.value }};
-      }
-    ]),
+    endsAtDate: new FormControl(),
+    endsRegAtDate: new FormControl(),
   };
 
   editForm = new FormGroup(this.controls);
@@ -93,12 +78,6 @@ export class EditEventButtonComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  endDateValidator = (control) => {
-    const isValid = moment(control.value) > moment(this.controls.startsAtDate.value);
-
-    return isValid ?  null : {'Беда': { value: control.value }};
   }
 
   get name() {

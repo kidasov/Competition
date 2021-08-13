@@ -78,3 +78,12 @@
 .timeleft__container {
   padding: 0.75rem;
 }
+
+.badge-text {
+  font-size: 1em;
+}
+
+.registration-container {
+  display: flex;
+  align-items: center;
+}

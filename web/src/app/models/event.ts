@@ -61,6 +61,14 @@ export class Event extends EventData {
   get isRegistrationClosed() {
     return this.registrationState === EventRegistationState.Closed;
   }
+
+  get isPublished() {
+    return this.state === PublishState.Published;
+  }
+
+  get isDraft() {
+    return this.state === PublishState.Draft;
+  }
 }
 
 export class EventWithUsers extends Event {

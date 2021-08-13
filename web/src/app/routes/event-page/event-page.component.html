@@ -2,7 +2,11 @@
   <app-sidebar [actions]="sidebarActions"> </app-sidebar>
   <app-login-form></app-login-form>
   <div class="top-panel">
-    <app-header class="header">{{ event.name }}</app-header>
+    <app-header class="header">
+      {{ event.name }}
+      <span class="ml-2" *ngIf="event.isDraft"><span class="state badge badge-danger badge-pill">Черновик</span></span>
+      <span class="ml-2" *ngIf="event.isPublished"><span class="state badge badge-success badge-pill">Опубликовано</span></span>
+    </app-header>
   </div>
   <div class="m-5">
     <div class="row">
@@ -18,32 +22,6 @@
               </th>
               <td>
                 <span class="text">{{ eventDescription }}</span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <span class="bold text">Дата начала</span>
-              </td>
-              <td>
-                <span class="text" *ngIf="isStartDateValid; else dateNotSet">{{
-                  startDate
-                }}</span>
-                <ng-template #dateNotSet>
-                  <span class="text">Не установлена</span>
-                </ng-template>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <span class="text">Дата завершения</span>
-              </th>
-              <td>
-                <span class="text" *ngIf="isEndDateValid; else dateNotSet">{{
-                  endDate
-                }}</span>
-                <ng-template #dateNotSet>
-                  <span class="text">Не установлена</span>
-                </ng-template>
               </td>
             </tr>
             <tr>
@@ -65,6 +43,109 @@
               </td>
             </tr>
             <tr>
+              <th>
+                <span class="text">Дата завершения</span>
+              </th>
+              <td>
+                <span class="text" *ngIf="isEndDateValid; else dateNotSet">{{
+                  endDate
+                }}</span>
+                <ng-template #dateNotSet>
+                  <span class="text">Не установлена</span>
+                </ng-template>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="bold text">Дата начала</span>
+              </td>
+              <td>
+                <span class="text" *ngIf="isStartDateValid; else dateNotSet">{{
+                  startDate
+                }}</span>
+                <ng-template #dateNotSet>
+                  <span class="text">Не установлена</span>
+                </ng-template>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="bold text">Регистрация</span>
+              </td>
+              <td>
+                <div class="registration-container">
+                  <div class="badge-container" *ngIf="event.registrationState === 'opened'">
+                    <span class="badge-text badge badge-success">Открыта</span>
+                  </div>
+                  <div class="badge-container" *ngIf="event.registrationState === 'closed'">
+                    <span class="badge-text badge badge-danger">Закрыта</span>
+                  </div>
+                  <div>
+                    <button
+                      class="btn btn-sm btn-primary ml-2"
+                      *ngIf="
+                        canOpenRegistration;
+                        else close_registration_button
+                      "
+                      (click)="openRegistration()"
+                    >
+                      Открыть регистрацию
+                    </button>
+                    <ng-template #close_registration_button>
+                      <button
+                        class="btn btn-sm btn-primary ml-2"
+                        *ngIf="canCloseRegistration"
+                        (click)="closeRegistration()"
+                      >
+                        Закрыть регистрацию
+                      </button>
+                    </ng-template>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="bold text">Статус</span>
+              </td>
+              <td>
+                <div class="registration-container">
+                  <div class="badge-container" *ngIf="event.isOngoing">
+                    <span class="badge-text badge badge-danger">Live</span>
+                  </div>
+                  <div class="badge-container" *ngIf="event.isUpcoming">
+                    <span class="badge-text badge badge-primary">Предстоящее</span>
+                  </div>
+                  <div class="badge-container" *ngIf="event.isFinished">
+                    <span class="badge-text badge badge-secondary">Завершено</span>
+                  </div>
+                  <div>
+                    <button
+                      class="btn btn-sm btn-primary ml-2"
+                      *ngIf="canStart"
+                      (click)="startEvent()"
+                    >
+                      Начать сейчас
+                    </button>
+                    <button
+                      class="btn btn-sm btn-primary ml-2"
+                      *ngIf="canFinish"
+                      (click)="finishEvent()"
+                    >
+                      Завершить сейчас
+                    </button>
+                    <button
+                      class="btn btn-sm btn-primary ml-2"
+                      *ngIf="canReopen"
+                      (click)="reopenEvent()"
+                    >
+                      Переоткрыть
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
               <td colspan="2">
                 <button
                   class="btn btn-lg btn-primary mt-2"
@@ -81,51 +162,6 @@
                     *ngIf="canRegister"
                   >
                     <span class="text">Записаться на соревнование</span>
-                  </button>
-                </ng-template>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <button
-                  class="btn btn-lg btn-primary mt-2"
-                  *ngIf="canStart"
-                  (click)="startEvent()"
-                >
-                  Начать сейчас
-                </button>
-                <button
-                  class="btn btn-lg btn-primary mt-2"
-                  *ngIf="canFinish"
-                  (click)="finishEvent()"
-                >
-                  Завершить сейчас
-                </button>
-                <button
-                  class="btn btn-lg btn-primary mt-2"
-                  *ngIf="canReopen"
-                  (click)="reopenEvent()"
-                >
-                  Переоткрыть
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2">
-                <button
-                  class="btn btn-lg btn-primary mt-2"
-                  *ngIf="canOpenRegistration; else close_registration_button"
-                  (click)="openRegistration()"
-                >
-                  Открыть регистрацию
-                </button>
-                <ng-template #close_registration_button>
-                  <button
-                    class="btn btn-lg btn-primary mt-2"
-                    *ngIf="canCloseRegistration"
-                    (click)="closeRegistration()"
-                  >
-                    Закрыть регистрацию
                   </button>
                 </ng-template>
               </td>

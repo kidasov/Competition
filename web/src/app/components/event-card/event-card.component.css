@@ -3,8 +3,8 @@
 }
 
 .card {
-  margin: 1em 2em;
   border: 1px solid #00E5FF;
+  margin-bottom: 30px;
 }
 
 .table td > div {
@@ -34,6 +34,9 @@
 }
 
 .card-badge__container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   margin-left: auto;
 }
 
