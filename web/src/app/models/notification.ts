@@ -3,7 +3,10 @@ import { User } from './user';
 export enum NotificationType {
   Invitation = 'event_invite',
   PairInvitation = 'pair_invite',
-  RejectInvitation = 'reject_invite'
+  RejectInvitation = 'reject_invite',
+  AcceptJoin = 'accept_join',
+  DeclineJoin = 'decline_join',
+  Remove = 'removed',
 }
 
 export class Notification {

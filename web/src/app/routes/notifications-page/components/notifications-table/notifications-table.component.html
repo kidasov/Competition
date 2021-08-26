@@ -1,73 +1,50 @@
 <ul class="list-group" *ngFor="let notification of notifications">
-  <li
+  <app-notifications-item
     *ngIf="notification.type === 'pair_invite'"
-    class="list-group-item list-group-item-action d-inline-flex align-items-center"
+    [notification]="notification"
+    leftButtonName="Присоединиться"
+    rightButtonName="Отказать"
+    message="приглашает сыграть с ним в турнире"
+    (onLeftButtonClick)="pairWithUser(notification)"
+    (onRightButtonClick)="dismissInviteNotification(notification)"
   >
-    <span class="message"
-      >Пользователь<a href="#" [routerLink]="['/users', notification.sentBy]">
-        {{ notification.sentByUser.name }}
-      </a>
-      приглашает сыграть с ним в турнире
-      <a href="#" [routerLink]="['/events', notification.eventId]">{{
-        notification.event.name
-      }}</a></span
-    >
-    <ul class="notification-actions d-inline-flex">
-      <li class="accept mr-2">
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="pairWithUser(notification)"
-        >
-          Присоединиться
-        </button>
-      </li>
-      <li class="dismiss ml-2">
-        <button
-          type="button"
-          (click)="dismissInviteNotification(notification)"
-          class="btn btn-primary"
-        >
-          Отказать
-        </button>
-      </li>
-    </ul>
-  </li>
-  <li
+  </app-notifications-item>
+
+  <app-notifications-item
+    *ngIf="
+      notification.type === 'reject_invite' ||
+      notification.type === 'decline_join'
+    "
+    [notification]="notification"
+    rightButtonName="Скрыть сообщение"
+    message="отклонил вашу заявку"
+    (onRightButtonClick)="hideNotification(notification)"
+  >
+  </app-notifications-item>
+
+  <app-notifications-item
+    *ngIf="notification.type === 'accept_join'"
+    [notification]="notification"
+    rightButtonName="Скрыть сообщение"
+    message="включил вас в список участников"
+    (onRightButtonClick)="hideNotification(notification)"
+  >
+  </app-notifications-item>
+
+  <app-notifications-item
+    *ngIf="notification.type === 'removed'"
+    [notification]="notification"
+    rightButtonName="Скрыть сообщение"
+    message="удалил вас из списка участников"
+    (onRightButtonClick)="hideNotification(notification)"
+  >
+  </app-notifications-item>
+  <app-notifications-item
     *ngIf="notification.type === 'event_invite'"
-    class="list-group-item list-group-item-action"
+    [notification]="notification"
+    rightButtonName="Скрыть сообщение"
+    message="удалил вас из списка участников"
+    (onRightButtonClick)="hideNotification(notification)"
   >
-    <span class="message"
-      >Пользователь<a href="#" [routerLink]="['/users', notification.sentBy]">
-        {{ notification.sentByUser.name }}
-      </a>
-      приглашает сыграть с ним в турнире
-      <a href="#" [routerLink]="['/events', notification.eventId]">{{
-        notification.event.name
-      }}</a></span
-    >
-  </li>
-  <li
-    *ngIf="notification.type === 'reject_invite'"
-    class="list-group-item list-group-item-action d-inline-flex align-items-center"
-  >
-    <span class="message">
-      Пользователь
-      <a href="#" [routerLink]="['/users', notification.sentBy]">
-        {{ notification.sentByUser.name }}
-      </a>
-      отклонил вашу заявку
-    </span>
-    <ul class="notification-actions d-inline-flex">
-      <li class="dismiss ml-2">
-        <button
-          type="button"
-          (click)="hideNotification(notification)"
-          class="btn btn-primary"
-        >
-          Скрыть сообщение
-        </button>
-      </li>
-    </ul>
-  </li>
+  </app-notifications-item>
 </ul>

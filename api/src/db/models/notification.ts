@@ -7,6 +7,9 @@ enum NotificationType {
   Invitation = 'event_invite',
   PairInvitation = 'pair_invite',
   RejectInvitation = 'reject_invite',
+  AcceptJoin = 'accept_join',
+  DeclineJoin = 'decline_join',
+  Remove = 'removed',
 }
 
 interface Notification {
@@ -37,6 +40,9 @@ const NotificationModel = sequelize.define<
     NotificationType.Invitation,
     NotificationType.PairInvitation,
     NotificationType.RejectInvitation,
+    NotificationType.AcceptJoin,
+    NotificationType.DeclineJoin,
+    NotificationType.Remove
   ),
   sentBy: Sequelize.INTEGER,
   eventId: Sequelize.INTEGER,

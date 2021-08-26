@@ -116,6 +116,25 @@ router.put('/:userId/accept', async ctx => {
     { status: AttendeeStatus.Approved, role },
     { where: { userId, eventId } },
   );
+
+  const notification = await Notification.findOne({
+    where: {
+      sentBy: sessionUserId,
+      eventId,
+      userId,
+      type: NotificationType.AcceptJoin,
+    },
+  });
+
+  if (!notification) {
+    Notification.create({
+      sentBy: sessionUserId,
+      eventId,
+      userId,
+      type: NotificationType.AcceptJoin,
+    });
+  }
+
   ctx.status = 200;
   ctx.body = {};
 });
@@ -138,6 +157,25 @@ router.delete('/:userId', async ctx => {
   }
 
   await Attendee.destroy({ where: { userId, eventId } });
+
+  const notification = await Notification.findOne({
+    where: {
+      sentBy: sessionUserId,
+      eventId,
+      userId,
+      type: NotificationType.Remove,
+    },
+  });
+
+  if (!notification) {
+    Notification.create({
+      sentBy: sessionUserId,
+      eventId,
+      userId,
+      type: NotificationType.Remove,
+    });
+  }
+
   ctx.status = 200;
   ctx.body = {};
 });

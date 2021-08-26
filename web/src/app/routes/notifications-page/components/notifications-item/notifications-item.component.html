@@ -1,0 +1,37 @@
+<li
+  class="
+    list-group-item list-group-item-action
+    d-inline-flex
+    align-items-center
+  "
+>
+  <span class="message"
+    >Пользователь<a href="#" [routerLink]="['/users', 1]">
+      {{ notification.sentByUser.name }}
+    </a>
+    {{ message }}
+    <a href="#" [routerLink]="['/events', notification.eventId]">{{
+      notification.event.name
+    }}</a>
+  </span>
+  <ul class="notification-actions d-inline-flex">
+    <li *ngIf="leftButtonName" class="accept mr-2">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="handleLeftButtonClick()"
+      >
+        {{ leftButtonName }}
+      </button>
+    </li>
+    <li *ngIf="rightButtonName" class="dismiss ml-2">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="handleRightButtonClick()"
+      >
+        {{ rightButtonName }}
+      </button>
+    </li>
+  </ul>
+</li>

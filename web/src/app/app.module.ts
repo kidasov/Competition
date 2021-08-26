@@ -49,6 +49,7 @@ import { EditUserFormComponent } from './routes/users-page/components/edit-user-
 import { UsersTableComponent } from './routes/users-page/components/users-table/users-table.component';
 import { UsersPageComponent } from './routes/users-page/users-page.component';
 import { FormErrorComponent } from './components/form-error/form-error.component';
+import { NotificationsItemComponent } from './routes/notifications-page/components/notifications-item/notifications-item.component';
 
 // @ts-ignore
 window.jQuery = require('jquery');
@@ -95,7 +96,8 @@ window.Bootstrap = require('bootstrap');
     ImageCropperComponent,
     UploadImageButtonComponent,
     MyEventsPageComponent,
-    FormErrorComponent
+    FormErrorComponent,
+    NotificationsItemComponent
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),
