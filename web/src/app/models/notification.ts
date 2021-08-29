@@ -7,6 +7,7 @@ export enum NotificationType {
   AcceptJoin = 'accept_join',
   DeclineJoin = 'decline_join',
   Remove = 'removed',
+  RequestJoin = 'request_join',
 }
 
 export class Notification {

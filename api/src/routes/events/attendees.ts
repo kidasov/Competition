@@ -19,7 +19,7 @@ const RegisterRequest = t.type({
 });
 
 router.post('/register', async ctx => {
-  const { userId } = await ctx.requireSession();
+  const { userId: sessionUserId } = await ctx.requireSession();
   const eventId = asEventId(ctx.paramNumber('eventId'));
   const { role } = ctx.decode(RegisterRequest);
 
@@ -35,13 +35,31 @@ router.post('/register', async ctx => {
     // @ts-ignore
     where: {
       eventId,
-      userId,
+      userId: sessionUserId,
     },
     defaults: {
       role,
       status: AttendeeStatus.JoinRequest,
     },
   });
+
+  const notification = await Notification.findOne({
+    where: {
+      sentBy: sessionUserId,
+      eventId,
+      userId: event.ownerUserId,
+      type: NotificationType.RequestJoin,
+    },
+  });
+
+  if (!notification) {
+    Notification.create({
+      sentBy: sessionUserId,
+      eventId,
+      userId: event.ownerUserId,
+      type: NotificationType.RequestJoin,
+    });
+  }
 
   ctx.status = 201;
   ctx.body = { attendee };

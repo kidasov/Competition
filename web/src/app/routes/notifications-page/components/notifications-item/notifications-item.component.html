@@ -6,7 +6,7 @@
   "
 >
   <span class="message"
-    >Пользователь<a href="#" [routerLink]="['/users', 1]">
+    >Пользователь<a href="#" [routerLink]="['/users', notification.sentByUser.id]">
       {{ notification.sentByUser.name }}
     </a>
     {{ message }}

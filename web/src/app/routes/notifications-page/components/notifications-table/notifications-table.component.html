@@ -47,4 +47,12 @@
     (onRightButtonClick)="hideNotification(notification)"
   >
   </app-notifications-item>
+  <app-notifications-item
+    *ngIf="notification.type === 'request_join'"
+    [notification]="notification"
+    rightButtonName="Скрыть сообщение"
+    message="желает присоединиться в"
+    (onRightButtonClick)="hideNotification(notification)"
+  >
+  </app-notifications-item>
 </ul>
