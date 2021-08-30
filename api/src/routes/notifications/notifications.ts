@@ -32,6 +32,7 @@ router.get('/', async ctx => {
       {
         model: User,
         as: 'sentByUser',
+        attributes: ['id', 'firstName', 'lastName', 'rating'],
       },
       {
         model: Event,
