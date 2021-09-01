@@ -12,6 +12,8 @@ import $ from 'jquery';
 export class LoginFormComponent implements OnInit {
   @Output()
   close = new EventEmitter();
+  signInErrorMessage = "";
+  registerFormErrorMessage = "";
 
   constructor(private authService: AuthService) {}
 
@@ -43,12 +45,15 @@ export class LoginFormComponent implements OnInit {
 
   signIn(event: Event) {
     event.preventDefault();
+    this.signInErrorMessage = "";
     this.authService
       .signIn({
         email: this.signInForm.get('email').value,
         password: this.signInForm.get('password').value,
       })
-      .subscribe(() => this.closeLogin());
+      .subscribe(() => this.closeLogin(), error => {
+        this.signInErrorMessage = error.message;
+      });
   }
 
   signUp(event: Event) {
@@ -60,10 +65,16 @@ export class LoginFormComponent implements OnInit {
         email: this.registerForm.get('email').value,
         password: this.registerForm.get('password').value,
       })
-      .subscribe(() => this.closeLogin());
+      .subscribe(() => this.closeLogin(), error => this.registerFormErrorMessage = error.message);
   }
 
   ngOnInit() {
     $('.modal').appendTo('body');
+    $('.modal').on('hidden.bs.modal', () => {
+      this.signInErrorMessage = "";
+      this.registerFormErrorMessage = "";
+      this.signInForm.reset();
+      this.registerForm.reset();
+    });
   }
 }
