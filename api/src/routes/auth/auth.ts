@@ -6,6 +6,7 @@ import scrypt from 'scrypt';
 import { User } from '../../db/models';
 import logger from '../../logger';
 import { createSession } from '../../services/auth';
+import EmailService from '../../services/email';
 
 const router = new Router();
 
@@ -46,6 +47,14 @@ router.post('/signup', async ctx => {
   );
 
   const sessionKey = await createSession(user.id);
+  
+  await EmailService.getInstance().createMessage({
+    from: "Excited User <mailgun@sandbox6a7f35955ea6419b872b896271e3ba81.mailgun.org>",
+    to: ["kidasov@gmail.com"],
+    subject: `Hello ${firstName} ${lastName}`,
+    text: `Testing some Mailgun awesomness!`,
+    html: "<h1>Testing some Mailgun awesomness!</h1>"
+  });
 
   ctx.status = 201;
   ctx.body = { sessionKey, userId: user.id };
