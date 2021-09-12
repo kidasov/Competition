@@ -14,6 +14,7 @@ export class LoginFormComponent implements OnInit {
   close = new EventEmitter();
   signInErrorMessage = "";
   registerFormErrorMessage = "";
+  showRecoverPassword = false;
 
   constructor(private authService: AuthService) {}
 
@@ -76,5 +77,15 @@ export class LoginFormComponent implements OnInit {
       this.signInForm.reset();
       this.registerForm.reset();
     });
+  }
+
+  showRecoveryPasswordPopup() {
+    console.log('show popup');
+    this.showRecoverPassword = true;
+    $('#loginEventModal').modal('hide');
+  }
+
+  closeRecoverPasswordPopup() {
+    this.showRecoverPassword = false;
   }
 }

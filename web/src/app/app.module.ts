@@ -50,6 +50,7 @@ import { UsersTableComponent } from './routes/users-page/components/users-table/
 import { UsersPageComponent } from './routes/users-page/users-page.component';
 import { FormErrorComponent } from './components/form-error/form-error.component';
 import { NotificationsItemComponent } from './routes/notifications-page/components/notifications-item/notifications-item.component';
+import { RecoverPasswordFormComponent } from './components/recover-password-form/recover-password-form.component';
 
 // @ts-ignore
 window.jQuery = require('jquery');
@@ -97,7 +98,8 @@ window.Bootstrap = require('bootstrap');
     UploadImageButtonComponent,
     MyEventsPageComponent,
     FormErrorComponent,
-    NotificationsItemComponent
+    NotificationsItemComponent,
+    RecoverPasswordFormComponent
   ],
   imports: [
     RouterModule.forRoot(routes, { enableTracing: true }),

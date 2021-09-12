@@ -65,6 +65,11 @@
                   placeholder="Пароль"
                   type="password"
                 />
+                <div class="my-3 forgot-password__container">
+                  <a data-toggle="modal" data-target="#recoverPasswordModal" (click)="showRecoveryPasswordPopup($event)" href="#">
+                    Забыли пароль?
+                  </a>
+                </div>
                 <div *ngIf="signInErrorMessage" class="text-danger" role="alert">
                   <span>Неверный логин или пароль</span>
                 </div>
@@ -133,6 +138,13 @@
     </div>
   </div>
 </div>
+
+<app-recover-password-form
+  *ngIf="showRecoverPassword"
+  (close)="closeRecoverPasswordPopup($event)"
+>
+
+</app-recover-password-form>
 
 <!-- <div class="container">
   <input type="checkbox" id="form-switch" />

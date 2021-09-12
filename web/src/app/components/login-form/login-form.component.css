@@ -1,3 +1,7 @@
 .text-danger {
   text-align: center;
 }
+
+.forgot-password__container {
+  text-align: right;
+}
