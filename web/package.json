@@ -30,7 +30,7 @@
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.0",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "ng2-date-picker": "^8.0.0",
     "ngx-img-cropper": "^8.0.1",
     "popper.js": "^1.15.0",
