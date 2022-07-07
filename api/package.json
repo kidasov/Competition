@@ -20,7 +20,7 @@
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "mailgun.js": "^3.5.7",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "node-fetch": "^2.2.0",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
