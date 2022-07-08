@@ -20,7 +20,7 @@
     "jsc-android": "^250230.2.1",
     "mobx": "^6.1.8",
     "mobx-react-lite": "^3.2.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "react": "17.0.1",
     "react-final-form": "^6.3.0",
     "react-intl": "^5.17.2",
